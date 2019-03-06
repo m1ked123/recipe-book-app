@@ -9,6 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline">
+            <SplitView.Pane>
+                <StackPanel>
+                    <ListView />
+                </StackPanel>
+            </SplitView.Pane>
+            <Grid/>
+        </SplitView>
 
     </Grid>
 </Page>
