@@ -65,37 +65,13 @@ namespace Recipe_Book.Models
             }
         }
 
-        public Recipe()
-        {
-            this.name = "";
-            this.id = -1;
-            this.rating = 0;
-            this.lastMade = "";
-        }
+        public Recipe() : this("New Recipe") {}
 
-        public Recipe(String name)
-        {
-            this.name = name;
-            this.id = -1;
-            this.rating = 0;
-            this.lastMade = "";
-        }
+        public Recipe(String name) : this(name, -1) {}
 
-        public Recipe(String name, long id)
-        {
-            this.name = name;
-            this.id = id;
-            this.rating = 0;
-            this.lastMade = "";
-        }
+        public Recipe(String name, long id) : this(name, id, 0) {}
 
-        public Recipe(String name, long id, short rating)
-        {
-            this.name = name;
-            this.id = id;
-            this.rating = rating;
-            this.lastMade = "";
-        }
+        public Recipe(String name, long id, short rating) : this(name, id, 0, "Never") {}
 
         public Recipe(String name, long id, short rating, String lastMade)
         {

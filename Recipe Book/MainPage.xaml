@@ -11,9 +11,9 @@
     <Grid>
         <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline">
             <SplitView.Pane>
-                <StackPanel>
-                    <ListView />
-                </StackPanel>
+                <ScrollViewer>
+                    <ListView x:Name="recipeListView" />
+                </ScrollViewer>
             </SplitView.Pane>
             <Grid/>
         </SplitView>

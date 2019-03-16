@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Recipe_Book.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,9 +24,16 @@ namespace Recipe_Book
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private ObservableCollection<Recipe> recipes;
         public MainPage()
         {
             this.InitializeComponent();
+            recipes = new ObservableCollection<Recipe>();
+            for (int i = 0; i < 50; i++)
+            {
+                recipes.Add(new Recipe());
+            }
+            this.recipeListView.ItemsSource = recipes;
         }
     }
 }
