@@ -29,11 +29,12 @@ namespace Recipe_Book
         {
             this.InitializeComponent();
             recipes = new ObservableCollection<Recipe>();
-            for (int i = 0; i < 50; i++)
-            {
-                recipes.Add(new Recipe());
-            }
             this.recipeListView.ItemsSource = recipes;
+        }
+
+        private void addNewRecipe(object sender, RoutedEventArgs e)
+        {
+            this.recipes.Add(new Recipe());
         }
     }
 }

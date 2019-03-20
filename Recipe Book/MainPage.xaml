@@ -9,7 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <CommandBar>
+            <AppBarButton Icon="Add" Label="NewRecipeButton" Click="addNewRecipe"/>
+        </CommandBar>
+        <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" Grid.Row="1">
             <SplitView.Pane>
                 <ScrollViewer>
                     <ListView x:Name="recipeListView" />
@@ -17,6 +24,5 @@
             </SplitView.Pane>
             <Grid/>
         </SplitView>
-
     </Grid>
 </Page>
