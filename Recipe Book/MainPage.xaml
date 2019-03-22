@@ -14,15 +14,20 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <CommandBar>
-            <AppBarButton Icon="Add" Label="NewRecipeButton" Click="addNewRecipe"/>
+            <AppBarButton Icon="Add" Label="Add A Recipe" Click="addNewRecipe"/>
         </CommandBar>
-        <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" Grid.Row="1">
+        <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" Grid.Row="1" PaneBackground="{x:Null}">
             <SplitView.Pane>
                 <ScrollViewer>
-                    <ListView x:Name="recipeListView" />
+                    <ListView x:Name="recipeListView" SelectionChanged="showRecipe" />
                 </ScrollViewer>
             </SplitView.Pane>
-            <Grid/>
+            <SplitView.Content>
+                <Frame x:Name="recipeDetailFrame"
+                       Margin="0"
+                       Background="White">
+                </Frame>
+            </SplitView.Content>
         </SplitView>
     </Grid>
 </Page>

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -35,6 +36,13 @@ namespace Recipe_Book
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
             this.recipes.Add(new Recipe());
+        }
+
+        private void showRecipe(object sender, SelectionChangedEventArgs e)
+        {
+            Recipe selectedRecipe = (Recipe)e.AddedItems[0];
+            Debug.WriteLine("Navigating to new detail page...");
+            recipeDetailFrame.Navigate((typeof(RecipeDetailPage)), selectedRecipe);
         }
     }
 }
