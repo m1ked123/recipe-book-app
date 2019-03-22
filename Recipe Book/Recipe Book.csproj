@@ -127,6 +127,9 @@
     <Compile Include="RecipeDetailPage.xaml.cs">
       <DependentUpon>RecipeDetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RecipeForm.xaml.cs">
+      <DependentUpon>RecipeForm.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -154,6 +157,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RecipeDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RecipeForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

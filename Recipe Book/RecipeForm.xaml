@@ -1,0 +1,30 @@
+﻿<Page
+    x:Class="Recipe_Book.RecipeForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Recipe_Book"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <RelativePanel Margin="24">
+        <StackPanel x:Name="headerInformation">
+            <TextBox x:Name="recipeName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=TwoWay}" />
+            <StackPanel Orientation="Horizontal">
+                <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=TwoWay}"/>
+                <CalendarDatePicker x:Name="recipeCalendar" Margin="24, 0" />
+            </StackPanel>
+        </StackPanel>
+
+        <Rectangle x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation">
+            <Rectangle.Fill>
+                <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <StackPanel RelativePanel.Below="imagesSection" Orientation="Horizontal" Margin="0,48,0,0">
+            <Button Click="saveRecipe">Save</Button>
+            <Button Margin="24, 0">Cancel</Button>
+        </StackPanel>
+    </RelativePanel>
+</Page>

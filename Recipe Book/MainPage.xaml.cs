@@ -35,7 +35,11 @@ namespace Recipe_Book
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
-            this.recipes.Add(new Recipe());
+            // TODO: this does not 
+            Recipe newRecipe = new Recipe();
+            this.recipes.Add(newRecipe);
+            Debug.WriteLine("Navigating to new form page...");
+            recipeDetailFrame.Navigate((typeof(RecipeForm)), newRecipe);
         }
 
         private void showRecipe(object sender, SelectionChangedEventArgs e)
