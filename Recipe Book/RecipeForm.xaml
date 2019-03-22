@@ -10,9 +10,9 @@
 
     <RelativePanel Margin="24">
         <StackPanel x:Name="headerInformation">
-            <TextBox x:Name="recipeName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=TwoWay}" />
+            <TextBox x:Name="recipeName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
             <StackPanel Orientation="Horizontal">
-                <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=TwoWay}"/>
+                <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=OneWay}"/>
                 <CalendarDatePicker x:Name="recipeCalendar" Margin="24, 0" />
             </StackPanel>
         </StackPanel>

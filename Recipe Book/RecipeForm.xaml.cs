@@ -42,10 +42,17 @@ namespace Recipe_Book
 
         private void saveRecipe(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Object Name: " + recipe.Name);
-            Debug.WriteLine("Control Name: " + this.recipeName.Text);
-            Debug.WriteLine("Object Rating: " + recipe.Rating);
-            Debug.WriteLine("Conrtol Value: " + this.recipeRating.Value);
+            // TODO: implement this method
+
+            String newRecipeName = this.recipeName.Text;
+            double newRecipeRating = this.recipeRating.Value;
+
+            // commit changes to object
+
+            this.recipe.Name = newRecipeName;
+            this.recipe.Rating = newRecipeRating;
+            // go to detail view for object
+            // remove page from nav queue
         }
     }
 }

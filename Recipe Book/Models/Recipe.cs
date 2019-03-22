@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Recipe_Book.Models
 {
-    class Recipe
+    class Recipe:INotifyPropertyChanged
     {
-
         private String name;
         private long id;
-        private short rating;
+        private double rating;
         private String lastMade;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public String Name
         {
@@ -23,10 +25,11 @@ namespace Recipe_Book.Models
             set
             {
                 this.name = value;
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Name"));
             }
         }
 
-        public short Rating
+        public double Rating
         {
             get
             {
@@ -37,6 +40,7 @@ namespace Recipe_Book.Models
                 if (value >= 0 && value < 6)
                 {
                     this.rating = value;
+                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Rating"));
                 }
             }
         }
@@ -71,9 +75,9 @@ namespace Recipe_Book.Models
 
         public Recipe(String name, long id) : this(name, id, 0) {}
 
-        public Recipe(String name, long id, short rating) : this(name, id, 0, "Never") {}
+        public Recipe(String name, long id, double rating) : this(name, id, 0, "Never") {}
 
-        public Recipe(String name, long id, short rating, String lastMade)
+        public Recipe(String name, long id, double rating, String lastMade)
         {
             this.name = name;
             this.id = id;

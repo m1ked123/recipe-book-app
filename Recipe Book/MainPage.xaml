@@ -17,7 +17,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
                 <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <RatingControl />
+                    <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" />
                     <TextBlock Text="2019-03-21" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" />
                 </StackPanel>
             </Grid>

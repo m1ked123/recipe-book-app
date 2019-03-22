@@ -12,7 +12,7 @@
         <StackPanel x:Name="headerInformation">
             <TextBlock HorizontalAlignment="Left" Text="{x:Bind recipe.Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
             <StackPanel Orientation="Horizontal">
-                <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=TwoWay}"/>
                 <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
             </StackPanel>
         </StackPanel>
