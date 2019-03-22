@@ -24,7 +24,7 @@
         </Rectangle>
         <StackPanel RelativePanel.Below="imagesSection" Orientation="Horizontal" Margin="0,48,0,0">
             <Button Click="saveRecipe">Save</Button>
-            <Button Margin="24, 0">Cancel</Button>
+            <Button Margin="24, 0" Click="cancelRecipeCreation">Cancel</Button>
         </StackPanel>
     </RelativePanel>
 </Page>

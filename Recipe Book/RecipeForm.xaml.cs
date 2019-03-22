@@ -52,7 +52,13 @@ namespace Recipe_Book
             this.recipe.Name = newRecipeName;
             this.recipe.Rating = newRecipeRating;
             // go to detail view for object
+            Frame.Navigate((typeof(RecipeDetailPage)), this.recipe);
             // remove page from nav queue
+        }
+
+        private void cancelRecipeCreation(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
         }
     }
 }
