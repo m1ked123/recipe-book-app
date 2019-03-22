@@ -5,8 +5,24 @@
     xmlns:local="using:Recipe_Book"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Recipe_Book.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <DataTemplate x:Key="RecipeItemTemplate" x:DataType="models:Recipe">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <RatingControl />
+                    <TextBlock Text="2019-03-21" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,7 +35,7 @@
         <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" Grid.Row="1" PaneBackground="{x:Null}">
             <SplitView.Pane>
                 <ScrollViewer>
-                    <ListView x:Name="recipeListView" SelectionChanged="showRecipe" />
+                    <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionChanged="showRecipe" />
                 </ScrollViewer>
             </SplitView.Pane>
             <SplitView.Content>
