@@ -22,6 +22,23 @@
                 </StackPanel>
             </Grid>
         </DataTemplate>
+        <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
+            <RelativePanel Margin="24">
+                <StackPanel x:Name="headerInformation">
+                    <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind Rating, Mode=TwoWay}"/>
+                        <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Rectangle x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation">
+                    <Rectangle.Fill>
+                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </RelativePanel>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -39,10 +56,9 @@
                 </ScrollViewer>
             </SplitView.Pane>
             <SplitView.Content>
-                <Frame x:Name="recipeDetailFrame"
-                       Margin="0"
-                       Background="White">
-                </Frame>
+                <ContentPresenter Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}">
+                    
+                </ContentPresenter>
             </SplitView.Content>
         </SplitView>
     </Grid>

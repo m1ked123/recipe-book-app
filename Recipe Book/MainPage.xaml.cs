@@ -26,6 +26,7 @@ namespace Recipe_Book
     public sealed partial class MainPage : Page
     {
         private ObservableCollection<Recipe> recipes;
+        private Recipe lastSelectedRecipe;
         public MainPage()
         {
             this.InitializeComponent();
@@ -39,14 +40,13 @@ namespace Recipe_Book
             Recipe newRecipe = new Recipe();
             this.recipes.Add(newRecipe);
             Debug.WriteLine("Navigating to new form page...");
-            recipeDetailFrame.Navigate((typeof(RecipeForm)), newRecipe);
         }
 
         private void showRecipe(object sender, SelectionChangedEventArgs e)
         {
             Recipe selectedRecipe = (Recipe)e.AddedItems[0];
             Debug.WriteLine("Navigating to new detail page...");
-            recipeDetailFrame.Navigate((typeof(RecipeDetailPage)), selectedRecipe);
+            lastSelectedRecipe = selectedRecipe;
         }
     }
 }

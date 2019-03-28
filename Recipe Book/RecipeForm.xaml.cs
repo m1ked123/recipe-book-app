@@ -40,7 +40,7 @@ namespace Recipe_Book
 
         }
 
-        private void saveRecipe(object sender, RoutedEventArgs e)
+            private void saveRecipe(object sender, RoutedEventArgs e)
         {
             // TODO: implement this method
 
