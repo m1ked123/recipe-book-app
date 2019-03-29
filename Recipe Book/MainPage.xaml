@@ -10,17 +10,24 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <DataTemplate x:Key="RecipeItemTemplate" x:DataType="models:Recipe">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" />
-                    <TextBlock Text="2019-03-21" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" />
-                </StackPanel>
-            </Grid>
+            <UserControl>
+                <UserControl.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteRecipe" />
+                    </MenuFlyout>
+                </UserControl.ContextFlyout>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
+                        <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" />
+                        <TextBlock Text="2019-03-21" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" />
+                    </StackPanel>
+                </Grid>
+            </UserControl>
         </DataTemplate>
         <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
             <RelativePanel Margin="24">
@@ -52,7 +59,7 @@
         <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" Grid.Row="1" PaneBackground="{x:Null}">
             <SplitView.Pane>
                 <ScrollViewer>
-                    <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionChanged="showRecipe" />
+                    <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionChanged="selectRecipe" />
                 </ScrollViewer>
             </SplitView.Pane>
             <SplitView.Content>
