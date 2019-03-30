@@ -1,4 +1,5 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -28,26 +29,25 @@ namespace Recipe_Book
     // TODO: make the detail UI show nothing is the list is empty
     public sealed partial class MainPage : Page
     {
-        private ObservableCollection<Recipe> recipes;
+        private RecipeList recipes;
         private Recipe currentRecipe;
         public MainPage()
         {
             this.InitializeComponent();
-            recipes = new ObservableCollection<Recipe>();
-            this.recipeListView.ItemsSource = recipes;
+            recipes = new RecipeList();
+            this.recipeListView.ItemsSource = recipes.getRecipeList();
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
-            // TODO: this does not 
             Recipe newRecipe = new Recipe();
-            this.recipes.Add(newRecipe);
+            this.recipes.addRecipe(newRecipe);
             Debug.WriteLine("Navigating to new form page...");
         }
 
         private void deleteRecipe(object sender, RoutedEventArgs e)
         {
-            this.recipes.Remove(((Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext));
+            this.recipes.removeRecipe(((Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext));
         }
 
         private void selectRecipe(object sender, SelectionChangedEventArgs e)

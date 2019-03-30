@@ -130,6 +130,7 @@
     <Compile Include="RecipeForm.xaml.cs">
       <DependentUpon>RecipeForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\RecipeList.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

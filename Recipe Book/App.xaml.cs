@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Recipe_Book.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -21,6 +23,7 @@ namespace Recipe_Book
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
     sealed partial class App : Application
+
     {
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
