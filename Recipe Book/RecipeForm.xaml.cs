@@ -1,4 +1,5 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -24,11 +25,12 @@ namespace Recipe_Book
     /// </summary>
     public sealed partial class RecipeForm : Page
     {
+        RecipeList recipes;
         Recipe recipe;
+
         public RecipeForm()
         {
             this.InitializeComponent();
-            recipe = null;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -36,24 +38,34 @@ namespace Recipe_Book
             base.OnNavigatedTo(e);
             Debug.WriteLine("Navigated to new detail page");
 
-            recipe = (Recipe)e.Parameter;
+            recipes = (RecipeList)e.Parameter;
+            if (recipes.isEditing())
+            {
+                recipe = recipes.getSelected();
+            } else
+            {
+                // we're creating a new recipe
+                recipe = new Recipe();
+            }
 
         }
 
-            private void saveRecipe(object sender, RoutedEventArgs e)
+        private void saveRecipe(object sender, RoutedEventArgs e)
         {
-            // TODO: implement this method
-
             String newRecipeName = this.recipeName.Text;
             double newRecipeRating = this.recipeRating.Value;
 
             // commit changes to object
 
-            this.recipe.Name = newRecipeName;
-            this.recipe.Rating = newRecipeRating;
-            // go to detail view for object
-            Frame.Navigate((typeof(RecipeDetailPage)), this.recipe);
-            // remove page from nav queue
+            recipe.Name = newRecipeName;
+            recipe.Rating = newRecipeRating;
+
+            if (!recipes.isEditing())
+            {
+                recipes.addRecipe(recipe);
+                Debug.WriteLine(recipes.getRecipeList().Count);
+            }
+            Frame.GoBack();
         }
 
         private void cancelRecipeCreation(object sender, RoutedEventArgs e)

@@ -30,30 +30,27 @@ namespace Recipe_Book
     public sealed partial class MainPage : Page
     {
         private RecipeList recipes;
-        private Recipe currentRecipe;
-        public MainPage()
+       public MainPage()
         {
             this.InitializeComponent();
-            recipes = new RecipeList();
+            recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.getRecipeList();
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
-            Recipe newRecipe = new Recipe();
-            this.recipes.addRecipe(newRecipe);
-            Debug.WriteLine("Navigating to new form page...");
+            Frame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void deleteRecipe(object sender, RoutedEventArgs e)
         {
-            this.recipes.removeRecipe(((Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext));
+            recipes.removeRecipe((Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext);
         }
 
         private void selectRecipe(object sender, SelectionChangedEventArgs e)
         {
-            Recipe clickedRecipe = (Recipe)this.recipeListView.SelectedItem;
-            currentRecipe = clickedRecipe;
+            int selectedRecipe = this.recipeListView.SelectedIndex;
+            recipes.setSelected(selectedRecipe);
         }
     }
 }

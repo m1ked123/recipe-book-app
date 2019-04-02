@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Recipe_Book.Models
 {
-    class Recipe:INotifyPropertyChanged
+    public class Recipe:INotifyPropertyChanged
     {
         private String name;
         private long id;

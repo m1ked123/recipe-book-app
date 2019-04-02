@@ -40,10 +40,5 @@ namespace Recipe_Book
 
         }
 
-        protected async override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            base.OnNavigatingFrom(e);
-        }
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,6 +26,7 @@ namespace Recipe_Book
     sealed partial class App : Application
 
     {
+        public static RecipeList recipes;
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -33,6 +35,7 @@ namespace Recipe_Book
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            recipes = new RecipeList();
         }
 
         /// <summary>
