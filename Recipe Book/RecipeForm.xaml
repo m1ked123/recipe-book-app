@@ -6,12 +6,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:storage="using:Windows.Storage"
+    xmlns:models="using:Recipe_Book.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <DataTemplate x:Name="imagesTemplate" x:DataType="BitmapImage">
-            <Image Source="{x:Bind}" Stretch="Fill" />
+        <DataTemplate x:Name="imagesTemplate" x:DataType="models:RecipeImage">
+            <Image Source="{x:Bind ImagePath}" Stretch="Fill" />
         </DataTemplate>
     </Page.Resources>
 

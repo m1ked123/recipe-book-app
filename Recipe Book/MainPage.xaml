@@ -39,13 +39,12 @@
                         <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
-
-                <Rectangle x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation">
-                    <Rectangle.Fill>
-                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
-                    </Rectangle.Fill>
-                </Rectangle>
+                <FlipView x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation" ItemTemplate="{StaticResource imagesTemplate}" ItemsSource="{x:Bind RecipeImages}"/>
             </RelativePanel>
+        </DataTemplate>
+
+        <DataTemplate x:Name="imagesTemplate" x:DataType="models:RecipeImage">
+            <Image Source="{x:Bind ImagePath}" Stretch="Fill" />
         </DataTemplate>
     </Page.Resources>
 
@@ -67,7 +66,7 @@
                 </StackPanel>
             </SplitView.Pane>
             <SplitView.Content>
-                <ContentPresenter Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}">
+                <ContentPresenter x:Name="detailView" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}">
                     
                 </ContentPresenter>
             </SplitView.Content>

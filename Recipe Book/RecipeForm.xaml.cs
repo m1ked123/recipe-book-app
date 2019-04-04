@@ -31,12 +31,12 @@ namespace Recipe_Book
     {
         private RecipeList recipes;
         private Recipe recipe;
-        private ObservableCollection<BitmapImage> images;
+        private ObservableCollection<RecipeImage> images;
 
         public RecipeForm()
         {
             this.InitializeComponent();
-            images = new ObservableCollection<BitmapImage>();
+            images = new ObservableCollection<RecipeImage>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -60,13 +60,13 @@ namespace Recipe_Book
         {
             String newRecipeName = this.recipeName.Text;
             double newRecipeRating = this.recipeRating.Value;
-            
 
             // commit changes to object
 
             recipe.Name = newRecipeName;
             recipe.Rating = newRecipeRating;
             recipe.LastMade = "";
+            recipe.setImages(images);
 
             if (!recipes.isEditing())
             {
@@ -93,19 +93,15 @@ namespace Recipe_Book
             StorageFile imageFile = await picker.PickSingleFileAsync();
             if (imageFile != null)
             {
-                BitmapImage newImage = new BitmapImage();
-                FileRandomAccessStream stream = (FileRandomAccessStream)await imageFile.OpenAsync(FileAccessMode.Read);
-
-                newImage.SetSource(stream);
-
-                this.images.Add(newImage);
-                Debug.WriteLine(imageFile.Path);
+                Uri imageUri = new Uri(imageFile.Path);
+                RecipeImage newImage = new RecipeImage(imageUri.AbsoluteUri);
+                images.Add(newImage);
             }
             else
             {
                 Debug.WriteLine("Image could not be added");
             }
-            
+
         }
     }
 }

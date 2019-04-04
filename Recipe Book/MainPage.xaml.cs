@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -30,11 +31,17 @@ namespace Recipe_Book
     public sealed partial class MainPage : Page
     {
         private RecipeList recipes;
-       public MainPage()
+        public MainPage()
         {
             this.InitializeComponent();
             recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.getRecipeList();
+            
+            if (recipes.getRecipeList().Count > 0)
+            {
+                this.recipeListView.SelectedIndex = 0;
+                this.recipes.setSelected(0);
+            }           
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
@@ -51,6 +58,7 @@ namespace Recipe_Book
         {
             int selectedRecipe = this.recipeListView.SelectedIndex;
             recipes.setSelected(selectedRecipe);
+
         }
     }
 }
