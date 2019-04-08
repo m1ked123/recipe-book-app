@@ -12,7 +12,7 @@
 
     <Page.Resources>
         <DataTemplate x:Name="imagesTemplate" x:DataType="models:RecipeImage">
-            <Image Source="{x:Bind ImagePath}" Stretch="Fill" />
+            <Image Source="{x:Bind InternalImage}" Stretch="Uniform" ImageFailed="Image_ImageFailed" />
         </DataTemplate>
     </Page.Resources>
 

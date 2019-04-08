@@ -10,13 +10,21 @@ namespace Recipe_Book.Models
     public class RecipeImage
     {
         private String imagePath;
+        private BitmapImage internalImage;
 
         public String ImagePath
         {
             get
             {
-                Debug.WriteLine(this.imagePath);
                 return this.imagePath;
+            }
+        }
+
+        public BitmapImage InternalImage
+        {
+            get
+            {
+                return this.internalImage;
             }
         }
 
@@ -25,9 +33,19 @@ namespace Recipe_Book.Models
             this.imagePath = imagePath;
         }
 
+        public RecipeImage(BitmapImage internalImage)
+        {
+            this.internalImage = internalImage;
+        }
+
         public Uri getImageUri()
         {
             return new Uri(this.imagePath);
+        }
+
+        public void setInternalImage (BitmapImage newImage)
+        {
+            this.internalImage = newImage;
         }
     }
 }

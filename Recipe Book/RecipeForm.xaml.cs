@@ -93,15 +93,33 @@ namespace Recipe_Book
             StorageFile imageFile = await picker.PickSingleFileAsync();
             if (imageFile != null)
             {
-                Uri imageUri = new Uri(imageFile.Path);
-                RecipeImage newImage = new RecipeImage(imageUri.AbsoluteUri);
+                Uri imageUri = new Uri(imageFile.Path, UriKind.Absolute);
+                RecipeImage newImage = null;
+                BitmapImage addedImage = null;
+                if (imageFile.IsAvailable)
+                {
+                    using (IRandomAccessStream stream = await imageFile.OpenAsync(FileAccessMode.Read))
+                    {
+                        addedImage = new BitmapImage();
+                        await addedImage.SetSourceAsync(stream);
+                        newImage = new RecipeImage(addedImage);
+                        stream.Dispose();
+                    }
+                } else
+                {
+                    addedImage = new BitmapImage();
+                    addedImage.UriSource = imageUri;
+                    newImage = new RecipeImage(addedImage);
+                }
+                
                 images.Add(newImage);
             }
-            else
-            {
-                Debug.WriteLine("Image could not be added");
-            }
+        }
 
+        private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            Debug.WriteLine(e.ErrorMessage);
+            // Debug.WriteLine("something went wrong");
         }
     }
 }
