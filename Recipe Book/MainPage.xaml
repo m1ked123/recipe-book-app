@@ -13,7 +13,7 @@
             <UserControl>
                 <UserControl.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Edit" Icon="Edit" />
+                        <MenuFlyoutItem Text="Edit" Icon="Edit" Click="editRecipe" />
                         <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteRecipe" />
                     </MenuFlyout>
                 </UserControl.ContextFlyout>

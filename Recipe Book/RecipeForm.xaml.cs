@@ -36,7 +36,6 @@ namespace Recipe_Book
         public RecipeForm()
         {
             this.InitializeComponent();
-            images = new ObservableCollection<RecipeImage>();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -48,10 +47,12 @@ namespace Recipe_Book
             if (recipes.isEditing())
             {
                 recipe = recipes.getSelected();
+                images = recipe.RecipeImages;
             } else
             {
                 // we're creating a new recipe
                 recipe = new Recipe();
+                images = new ObservableCollection<RecipeImage>();
             }
             this.imagesSection.ItemsSource = images;
         }
@@ -72,12 +73,19 @@ namespace Recipe_Book
             {
                 recipes.addRecipe(recipe);
                 Debug.WriteLine(recipes.getRecipeList().Count);
+            } else
+            {
+                recipes.setEditing(false);
             }
             Frame.GoBack();
         }
 
         private void cancelRecipeCreation(object sender, RoutedEventArgs e)
         {
+            if (recipes.isEditing())
+            {
+                recipes.setEditing(false);
+            }
             Frame.GoBack();
         }
 

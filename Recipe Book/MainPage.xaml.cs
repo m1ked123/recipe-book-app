@@ -58,7 +58,16 @@ namespace Recipe_Book
         {
             int selectedRecipe = this.recipeListView.SelectedIndex;
             recipes.setSelected(selectedRecipe);
+        }
 
+        private void editRecipe(object sender, RoutedEventArgs e)
+        {
+            // Debug.WriteLine("Editing a recipe");
+            Recipe clickedRecipe = (Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            int editingRecipe = recipes.Recipes.IndexOf(clickedRecipe);
+            recipes.setSelected(editingRecipe);
+            recipes.setEditing(true);
+            Frame.Navigate((typeof(RecipeForm)), recipes);
         }
     }
 }
