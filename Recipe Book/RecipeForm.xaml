@@ -12,7 +12,10 @@
 
     <Page.Resources>
         <DataTemplate x:Name="imagesTemplate" x:DataType="models:RecipeImage">
-            <Image Source="{x:Bind InternalImage}" Stretch="Uniform" ImageFailed="Image_ImageFailed" />
+            <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
+        </DataTemplate>
+        <DataTemplate x:Name="ingredientssTemplate" x:DataType="models:RecipeIngredient">
+            <TextBlock Text="{x:Bind IngredientName}" />
         </DataTemplate>
     </Page.Resources>
 
@@ -26,7 +29,9 @@
 
         <FlipView x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation" ItemTemplate="{StaticResource imagesTemplate}"/>
         <Button x:Name="addImages" RelativePanel.Below="imagesSection" Click="addImage">Add Image</Button>
-        <StackPanel RelativePanel.Below="imagesSection" Orientation="Horizontal" Margin="0,48,0,0">
+        <ListView x:Name="recipeIngredients" RelativePanel.Below="addImages" Header="Ingredients" ItemTemplate="{StaticResource ingredientssTemplate}" />
+        <Button x:Name="addIngredients" RelativePanel.Below="recipeIngredients" Click="addIngredient">Add Ingredient</Button>
+        <StackPanel RelativePanel.Below="recipeIngredients" Orientation="Horizontal" Margin="0,48,0,0">
             <Button Click="saveRecipe">Save</Button>
             <Button Margin="24, 0" Click="cancelRecipeCreation">Cancel</Button>
         </StackPanel>

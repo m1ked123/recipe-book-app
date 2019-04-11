@@ -12,6 +12,7 @@ namespace Recipe_Book.Models
         private double rating;
         private String lastMade;
         private ObservableCollection<RecipeImage> recipeImages;
+        private ObservableCollection<RecipeIngredient> recipeIngredients;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -73,6 +74,14 @@ namespace Recipe_Book.Models
             get
             {
                 return this.recipeImages;
+            }
+        }
+
+        public ObservableCollection<RecipeIngredient> RecipeIngredients
+        {
+            get
+            {
+                return this.recipeIngredients;
             }
         }
 

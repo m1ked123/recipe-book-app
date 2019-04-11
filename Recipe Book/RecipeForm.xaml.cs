@@ -32,10 +32,13 @@ namespace Recipe_Book
         private RecipeList recipes;
         private Recipe recipe;
         private ObservableCollection<RecipeImage> images;
+        private ObservableCollection<RecipeIngredient> ingredients;
 
         public RecipeForm()
         {
             this.InitializeComponent();
+            ingredients = new ObservableCollection<RecipeIngredient>();
+            this.recipeIngredients.ItemsSource = ingredients;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -61,8 +64,6 @@ namespace Recipe_Book
         {
             String newRecipeName = this.recipeName.Text;
             double newRecipeRating = this.recipeRating.Value;
-
-            // commit changes to object
 
             recipe.Name = newRecipeName;
             recipe.Rating = newRecipeRating;
@@ -124,10 +125,9 @@ namespace Recipe_Book
             }
         }
 
-        private void Image_ImageFailed(object sender, ExceptionRoutedEventArgs e)
+        private void addIngredient(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine(e.ErrorMessage);
-            // Debug.WriteLine("something went wrong");
+            ingredients.Add(new RecipeIngredient(1.0f, "Cups", "Flour"));
         }
     }
 }

@@ -66,6 +66,11 @@ namespace Recipe_Book.ViewModels
             return this.recipes[this.selectedRecipe];
         }
 
+        public int getSelectedIndex()
+        {
+            return this.selectedRecipe;
+        }
+
         public bool isEditing()
         {
             return this.editing;

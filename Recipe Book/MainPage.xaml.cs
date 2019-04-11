@@ -36,12 +36,21 @@ namespace Recipe_Book
             this.InitializeComponent();
             recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.getRecipeList();
-            
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
             if (recipes.getRecipeList().Count > 0)
             {
                 this.recipeListView.SelectedIndex = 0;
                 this.recipes.setSelected(0);
-            }           
+            }
+            else
+            {
+                this.recipeListView.SelectedIndex = recipes.getSelectedIndex();
+            }
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
