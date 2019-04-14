@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="Recipe_Book.IngredientForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Recipe_Book"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBox x:Name="ingredientName" Header="Ingredient Name" />
+            
+            <TextBox x:Name="ingredientQuantity" Header="Quantity" InputScope="Digits"  />
+            <ComboBox x:Name="ingredientUOM" Header="Unit of Measure">
+                <ComboBoxItem>Cups</ComboBoxItem>
+                <ComboBoxItem>Grams</ComboBoxItem>
+                <ComboBoxItem>Tablespoons</ComboBoxItem>
+                <ComboBoxItem>Teaspoons</ComboBoxItem>
+            </ComboBox>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Save" Margin="14" Click="addIngredient"/>
+                <Button Content="Cancel" Margin="14" Click="cancel"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

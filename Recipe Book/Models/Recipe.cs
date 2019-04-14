@@ -75,6 +75,10 @@ namespace Recipe_Book.Models
             {
                 return this.recipeImages;
             }
+            set
+            {
+                this.recipeImages = value;
+            }
         }
 
         public ObservableCollection<RecipeIngredient> RecipeIngredients
@@ -95,13 +99,16 @@ namespace Recipe_Book.Models
 
         public Recipe(String name, long id, double rating, String lastMade) : this(name, id, rating, lastMade, new ObservableCollection<RecipeImage>()) { }
 
-        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images)
+        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images) : this(name, id, rating, lastMade, new ObservableCollection<RecipeImage>(), new ObservableCollection<RecipeIngredient>()) { }
+
+        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images, ObservableCollection<RecipeIngredient> ingredients)
         {
             this.name = name;
             this.id = id;
             this.rating = rating;
             this.lastMade = lastMade;
             this.recipeImages = images;
+            this.recipeIngredients = ingredients;
         }
 
         public void addImage(String imagePath)

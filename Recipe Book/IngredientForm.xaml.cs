@@ -1,7 +1,7 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,23 +22,35 @@ namespace Recipe_Book
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class RecipeDetailPage : Page
+    public sealed partial class IngredientForm : Page
     {
         Recipe recipe;
-        public RecipeDetailPage()
+        public IngredientForm()
         {
             this.InitializeComponent();
-            recipe = null;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Debug.WriteLine("Navigated to new detail page");
 
-            recipe = (Recipe)e.Parameter;
-
+            RecipeList recipes = (RecipeList)e.Parameter;
+            recipe = recipes.EditingRecipe;
         }
 
+        private void addIngredient(object sender, RoutedEventArgs e)
+        {
+            String name = this.ingredientName.Text;
+            String unitOfMeaure = this.ingredientUOM.Text;
+            double quantity = Double.Parse(this.ingredientQuantity.Text);
+            RecipeIngredient newIngredient = new RecipeIngredient(quantity, unitOfMeaure, name);
+            recipe.RecipeIngredients.Add(newIngredient);
+            Frame.GoBack();
+        }
+
+        private void cancel(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
     }
 }

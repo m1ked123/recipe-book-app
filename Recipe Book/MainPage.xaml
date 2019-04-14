@@ -39,7 +39,7 @@
                         <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
-                <FlipView x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation" ItemTemplate="{StaticResource imagesTemplate}" ItemsSource="{x:Bind RecipeImages}"/>
+                <FlipView x:Name="imagesSection" Margin="0,5,0,0" VerticalAlignment="Top" RelativePanel.Below="headerInformation" ItemTemplate="{StaticResource imagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Width="600" Height="400"/>
             </RelativePanel>
         </DataTemplate>
 

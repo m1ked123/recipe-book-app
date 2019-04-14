@@ -25,41 +25,44 @@ using Windows.UI.Xaml.Navigation;
 namespace Recipe_Book
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// This page is used for editing existing and creating new recipes
     /// </summary>
     public sealed partial class RecipeForm : Page
     {
-        private RecipeList recipes;
-        private Recipe recipe;
-        private ObservableCollection<RecipeImage> images;
-        private ObservableCollection<RecipeIngredient> ingredients;
+        private RecipeList recipes; // The recipe list ViewModel
+        private Recipe recipe; // the recipe being edited/created in this form
 
         public RecipeForm()
         {
             this.InitializeComponent();
-            ingredients = new ObservableCollection<RecipeIngredient>();
-            this.recipeIngredients.ItemsSource = ingredients;
         }
 
+        /*  
+         *  When the page is navigated to, check if we're editing an
+         *  Existing recipe. If so, load that one. Otherwise, create
+         *  a new recipe and use that as the context for this form.
+         */
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Debug.WriteLine("Navigated to new detail page");
 
             recipes = (RecipeList)e.Parameter;
             if (recipes.isEditing())
             {
                 recipe = recipes.getSelected();
-                images = recipe.RecipeImages;
             } else
             {
                 // we're creating a new recipe
-                recipe = new Recipe();
-                images = new ObservableCollection<RecipeImage>();
+                recipe = new Recipe(); ;
+                recipe.RecipeImages = new ObservableCollection<RecipeImage>();
             }
-            this.imagesSection.ItemsSource = images;
+            this.imagesSection.ItemsSource = recipe.RecipeImages;
         }
 
+        /*
+         * Save the changes made to an existing recipe or add the new
+         * recipe to the recipe list.
+         */
         private void saveRecipe(object sender, RoutedEventArgs e)
         {
             String newRecipeName = this.recipeName.Text;
@@ -68,12 +71,10 @@ namespace Recipe_Book
             recipe.Name = newRecipeName;
             recipe.Rating = newRecipeRating;
             recipe.LastMade = "";
-            recipe.setImages(images);
 
             if (!recipes.isEditing())
             {
                 recipes.addRecipe(recipe);
-                Debug.WriteLine(recipes.getRecipeList().Count);
             } else
             {
                 recipes.setEditing(false);
@@ -81,6 +82,9 @@ namespace Recipe_Book
             Frame.GoBack();
         }
 
+        /*
+         * Do not save any changes and exit the edit session.
+         */
         private void cancelRecipeCreation(object sender, RoutedEventArgs e)
         {
             if (recipes.isEditing())
@@ -90,6 +94,10 @@ namespace Recipe_Book
             Frame.GoBack();
         }
 
+        /*
+         * Add a new image to the recipe's image list. The image is
+         * selected by teh user from a file dialog.
+         */
         private async void addImage(object sender, RoutedEventArgs e)
         {
             var picker = new Windows.Storage.Pickers.FileOpenPicker();
@@ -120,14 +128,10 @@ namespace Recipe_Book
                     addedImage.UriSource = imageUri;
                     newImage = new RecipeImage(addedImage);
                 }
-                
-                images.Add(newImage);
-            }
-        }
 
-        private void addIngredient(object sender, RoutedEventArgs e)
-        {
-            ingredients.Add(new RecipeIngredient(1.0f, "Cups", "Flour"));
+                recipe.RecipeImages.Add(newImage);
+                this.imagesSection.SelectedIndex = this.recipe.RecipeImages.Count - 1;
+            }
         }
     }
 }

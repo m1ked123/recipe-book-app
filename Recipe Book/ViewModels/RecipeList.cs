@@ -11,6 +11,7 @@ namespace Recipe_Book.ViewModels
     public class RecipeList
     {
         private ObservableCollection<Recipe> recipes;
+        private Recipe editingRecipe;
         private int selectedRecipe;
         private bool editing;
 
@@ -20,6 +21,11 @@ namespace Recipe_Book.ViewModels
             {
                 return this.recipes;
             }
+        }
+
+        public Recipe EditingRecipe
+        {
+            get; set;
         }
 
         public RecipeList()

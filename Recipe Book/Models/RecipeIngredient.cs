@@ -9,13 +9,13 @@ namespace Recipe_Book.Models
 {
     public class RecipeIngredient : INotifyPropertyChanged
     {
-        private float quantity;
+        private double quantity;
         private String unitOfMeasure;
         private String ingredientName;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public float Quantity
+        public double Quantity
         {
             get
             {
@@ -51,14 +51,14 @@ namespace Recipe_Book.Models
             }
         }
 
-        public RecipeIngredient(float quantity, String unitOfMeasure, String ingredientName)
+        public RecipeIngredient(double quantity, String unitOfMeasure, String ingredientName)
         {
             this.quantity = quantity;
             this.unitOfMeasure = unitOfMeasure;
             this.ingredientName = ingredientName;
         }
 
-        public void setQuantity(float newQuantity)
+        public void setQuantity(double newQuantity)
         {
             if (newQuantity > 0)
             {

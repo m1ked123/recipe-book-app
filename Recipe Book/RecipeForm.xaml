@@ -14,26 +14,28 @@
         <DataTemplate x:Name="imagesTemplate" x:DataType="models:RecipeImage">
             <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
         </DataTemplate>
-        <DataTemplate x:Name="ingredientssTemplate" x:DataType="models:RecipeIngredient">
-            <TextBlock Text="{x:Bind IngredientName}" />
-        </DataTemplate>
     </Page.Resources>
 
-    <RelativePanel Margin="24">
-        <StackPanel x:Name="headerInformation">
-            <TextBox x:Name="recipeName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
-            <StackPanel Orientation="Horizontal">
+    <Grid Padding="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <RelativePanel x:Name="formContent">
+            <StackPanel x:Name="headerInformation">
+                <TextBox x:Name="recipeName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" Width="500" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
                 <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=OneWay}"/>
             </StackPanel>
-        </StackPanel>
-
-        <FlipView x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation" ItemTemplate="{StaticResource imagesTemplate}"/>
-        <Button x:Name="addImages" RelativePanel.Below="imagesSection" Click="addImage">Add Image</Button>
-        <ListView x:Name="recipeIngredients" RelativePanel.Below="addImages" Header="Ingredients" ItemTemplate="{StaticResource ingredientssTemplate}" />
-        <Button x:Name="addIngredients" RelativePanel.Below="recipeIngredients" Click="addIngredient">Add Ingredient</Button>
-        <StackPanel RelativePanel.Below="recipeIngredients" Orientation="Horizontal" Margin="0,48,0,0">
+            <StackPanel Orientation="Horizontal"  RelativePanel.Below="headerInformation">
+                <FlipView x:Name="imagesSection" Width="600" Height="400" VerticalAlignment="Stretch" ItemTemplate="{StaticResource imagesTemplate}"/>
+                <Button x:Name="addImages" RelativePanel.RightOf="imagesSection" Click="addImage" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontFamily="Segoe MDL2 Assets">
+                    <SymbolIcon Symbol="Add"/>
+                </Button>
+            </StackPanel>
+        </RelativePanel>
+        <StackPanel RelativePanel.Below="addImages" Orientation="Horizontal" Grid.Row="1">
             <Button Click="saveRecipe">Save</Button>
             <Button Margin="24, 0" Click="cancelRecipeCreation">Cancel</Button>
         </StackPanel>
-    </RelativePanel>
+    </Grid>
 </Page>
