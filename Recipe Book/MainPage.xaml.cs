@@ -31,11 +31,31 @@ namespace Recipe_Book
     public sealed partial class MainPage : Page
     {
         private RecipeList recipes;
+        private Random r;
         public MainPage()
         {
             this.InitializeComponent();
+            r = new Random();
             recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.getRecipeList();
+            for (int i = 0; i < 20; i++)
+            {
+                Recipe sampleRecipe = new Recipe();
+                String recipeName = "Recipe " + i;
+                int rating = r.Next(5) + 1;
+                int num = r.Next(20) + 1;
+                for (int j = 0; j < num; j++)
+                {
+                    double quantity = r.NextDouble() * 100;
+                    String UOM = "Cups";
+                    String ingredientName = "Flour";
+                    RecipeIngredient newIngredient = new RecipeIngredient(quantity, UOM, ingredientName);
+                    sampleRecipe.RecipeIngredients.Add(newIngredient);
+                }
+                sampleRecipe.Name = recipeName;
+                sampleRecipe.Rating = rating;
+                recipes.addRecipe(sampleRecipe);
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -77,6 +97,11 @@ namespace Recipe_Book
             recipes.setSelected(editingRecipe);
             recipes.setEditing(true);
             Frame.Navigate((typeof(RecipeForm)), recipes);
+        }
+
+        private void showFlyoutMenu(object sender, RightTappedRoutedEventArgs e)
+        {
+
         }
     }
 }

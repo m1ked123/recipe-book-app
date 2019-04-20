@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Recipe_Book.Models
 {
-    public class Recipe:INotifyPropertyChanged
+    public class Recipe : INotifyPropertyChanged
     {
         private String name;
         private long id;
@@ -25,7 +25,7 @@ namespace Recipe_Book.Models
             set
             {
                 this.name = value;
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Name"));
+                // PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Name"));
             }
         }
 
@@ -40,7 +40,7 @@ namespace Recipe_Book.Models
                 if (value >= 0 && value < 6)
                 {
                     this.rating = value;
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Rating"));
+                    // PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Rating"));
                 }
             }
         }

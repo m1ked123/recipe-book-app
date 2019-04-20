@@ -7,11 +7,15 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Recipe_Book.Models
 {
+    /// <summary>
+    /// Class <code>RecipeImage</code> represents a relatively simple
+    /// image object used by a <code>Recipe</code>.
+    /// </summary>
     public class RecipeImage
     {
         private String imagePath;
         private BitmapImage internalImage;
-
+        
         public String ImagePath
         {
             get
