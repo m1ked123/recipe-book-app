@@ -125,5 +125,10 @@ namespace Recipe_Book.Models
         {
             this.recipeImages = newImages;
         }
+
+        public void setIngredients(ObservableCollection<RecipeIngredient> newIngredients)
+        {
+            this.recipeIngredients = newIngredients;
+        }
     }
 }

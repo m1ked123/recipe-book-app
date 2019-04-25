@@ -22,12 +22,14 @@ namespace Recipe_Book
         private Recipe recipe; // the recipe being edited/created in this form
         private Random r;
         private ObservableCollection<RecipeImage> images;
+        private ObservableCollection<RecipeIngredient> ingredients;
 
         public RecipeForm()
         {
             this.InitializeComponent();
             r = new Random();
             images = new ObservableCollection<RecipeImage>();
+            ingredients = new ObservableCollection<RecipeIngredient>();
         }
 
         /*  
@@ -43,8 +45,12 @@ namespace Recipe_Book
             if (recipes.isEditing())
             {
                 recipe = recipes.getSelected();
-                for (int i = 0; i < recipe.RecipeImages.Count; i++)
+                for (int i = 0; i < recipe.RecipeIngredients.Count; i++)
                 {
+                    ingredients.Add(recipe.RecipeIngredients[i]);
+                }
+
+                for (int i = 0; i < recipe.RecipeImages.Count; i++) {
                     images.Add(recipe.RecipeImages[i]);
                 }
             }
@@ -54,7 +60,7 @@ namespace Recipe_Book
                 recipe = new Recipe(); 
             }
             this.imageFlipView.ItemsSource = images;
-            this.ingredientList.ItemsSource = recipe.RecipeIngredients;
+            this.ingredientList.ItemsSource = ingredients;
         }
 
         /*
@@ -70,6 +76,7 @@ namespace Recipe_Book
             recipe.Rating = newRecipeRating;
             recipe.LastMade = "";
             recipe.setImages(images);
+            recipe.setIngredients(ingredients);
 
             if (!recipes.isEditing())
             {
@@ -141,7 +148,7 @@ namespace Recipe_Book
             String UOM = "Cups";
             String ingredientName = "Flour";
             RecipeIngredient newIngredient = new RecipeIngredient(quantity, UOM, ingredientName);
-            this.recipe.RecipeIngredients.Add(newIngredient);
+            ingredients.Add(newIngredient);
         }
     }
 }

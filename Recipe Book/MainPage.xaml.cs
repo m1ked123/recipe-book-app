@@ -99,9 +99,11 @@ namespace Recipe_Book
             Frame.Navigate((typeof(RecipeForm)), recipes);
         }
 
-        private void showFlyoutMenu(object sender, RightTappedRoutedEventArgs e)
+        private void editSelectedRecipe(object sender, RoutedEventArgs e)
         {
-
+            recipes.setSelected(this.recipeListView.SelectedIndex);
+            recipes.setEditing(true);
+            Frame.Navigate((typeof(RecipeForm)), recipes);
         }
     }
 }
