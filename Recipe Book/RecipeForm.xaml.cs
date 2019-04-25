@@ -20,10 +20,14 @@ namespace Recipe_Book
     {
         private RecipeList recipes; // The recipe list ViewModel
         private Recipe recipe; // the recipe being edited/created in this form
+        private Random r;
+        private ObservableCollection<RecipeImage> images;
 
         public RecipeForm()
         {
             this.InitializeComponent();
+            r = new Random();
+            images = new ObservableCollection<RecipeImage>();
         }
 
         /*  
@@ -39,13 +43,18 @@ namespace Recipe_Book
             if (recipes.isEditing())
             {
                 recipe = recipes.getSelected();
-            } else
+                for (int i = 0; i < recipe.RecipeImages.Count; i++)
+                {
+                    images.Add(recipe.RecipeImages[i]);
+                }
+            }
+            else
             {
                 // we're creating a new recipe
-                recipe = new Recipe(); ;
-                recipe.RecipeImages = new ObservableCollection<RecipeImage>();
+                recipe = new Recipe(); 
             }
-            this.imagesSection.ItemsSource = recipe.RecipeImages;
+            this.imageFlipView.ItemsSource = images;
+            this.ingredientList.ItemsSource = recipe.RecipeIngredients;
         }
 
         /*
@@ -60,11 +69,13 @@ namespace Recipe_Book
             recipe.Name = newRecipeName;
             recipe.Rating = newRecipeRating;
             recipe.LastMade = "";
+            recipe.setImages(images);
 
             if (!recipes.isEditing())
             {
                 recipes.addRecipe(recipe);
-            } else
+            }
+            else
             {
                 recipes.setEditing(false);
             }
@@ -111,16 +122,26 @@ namespace Recipe_Book
                         newImage = new RecipeImage(addedImage);
                         stream.Dispose();
                     }
-                } else
+                }
+                else
                 {
                     addedImage = new BitmapImage();
                     addedImage.UriSource = imageUri;
                     newImage = new RecipeImage(addedImage);
                 }
 
-                recipe.RecipeImages.Add(newImage);
-                this.imagesSection.SelectedIndex = this.recipe.RecipeImages.Count - 1;
+                images.Add(newImage);
+                this.imageFlipView.SelectedIndex = this.images.Count - 1;
             }
+        }
+
+        private void addIngredient(object sender, RoutedEventArgs e)
+        {
+            double quantity = r.NextDouble() * 100;
+            String UOM = "Cups";
+            String ingredientName = "Flour";
+            RecipeIngredient newIngredient = new RecipeIngredient(quantity, UOM, ingredientName);
+            this.recipe.RecipeIngredients.Add(newIngredient);
         }
     }
 }

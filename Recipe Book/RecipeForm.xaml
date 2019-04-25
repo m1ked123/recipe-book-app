@@ -14,30 +14,70 @@
         <DataTemplate x:Name="imagesTemplate" x:DataType="models:RecipeImage">
             <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
         </DataTemplate>
+
+        <DataTemplate x:Name="IngredientListHeaderTemplate">
+            <Grid Background="{ThemeResource SystemBaseLowColor}" Padding="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="360"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Quantity" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                <TextBlock Grid.Column="1" Text="Unit of Measure" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                <TextBlock Grid.Column="2" Text="Ingredient" Style="{ThemeResource CaptionTextBlockStyle}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="IngredientItemTemplate" x:DataType="models:RecipeIngredient">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="360"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}"/>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <CommandBar>
             <AppBarButton Icon="Save" Label="Save"  Click="saveRecipe" />
             <AppBarButton Icon="Cancel" Label="Cancel" Click="cancelRecipeCreation" />
         </CommandBar>
-        <Grid Padding="14">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <RelativePanel x:Name="formContent">
+        <Grid Grid.Row="1" Padding="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <RelativePanel>
                 <StackPanel x:Name="headerInformation">
-                    <TextBox x:Name="recipeName" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" Width="500" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
+                    <TextBox x:Name="recipeName" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" MinWidth="320" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
                     <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=OneWay}"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal"  RelativePanel.Below="headerInformation">
-                    <FlipView x:Name="imagesSection" Width="600" Height="400" VerticalAlignment="Stretch" ItemTemplate="{StaticResource imagesTemplate}"/>
+                <StackPanel  x:Name="imagesSection" Orientation="Horizontal"  RelativePanel.Below="headerInformation">
+                    <FlipView x:Name="imageFlipView" Width="300" Height="200" ItemTemplate="{StaticResource imagesTemplate}"/>
                     <Button x:Name="addImages" RelativePanel.RightOf="imagesSection" Click="addImage" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontFamily="Segoe MDL2 Assets">
                         <SymbolIcon Symbol="Add"/>
                     </Button>
                 </StackPanel>
+                <ListView x:Name="ingredientList" RelativePanel.Below="imagesSection" HeaderTemplate="{StaticResource IngredientListHeaderTemplate}" ItemTemplate="{StaticResource IngredientItemTemplate}" Margin="0,14,0,0">
+                    <ListView.FooterTemplate>
+                        <DataTemplate>
+                            <CommandBar>
+                                <AppBarButton Icon="Add" Label="Add Ingredient" ToolTipService.ToolTip="Add Ingredient" Click="addIngredient"/>
+                            </CommandBar>
+                        </DataTemplate>
+                    </ListView.FooterTemplate>
+                </ListView>
             </RelativePanel>
         </Grid>
-    </StackPanel>
+        
+    </Grid>
 </Page>
