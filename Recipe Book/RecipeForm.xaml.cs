@@ -152,9 +152,6 @@ namespace Recipe_Book
             {
                 Debug.WriteLine(ingredientDialog.NewIngredient);
                 this.ingredients.Add(ingredientDialog.NewIngredient);
-            } else
-            {
-                Debug.WriteLine("Something went wrong");
             }
         }
     }

@@ -91,7 +91,6 @@ namespace Recipe_Book
 
         private void editRecipe(object sender, RoutedEventArgs e)
         {
-            // Debug.WriteLine("Editing a recipe");
             Recipe clickedRecipe = (Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext;
             int editingRecipe = recipes.Recipes.IndexOf(clickedRecipe);
             recipes.setSelected(editingRecipe);
@@ -104,6 +103,21 @@ namespace Recipe_Book
             recipes.setSelected(this.recipeListView.SelectedIndex);
             recipes.setEditing(true);
             Frame.Navigate((typeof(RecipeForm)), recipes);
+        }
+
+        private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = this.recipeListView.SelectedIndex;
+            recipes.removeRecipe((Recipe)this.recipeListView.SelectedItem);
+            if (selectedIndex > 0)
+            {
+                this.recipeListView.SelectedIndex = selectedIndex - 1;
+            }
+            else
+            {
+                this.recipeListView.SelectedIndex = 0 ;
+            }
+            recipes.setSelected(this.recipeListView.SelectedIndex);
         }
     }
 }

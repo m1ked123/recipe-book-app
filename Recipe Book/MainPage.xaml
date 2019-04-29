@@ -76,7 +76,7 @@
         <CommandBar Grid.Row="0">
             <AppBarButton Icon="Add" Label="Add" Click="addNewRecipe"/>
             <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
-            <AppBarButton Icon="Delete" Label="Delete" />
+            <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
         </CommandBar>
         <SplitView Grid.Row="1" HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" PaneBackground="{x:Null}">
             <SplitView.Pane>
