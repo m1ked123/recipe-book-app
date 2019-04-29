@@ -119,8 +119,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IngredientForm.xaml.cs">
-      <DependentUpon>IngredientForm.xaml</DependentUpon>
+    <Compile Include="IngredientDialog.xaml.cs">
+      <DependentUpon>IngredientDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -132,6 +132,7 @@
     <Compile Include="RecipeForm.xaml.cs">
       <DependentUpon>RecipeForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\RecipeUtils.cs" />
     <Compile Include="ViewModels\RecipeList.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -155,7 +156,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="IngredientForm.xaml">
+    <Page Include="IngredientDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

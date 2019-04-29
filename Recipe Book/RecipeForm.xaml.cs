@@ -2,6 +2,7 @@
 using Recipe_Book.ViewModels;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
@@ -142,13 +143,19 @@ namespace Recipe_Book
             }
         }
 
-        private void addIngredient(object sender, RoutedEventArgs e)
+        private async void addIngredient(object sender, RoutedEventArgs e)
         {
-            double quantity = r.NextDouble() * 100;
-            String UOM = "Cups";
-            String ingredientName = "Flour";
-            RecipeIngredient newIngredient = new RecipeIngredient(quantity, UOM, ingredientName);
-            ingredients.Add(newIngredient);
+            IngredientDialog ingredientDialog = new IngredientDialog();
+            await ingredientDialog.ShowAsync();
+
+            if (ingredientDialog.NewIngredient != null)
+            {
+                Debug.WriteLine(ingredientDialog.NewIngredient);
+                this.ingredients.Add(ingredientDialog.NewIngredient);
+            } else
+            {
+                Debug.WriteLine("Something went wrong");
+            }
         }
     }
 }

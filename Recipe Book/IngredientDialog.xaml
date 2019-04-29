@@ -1,0 +1,33 @@
+﻿<ContentDialog
+    x:Class="Recipe_Book.IngredientDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Recipe_Book"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Add an Ingredient"
+    PrimaryButtonText="Ok"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBox x:Name="ingredientName" Header="Ingredient" />
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,24,0,0">
+            <TextBox x:Name="ingredientQuant" Header="Quantity"/>
+            <ComboBox x:Name="unitsOfMeasure" Header="Units" Margin="24,0,0,0">
+                <ComboBoxItem></ComboBoxItem>
+                <ComboBoxItem>Cups</ComboBoxItem>
+                <ComboBoxItem>Tablespoons</ComboBoxItem>
+                <ComboBoxItem>Teaspoons</ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        <TextBlock x:Name="dialogErrorText" Grid.Row="2" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}" />
+    </Grid>
+</ContentDialog>

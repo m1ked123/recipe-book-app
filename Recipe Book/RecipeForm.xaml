@@ -71,7 +71,7 @@
                     <ListView.FooterTemplate>
                         <DataTemplate>
                             <CommandBar>
-                                <AppBarButton Icon="Add" Label="Add Ingredient" ToolTipService.ToolTip="Add Ingredient" Click="addIngredient"/>
+                                <AppBarButton Icon="Add" Label="Add Ingredient" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Ingredient" Click="addIngredient"/>
                             </CommandBar>
                         </DataTemplate>
                     </ListView.FooterTemplate>

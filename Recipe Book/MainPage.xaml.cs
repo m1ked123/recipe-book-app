@@ -38,7 +38,7 @@ namespace Recipe_Book
             r = new Random();
             recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.getRecipeList();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Recipe sampleRecipe = new Recipe();
                 String recipeName = "Recipe " + i;
