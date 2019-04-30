@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -18,13 +22,38 @@ using Windows.UI.Xaml.Navigation;
 namespace Recipe_Book
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// This is the main page of the Recipe Book app. It represents
+    /// the main page that opens when the app is opened.
     /// </summary>
+    // TODO: make this UI responsive
+    // TODO: make the detail UI show nothing is the list is empty
     public sealed partial class MainPage : Page
     {
+        private RecipeList recipes;
+        private Recipe currentRecipe;
         public MainPage()
         {
             this.InitializeComponent();
+            recipes = new RecipeList();
+            this.recipeListView.ItemsSource = recipes.getRecipeList();
+        }
+
+        private void addNewRecipe(object sender, RoutedEventArgs e)
+        {
+            Recipe newRecipe = new Recipe();
+            this.recipes.addRecipe(newRecipe);
+            Debug.WriteLine("Navigating to new form page...");
+        }
+
+        private void deleteRecipe(object sender, RoutedEventArgs e)
+        {
+            this.recipes.removeRecipe(((Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext));
+        }
+
+        private void selectRecipe(object sender, SelectionChangedEventArgs e)
+        {
+            Recipe clickedRecipe = (Recipe)this.recipeListView.SelectedItem;
+            currentRecipe = clickedRecipe;
         }
     }
 }
