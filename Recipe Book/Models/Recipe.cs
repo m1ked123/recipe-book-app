@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Recipe_Book.Models
 {
-    class Recipe:INotifyPropertyChanged
+    public class Recipe : INotifyPropertyChanged
     {
         private String name;
         private long id;
         private double rating;
         private String lastMade;
+        private ObservableCollection<RecipeImage> recipeImages;
+        private ObservableCollection<RecipeIngredient> recipeIngredients;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -25,7 +25,7 @@ namespace Recipe_Book.Models
             set
             {
                 this.name = value;
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Name"));
+                // PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Name"));
             }
         }
 
@@ -40,7 +40,7 @@ namespace Recipe_Book.Models
                 if (value >= 0 && value < 6)
                 {
                     this.rating = value;
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Rating"));
+                    // PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Rating"));
                 }
             }
         }
@@ -69,6 +69,26 @@ namespace Recipe_Book.Models
             }
         }
 
+        public ObservableCollection<RecipeImage> RecipeImages
+        {
+            get
+            {
+                return this.recipeImages;
+            }
+            set
+            {
+                this.recipeImages = value;
+            }
+        }
+
+        public ObservableCollection<RecipeIngredient> RecipeIngredients
+        {
+            get
+            {
+                return this.recipeIngredients;
+            }
+        }
+
         public Recipe() : this("New Recipe") {}
 
         public Recipe(String name) : this(name, -1) {}
@@ -77,12 +97,38 @@ namespace Recipe_Book.Models
 
         public Recipe(String name, long id, double rating) : this(name, id, 0, "Never") {}
 
-        public Recipe(String name, long id, double rating, String lastMade)
+        public Recipe(String name, long id, double rating, String lastMade) : this(name, id, rating, lastMade, new ObservableCollection<RecipeImage>()) { }
+
+        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images) : this(name, id, rating, lastMade, new ObservableCollection<RecipeImage>(), new ObservableCollection<RecipeIngredient>()) { }
+
+        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images, ObservableCollection<RecipeIngredient> ingredients)
         {
             this.name = name;
             this.id = id;
             this.rating = rating;
             this.lastMade = lastMade;
+            this.recipeImages = images;
+            this.recipeIngredients = ingredients;
+        }
+
+        public void addImage(String imagePath)
+        {
+            this.recipeImages.Add(new RecipeImage(imagePath));
+        }
+
+        public void addImage(RecipeImage newImage)
+        {
+            this.recipeImages.Add(newImage);
+        }
+
+        public void setImages(ObservableCollection<RecipeImage> newImages)
+        {
+            this.recipeImages = newImages;
+        }
+
+        public void setIngredients(ObservableCollection<RecipeIngredient> newIngredients)
+        {
+            this.recipeIngredients = newIngredients;
         }
     }
 }

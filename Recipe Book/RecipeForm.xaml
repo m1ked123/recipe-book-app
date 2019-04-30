@@ -5,26 +5,79 @@
     xmlns:local="using:Recipe_Book"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:storage="using:Windows.Storage"
+    xmlns:models="using:Recipe_Book.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <RelativePanel Margin="24">
-        <StackPanel x:Name="headerInformation">
-            <TextBox x:Name="recipeName" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
-            <StackPanel Orientation="Horizontal">
-                <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=OneWay}"/>
-                <CalendarDatePicker x:Name="recipeCalendar" Margin="24, 0" />
-            </StackPanel>
-        </StackPanel>
+    <Page.Resources>
+        <DataTemplate x:Name="imagesTemplate" x:DataType="models:RecipeImage">
+            <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
+        </DataTemplate>
 
-        <Rectangle x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation">
-            <Rectangle.Fill>
-                <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
-            </Rectangle.Fill>
-        </Rectangle>
-        <StackPanel RelativePanel.Below="imagesSection" Orientation="Horizontal" Margin="0,48,0,0">
-            <Button Click="saveRecipe">Save</Button>
-            <Button Margin="24, 0" Click="cancelRecipeCreation">Cancel</Button>
-        </StackPanel>
-    </RelativePanel>
+        <DataTemplate x:Name="IngredientListHeaderTemplate">
+            <Grid Background="{ThemeResource SystemBaseLowColor}" Padding="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="360"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Quantity" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                <TextBlock Grid.Column="1" Text="Unit of Measure" Style="{ThemeResource CaptionTextBlockStyle}"/>
+                <TextBlock Grid.Column="2" Text="Ingredient" Style="{ThemeResource CaptionTextBlockStyle}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="IngredientItemTemplate" x:DataType="models:RecipeIngredient">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="360"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}"/>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <CommandBar>
+            <AppBarButton Icon="Save" Label="Save"  Click="saveRecipe" />
+            <AppBarButton Icon="Cancel" Label="Cancel" Click="cancelRecipeCreation" />
+        </CommandBar>
+        <Grid Grid.Row="1" Padding="12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <RelativePanel>
+                <StackPanel x:Name="headerInformation">
+                    <TextBox x:Name="recipeName" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" MinWidth="320" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
+                    <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=OneWay}"/>
+                </StackPanel>
+                <StackPanel  x:Name="imagesSection" Orientation="Horizontal"  RelativePanel.Below="headerInformation">
+                    <FlipView x:Name="imageFlipView" Width="300" Height="200" ItemTemplate="{StaticResource imagesTemplate}"/>
+                    <Button x:Name="addImages" RelativePanel.RightOf="imagesSection" Click="addImage" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontFamily="Segoe MDL2 Assets">
+                        <SymbolIcon Symbol="Add"/>
+                    </Button>
+                </StackPanel>
+                <ListView x:Name="ingredientList" RelativePanel.Below="imagesSection" HeaderTemplate="{StaticResource IngredientListHeaderTemplate}" ItemTemplate="{StaticResource IngredientItemTemplate}" Margin="0,14,0,0">
+                    <ListView.FooterTemplate>
+                        <DataTemplate>
+                            <CommandBar>
+                                <AppBarButton Icon="Add" Label="Add Ingredient" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Ingredient" Click="addIngredient"/>
+                            </CommandBar>
+                        </DataTemplate>
+                    </ListView.FooterTemplate>
+                </ListView>
+            </RelativePanel>
+        </Grid>
+        
+    </Grid>
 </Page>

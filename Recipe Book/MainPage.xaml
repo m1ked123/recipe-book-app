@@ -10,42 +10,61 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <DataTemplate x:Key="RecipeItemTemplate" x:DataType="models:Recipe">
-            <UserControl>
-                <UserControl.ContextFlyout>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Edit" Icon="Edit" />
+                        <MenuFlyoutItem Text="Edit" Icon="Edit" Click="editRecipe" />
                         <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteRecipe" />
                     </MenuFlyout>
-                </UserControl.ContextFlyout>
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
-                    <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" />
-                        <TextBlock Text="2019-03-21" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" Margin="24,0,0,0" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Grid>
-            </UserControl>
+                </Grid.ContextFlyout>
+                <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" />
+                    <TextBlock Text="2019-03-21" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" Margin="24,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+            </Grid>
         </DataTemplate>
         <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
-            <RelativePanel Margin="24">
-                <StackPanel x:Name="headerInformation">
-                    <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
-                    <StackPanel Orientation="Horizontal">
-                        <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind Rating, Mode=TwoWay}"/>
-                        <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
+            <ScrollViewer>
+                <Grid Margin="14,14,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="headerInformation">
+                        <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind Rating, Mode=Oneway}"/>
+                            <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                    <FlipView x:Name="imagesSection" Grid.Row="1" Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Width="600" Height="400"/>
+                    <ListView x:Name="ingredientList" Grid.Row="2" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
+                </Grid>
+            </ScrollViewer>
+        </DataTemplate>
 
-                <Rectangle x:Name="imagesSection" HorizontalAlignment="Left" Height="300" Margin="0,5,0,0" VerticalAlignment="Top" Width="400" RelativePanel.Below="headerInformation">
-                    <Rectangle.Fill>
-                        <SolidColorBrush Color="{ThemeResource SystemAccentColor}"/>
-                    </Rectangle.Fill>
-                </Rectangle>
-            </RelativePanel>
+        <DataTemplate x:Name="IngredientItemTemplate" x:DataType="models:RecipeIngredient">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="360"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}"/>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="ImagesTemplate" x:DataType="models:RecipeImage">
+            <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
         </DataTemplate>
     </Page.Resources>
 
@@ -54,22 +73,17 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <SplitView HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" Grid.Row="1" PaneBackground="{x:Null}">
+        <CommandBar Grid.Row="0">
+            <AppBarButton Icon="Add" Label="Add" Click="addNewRecipe"/>
+            <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
+            <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
+        </CommandBar>
+        <SplitView Grid.Row="1" HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" PaneBackground="{x:Null}">
             <SplitView.Pane>
-                <StackPanel>
-                    <CommandBar>
-                        <AppBarButton Icon="Add" Label="New Recipe" Click="addNewRecipe"/>
-                    </CommandBar>
-                    <ScrollViewer>
-                        <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionChanged="selectRecipe" />
-                    </ScrollViewer>
-                </StackPanel>
+               <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionChanged="selectRecipe" />
             </SplitView.Pane>
             <SplitView.Content>
-                <ContentPresenter Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}">
-                    
-                </ContentPresenter>
+                <ContentPresenter x:Name="detailView" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" />
             </SplitView.Content>
         </SplitView>
     </Grid>

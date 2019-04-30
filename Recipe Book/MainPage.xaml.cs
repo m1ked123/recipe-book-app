@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -30,30 +31,93 @@ namespace Recipe_Book
     public sealed partial class MainPage : Page
     {
         private RecipeList recipes;
-        private Recipe currentRecipe;
+        private Random r;
         public MainPage()
         {
             this.InitializeComponent();
-            recipes = new RecipeList();
+            r = new Random();
+            recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.getRecipeList();
+            for (int i = 0; i < 5; i++)
+            {
+                Recipe sampleRecipe = new Recipe();
+                String recipeName = "Recipe " + i;
+                int rating = r.Next(5) + 1;
+                int num = r.Next(20) + 1;
+                for (int j = 0; j < num; j++)
+                {
+                    double quantity = r.NextDouble() * 100;
+                    String UOM = "Cups";
+                    String ingredientName = "Flour";
+                    RecipeIngredient newIngredient = new RecipeIngredient(quantity, UOM, ingredientName);
+                    sampleRecipe.RecipeIngredients.Add(newIngredient);
+                }
+                sampleRecipe.Name = recipeName;
+                sampleRecipe.Rating = rating;
+                recipes.addRecipe(sampleRecipe);
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (recipes.getRecipeList().Count > 0)
+            {
+                this.recipeListView.SelectedIndex = 0;
+                this.recipes.setSelected(0);
+            }
+            else
+            {
+                this.recipeListView.SelectedIndex = recipes.getSelectedIndex();
+            }
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
-            Recipe newRecipe = new Recipe();
-            this.recipes.addRecipe(newRecipe);
-            Debug.WriteLine("Navigating to new form page...");
+            Frame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void deleteRecipe(object sender, RoutedEventArgs e)
         {
-            this.recipes.removeRecipe(((Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext));
+            recipes.removeRecipe((Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext);
         }
 
         private void selectRecipe(object sender, SelectionChangedEventArgs e)
         {
-            Recipe clickedRecipe = (Recipe)this.recipeListView.SelectedItem;
-            currentRecipe = clickedRecipe;
+            int selectedRecipe = this.recipeListView.SelectedIndex;
+            recipes.setSelected(selectedRecipe);
+        }
+
+        private void editRecipe(object sender, RoutedEventArgs e)
+        {
+            Recipe clickedRecipe = (Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            int editingRecipe = recipes.Recipes.IndexOf(clickedRecipe);
+            recipes.setSelected(editingRecipe);
+            recipes.setEditing(true);
+            Frame.Navigate((typeof(RecipeForm)), recipes);
+        }
+
+        private void editSelectedRecipe(object sender, RoutedEventArgs e)
+        {
+            recipes.setSelected(this.recipeListView.SelectedIndex);
+            recipes.setEditing(true);
+            Frame.Navigate((typeof(RecipeForm)), recipes);
+        }
+
+        private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = this.recipeListView.SelectedIndex;
+            recipes.removeRecipe((Recipe)this.recipeListView.SelectedItem);
+            if (selectedIndex > 0)
+            {
+                this.recipeListView.SelectedIndex = selectedIndex - 1;
+            }
+            else
+            {
+                this.recipeListView.SelectedIndex = 0 ;
+            }
+            recipes.setSelected(this.recipeListView.SelectedIndex);
         }
     }
 }

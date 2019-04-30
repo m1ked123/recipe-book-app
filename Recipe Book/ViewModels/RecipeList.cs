@@ -8,18 +8,38 @@ using System.Threading.Tasks;
 
 namespace Recipe_Book.ViewModels
 {
-    class RecipeList
+    public class RecipeList
     {
         private ObservableCollection<Recipe> recipes;
+        private Recipe editingRecipe;
+        private int selectedRecipe;
+        private bool editing;
+
+        public ObservableCollection<Recipe> Recipes
+        {
+            get
+            {
+                return this.recipes;
+            }
+        }
+
+        public Recipe EditingRecipe
+        {
+            get; set;
+        }
 
         public RecipeList()
         {
             this.recipes = new ObservableCollection<Recipe>();
+            this.selectedRecipe = 0;
+            this.editing = false;
         }
 
         public RecipeList(ObservableCollection<Recipe> recipes)
         {
             this.recipes = recipes;
+            this.selectedRecipe = 0;
+            this.editing = false;
         }
 
         public void setRecipeList(ObservableCollection<Recipe> newRecipeList)
@@ -40,6 +60,31 @@ namespace Recipe_Book.ViewModels
         public void removeRecipe(Recipe recipeToRemove)
         {
             this.recipes.Remove(recipeToRemove);
+        }
+
+        public void setSelected(int selectedIndex)
+        {
+            this.selectedRecipe = selectedIndex;
+        }
+
+        public Recipe getSelected()
+        {
+            return this.recipes[this.selectedRecipe];
+        }
+
+        public int getSelectedIndex()
+        {
+            return this.selectedRecipe;
+        }
+
+        public bool isEditing()
+        {
+            return this.editing;
+        }
+
+        public void setEditing(bool isEditing)
+        {
+            this.editing = isEditing;
         }
     }
 }
