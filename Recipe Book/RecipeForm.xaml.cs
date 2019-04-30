@@ -24,6 +24,7 @@ namespace Recipe_Book
         private Random r;
         private ObservableCollection<RecipeImage> images;
         private ObservableCollection<RecipeIngredient> ingredients;
+        private ObservableCollection<RecipeStep> steps;
 
         public RecipeForm()
         {
@@ -31,6 +32,7 @@ namespace Recipe_Book
             r = new Random();
             images = new ObservableCollection<RecipeImage>();
             ingredients = new ObservableCollection<RecipeIngredient>();
+            steps = new ObservableCollection<RecipeStep>();
         }
 
         /*  
@@ -62,6 +64,13 @@ namespace Recipe_Book
             }
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
+
+            for (int i = 0; i < 10; i++)
+            {
+                RecipeStep newRecipe = new RecipeStep("This is some rather long text for step " + i + " in this recipe. It is just used for testing.");
+                steps.Add(newRecipe);
+            }
+            this.recipeSteps.ItemsSource = steps;
         }
 
         /*

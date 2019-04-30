@@ -40,6 +40,17 @@
                 <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
             </Grid>
         </DataTemplate>
+
+        <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
+            <Grid Margin="12">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="360" />
+                </Grid.ColumnDefinitions>
+                <TextBlock />
+                <TextBlock Grid.Column="1" Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
+            </Grid>
+        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -77,7 +88,7 @@
                     </ListView.FooterTemplate>
                 </ListView>
             </RelativePanel>
+            <ListView x:Name="recipeSteps" Grid.Column="1" HorizontalAlignment="Center" ItemTemplate="{StaticResource RecipeStepTemplate}" />
         </Grid>
-        
     </Grid>
 </Page>
