@@ -128,6 +128,7 @@
     <Compile Include="Models\Recipe.cs" />
     <Compile Include="Models\RecipeImage.cs" />
     <Compile Include="Models\RecipeIngredient.cs" />
+    <Compile Include="Models\RecipeStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecipeForm.xaml.cs">
       <DependentUpon>RecipeForm.xaml</DependentUpon>
