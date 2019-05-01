@@ -105,6 +105,8 @@ namespace Recipe_Book.Models
             }
         }
 
+
+        // TODO: consider cleaning up these constructors
         public Recipe() : this("New Recipe") {}
 
         public Recipe(String name) : this(name, -1) {}
@@ -113,18 +115,15 @@ namespace Recipe_Book.Models
 
         public Recipe(String name, long id, double rating) : this(name, id, 0, "Never") {}
 
-        public Recipe(String name, long id, double rating, String lastMade) : this(name, id, rating, lastMade, new ObservableCollection<RecipeImage>()) { }
-
-        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images) : this(name, id, rating, lastMade, new ObservableCollection<RecipeImage>(), new ObservableCollection<RecipeIngredient>()) { }
-
-        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images, ObservableCollection<RecipeIngredient> ingredients)
+        public Recipe(String name, long id, double rating, String lastMade)
         {
             this.name = name;
             this.id = id;
             this.rating = rating;
             this.lastMade = lastMade;
-            this.recipeImages = images;
-            this.recipeIngredients = ingredients;
+            this.recipeImages = new ObservableCollection<RecipeImage>();
+            this.recipeIngredients = new ObservableCollection<RecipeIngredient>();
+            this.recipeSteps = new ObservableCollection<RecipeStep>();
         }
 
         public void addImage(String imagePath)

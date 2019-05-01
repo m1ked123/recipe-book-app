@@ -56,6 +56,11 @@ namespace Recipe_Book
                 for (int i = 0; i < recipe.RecipeImages.Count; i++) {
                     images.Add(recipe.RecipeImages[i]);
                 }
+                
+                for (int i = 0; i < recipe.RecipeSteps.Count; i++)
+                {
+                    steps.Add(recipe.RecipeSteps[i]);
+                }
             }
             else
             {
@@ -81,6 +86,7 @@ namespace Recipe_Book
             recipe.LastMade = "";
             recipe.setImages(images);
             recipe.setIngredients(ingredients);
+            recipe.setSteps(steps);
 
             if (!recipes.isEditing())
             {

@@ -35,27 +35,9 @@ namespace Recipe_Book
         public MainPage()
         {
             this.InitializeComponent();
-            r = new Random();
             recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.getRecipeList();
-            for (int i = 0; i < 5; i++)
-            {
-                Recipe sampleRecipe = new Recipe();
-                String recipeName = "Recipe " + i;
-                int rating = r.Next(5) + 1;
-                int num = r.Next(20) + 1;
-                for (int j = 0; j < num; j++)
-                {
-                    double quantity = r.NextDouble() * 100;
-                    String UOM = "Cups";
-                    String ingredientName = "Flour";
-                    RecipeIngredient newIngredient = new RecipeIngredient(quantity, UOM, ingredientName);
-                    sampleRecipe.RecipeIngredients.Add(newIngredient);
-                }
-                sampleRecipe.Name = recipeName;
-                sampleRecipe.Rating = rating;
-                recipes.addRecipe(sampleRecipe);
-            }
+            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

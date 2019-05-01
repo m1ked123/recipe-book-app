@@ -10,7 +10,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <DataTemplate x:Key="RecipeItemTemplate" x:DataType="models:Recipe">
-
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -36,6 +35,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <StackPanel x:Name="headerInformation">
                         <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
@@ -46,8 +46,15 @@
                     </StackPanel>
                     <FlipView x:Name="imagesSection" Grid.Row="1" Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Width="600" Height="400"/>
                     <ListView x:Name="ingredientList" Grid.Row="2" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
+                    <ListView x:Name="recipeSteps" Grid.Row="3" HorizontalAlignment="Center" ItemsSource="{x:Bind RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
                 </Grid>
             </ScrollViewer>
+        </DataTemplate>
+
+        <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
+            <Grid Margin="0,0,0,24">
+                <TextBlock Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Name="IngredientItemTemplate" x:DataType="models:RecipeIngredient">
