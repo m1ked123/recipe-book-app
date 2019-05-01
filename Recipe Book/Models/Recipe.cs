@@ -13,6 +13,7 @@ namespace Recipe_Book.Models
         private String lastMade;
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
+        private ObservableCollection<RecipeStep> recipeSteps;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -81,6 +82,21 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Gets and sets the list of steps needed to make this recipe.
+        /// </summary>
+        public ObservableCollection<RecipeStep> RecipeSteps
+        {
+            get
+            {
+                return this.getSteps();
+            }
+            set
+            {
+                this.setSteps(value);
+            }
+        }
+
         public ObservableCollection<RecipeIngredient> RecipeIngredients
         {
             get
@@ -129,6 +145,32 @@ namespace Recipe_Book.Models
         public void setIngredients(ObservableCollection<RecipeIngredient> newIngredients)
         {
             this.recipeIngredients = newIngredients;
+        }
+
+        /// <summary>
+        /// Gets a list of the steps needed to make this recipe.
+        /// </summary>
+        /// <returns>
+        /// A list of the steps needed to make this recipe
+        /// </returns>
+        public ObservableCollection<RecipeStep> getSteps()
+        {
+            return this.recipeSteps;
+        }
+
+        /// <summary>
+        /// Sets the steps of this recipe to the given list of recipe
+        /// steps. This list cannot be null.
+        /// </summary>
+        /// <param name="newRecipeSteps">
+        /// A non-null list of recipe steps
+        /// </param>
+        public void setSteps(ObservableCollection<RecipeStep> newRecipeSteps)
+        {
+            if (newRecipeSteps != null)
+            {
+                this.recipeSteps = newRecipeSteps;
+            }
         }
     }
 }

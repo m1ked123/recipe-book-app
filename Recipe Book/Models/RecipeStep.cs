@@ -6,7 +6,7 @@ namespace Recipe_Book.Models
     /// Class RecipeStep represents a step for making a recipe in the
     /// recipe book.
     /// </summary>
-    class RecipeStep
+    public class RecipeStep
     {
         private String stepDescription;
 

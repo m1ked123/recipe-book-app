@@ -64,12 +64,6 @@ namespace Recipe_Book
             }
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
-
-            for (int i = 0; i < 10; i++)
-            {
-                RecipeStep newRecipe = new RecipeStep("This is some rather long text for step " + i + " in this recipe. It is just used for testing.");
-                steps.Add(newRecipe);
-            }
             this.recipeSteps.ItemsSource = steps;
         }
 
@@ -162,6 +156,12 @@ namespace Recipe_Book
                 Debug.WriteLine(ingredientDialog.NewIngredient);
                 this.ingredients.Add(ingredientDialog.NewIngredient);
             }
+        }
+
+        private void addStep(object sender, RoutedEventArgs e)
+        {
+            RecipeStep newRecipe = new RecipeStep("This is some rather long text for step in this recipe. It is just used for testing.");
+            steps.Add(newRecipe);
         }
     }
 }
