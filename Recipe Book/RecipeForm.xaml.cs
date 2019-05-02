@@ -24,6 +24,7 @@ namespace Recipe_Book
         private Random r;
         private ObservableCollection<RecipeImage> images;
         private ObservableCollection<RecipeIngredient> ingredients;
+        private ObservableCollection<RecipeStep> steps;
 
         public RecipeForm()
         {
@@ -31,6 +32,7 @@ namespace Recipe_Book
             r = new Random();
             images = new ObservableCollection<RecipeImage>();
             ingredients = new ObservableCollection<RecipeIngredient>();
+            steps = new ObservableCollection<RecipeStep>();
         }
 
         /*  
@@ -54,6 +56,11 @@ namespace Recipe_Book
                 for (int i = 0; i < recipe.RecipeImages.Count; i++) {
                     images.Add(recipe.RecipeImages[i]);
                 }
+                
+                for (int i = 0; i < recipe.RecipeSteps.Count; i++)
+                {
+                    steps.Add(recipe.RecipeSteps[i]);
+                }
             }
             else
             {
@@ -62,6 +69,7 @@ namespace Recipe_Book
             }
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
+            this.recipeSteps.ItemsSource = steps;
         }
 
         /*
@@ -78,6 +86,7 @@ namespace Recipe_Book
             recipe.LastMade = "";
             recipe.setImages(images);
             recipe.setIngredients(ingredients);
+            recipe.setSteps(steps);
 
             if (!recipes.isEditing())
             {
@@ -152,6 +161,17 @@ namespace Recipe_Book
             {
                 Debug.WriteLine(ingredientDialog.NewIngredient);
                 this.ingredients.Add(ingredientDialog.NewIngredient);
+            }
+        }
+
+        private async void addStep(object sender, RoutedEventArgs e)
+        {
+            StepDialog stepDialog = new StepDialog();
+            await stepDialog.ShowAsync();
+            RecipeStep newRecipeStep = stepDialog.NewRecipeStep;
+            if (newRecipeStep != null)
+            {
+                this.steps.Add(newRecipeStep);
             }
         }
     }

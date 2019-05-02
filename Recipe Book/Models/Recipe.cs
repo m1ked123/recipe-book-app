@@ -13,6 +13,7 @@ namespace Recipe_Book.Models
         private String lastMade;
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
+        private ObservableCollection<RecipeStep> recipeSteps;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -81,6 +82,21 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Gets and sets the list of steps needed to make this recipe.
+        /// </summary>
+        public ObservableCollection<RecipeStep> RecipeSteps
+        {
+            get
+            {
+                return this.getSteps();
+            }
+            set
+            {
+                this.setSteps(value);
+            }
+        }
+
         public ObservableCollection<RecipeIngredient> RecipeIngredients
         {
             get
@@ -89,6 +105,8 @@ namespace Recipe_Book.Models
             }
         }
 
+
+        // TODO: consider cleaning up these constructors
         public Recipe() : this("New Recipe") {}
 
         public Recipe(String name) : this(name, -1) {}
@@ -97,18 +115,15 @@ namespace Recipe_Book.Models
 
         public Recipe(String name, long id, double rating) : this(name, id, 0, "Never") {}
 
-        public Recipe(String name, long id, double rating, String lastMade) : this(name, id, rating, lastMade, new ObservableCollection<RecipeImage>()) { }
-
-        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images) : this(name, id, rating, lastMade, new ObservableCollection<RecipeImage>(), new ObservableCollection<RecipeIngredient>()) { }
-
-        public Recipe(String name, long id, double rating, String lastMade, ObservableCollection<RecipeImage> images, ObservableCollection<RecipeIngredient> ingredients)
+        public Recipe(String name, long id, double rating, String lastMade)
         {
             this.name = name;
             this.id = id;
             this.rating = rating;
             this.lastMade = lastMade;
-            this.recipeImages = images;
-            this.recipeIngredients = ingredients;
+            this.recipeImages = new ObservableCollection<RecipeImage>();
+            this.recipeIngredients = new ObservableCollection<RecipeIngredient>();
+            this.recipeSteps = new ObservableCollection<RecipeStep>();
         }
 
         public void addImage(String imagePath)
@@ -129,6 +144,32 @@ namespace Recipe_Book.Models
         public void setIngredients(ObservableCollection<RecipeIngredient> newIngredients)
         {
             this.recipeIngredients = newIngredients;
+        }
+
+        /// <summary>
+        /// Gets a list of the steps needed to make this recipe.
+        /// </summary>
+        /// <returns>
+        /// A list of the steps needed to make this recipe
+        /// </returns>
+        public ObservableCollection<RecipeStep> getSteps()
+        {
+            return this.recipeSteps;
+        }
+
+        /// <summary>
+        /// Sets the steps of this recipe to the given list of recipe
+        /// steps. This list cannot be null.
+        /// </summary>
+        /// <param name="newRecipeSteps">
+        /// A non-null list of recipe steps
+        /// </param>
+        public void setSteps(ObservableCollection<RecipeStep> newRecipeSteps)
+        {
+            if (newRecipeSteps != null)
+            {
+                this.recipeSteps = newRecipeSteps;
+            }
         }
     }
 }
