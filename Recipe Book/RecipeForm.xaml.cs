@@ -164,10 +164,15 @@ namespace Recipe_Book
             }
         }
 
-        private void addStep(object sender, RoutedEventArgs e)
+        private async void addStep(object sender, RoutedEventArgs e)
         {
-            RecipeStep newRecipe = new RecipeStep("This is some rather long text for step in this recipe. It is just used for testing.");
-            steps.Add(newRecipe);
+            StepDialog stepDialog = new StepDialog();
+            await stepDialog.ShowAsync();
+            RecipeStep newRecipeStep = stepDialog.NewRecipeStep;
+            if (newRecipeStep != null)
+            {
+                this.steps.Add(newRecipeStep);
+            }
         }
     }
 }
