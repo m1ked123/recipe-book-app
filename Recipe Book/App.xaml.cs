@@ -1,8 +1,10 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.Utils;
 using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -10,6 +12,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -36,6 +39,7 @@ namespace Recipe_Book
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             recipes = new RecipeList();
+            RecipeBookDataAccessor.InitializeDatabase();
         }
 
         /// <summary>
