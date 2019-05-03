@@ -69,7 +69,6 @@ namespace Recipe_Book
         {
             int selectedRecipe = this.recipeListView.SelectedIndex;
             recipes.setSelected(selectedRecipe);
-            Debug.WriteLine(recipes.getSelected().Rating);
         }
 
         private void editRecipe(object sender, RoutedEventArgs e)

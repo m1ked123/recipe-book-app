@@ -1,4 +1,5 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,11 @@ namespace Recipe_Book.ViewModels
 {
     public class RecipeList
     {
+        public static IdentifierGenerator recipeIdGenerator;
+        public static IdentifierGenerator imageIdGenerator;
+        public static IdentifierGenerator ingredientIdGenerator;
+        public static IdentifierGenerator stepIdGenerator;
+
         private ObservableCollection<Recipe> recipes;
         private Recipe editingRecipe;
         private int selectedRecipe;

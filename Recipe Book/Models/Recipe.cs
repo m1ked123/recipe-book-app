@@ -7,7 +7,11 @@ namespace Recipe_Book.Models
 {
     public class Recipe : INotifyPropertyChanged
     {
-        public static IdentifierGenerator idGenerator;
+        /// <summary>
+        /// The name of the SQLite table used to store recipes
+        /// </summary>
+        public const String TABLE_NAME = "RECIPES";
+
         private String name;
         private long id;
         private double rating;
