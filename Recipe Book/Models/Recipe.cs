@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Recipe_Book.Utils;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Recipe_Book.Models
 {
     public class Recipe : INotifyPropertyChanged
     {
-        public static long nextId = 0;
+        public static IdentifierGenerator idGenerator;
         private String name;
         private long id;
         private double rating;

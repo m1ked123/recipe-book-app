@@ -82,8 +82,7 @@ namespace Recipe_Book
             String newRecipeName = this.recipeName.Text;
             double newRecipeRating = this.recipeRating.Value;
 
-            recipe.ID = Recipe.nextId;
-            Recipe.nextId++;
+            recipe.ID = Recipe.idGenerator.getId();
             recipe.Name = newRecipeName;
             recipe.Rating = newRecipeRating;
             recipe.LastMade = "";
