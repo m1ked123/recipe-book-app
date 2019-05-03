@@ -40,6 +40,8 @@ namespace Recipe_Book
             this.Suspending += OnSuspending;
             recipes = new RecipeList();
             RecipeBookDataAccessor.InitializeDatabase();
+            Recipe.nextId = RecipeBookDataAccessor.getMaxRecipeId() + 1;
+            recipes.setRecipeList(RecipeBookDataAccessor.getSavedRecipes());
         }
 
         /// <summary>

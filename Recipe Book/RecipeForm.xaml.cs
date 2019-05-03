@@ -1,4 +1,5 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.Utils;
 using Recipe_Book.ViewModels;
 using System;
 using System.Collections.ObjectModel;
@@ -81,6 +82,8 @@ namespace Recipe_Book
             String newRecipeName = this.recipeName.Text;
             double newRecipeRating = this.recipeRating.Value;
 
+            recipe.ID = Recipe.nextId;
+            Recipe.nextId++;
             recipe.Name = newRecipeName;
             recipe.Rating = newRecipeRating;
             recipe.LastMade = "";
@@ -91,6 +94,7 @@ namespace Recipe_Book
             if (!recipes.isEditing())
             {
                 recipes.addRecipe(recipe);
+                RecipeBookDataAccessor.addRecipe(recipe);
             }
             else
             {

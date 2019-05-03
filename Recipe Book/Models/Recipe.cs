@@ -7,6 +7,7 @@ namespace Recipe_Book.Models
 {
     public class Recipe : INotifyPropertyChanged
     {
+        public static long nextId = 0;
         private String name;
         private long id;
         private double rating;
