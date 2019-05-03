@@ -12,6 +12,11 @@ namespace Recipe_Book.Utils
 {
     public class RecipeBookDataAccessor
     {
+        public const String RECIPE_TABLE_NAME = "RECIPES";
+        public const String INGREDIENT_TABLE_NAME = "INGREDIENTS";
+        public const String IMAGE_TABLE_NAME = "IMAGES";
+        public const String STEP_TABLE_NAME = "STEPS";
+
         public static void InitializeDatabase()
         {
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
@@ -21,7 +26,7 @@ namespace Recipe_Book.Utils
 
                 String createRecipeDbText = "CREATE TABLE IF NOT " +
                     "EXISTS RECIPES (ID INTEGER PRIMARY KEY, NAME " +
-                    "VARCHAR(500), RATING INTEGER)";
+                    "VARCHAR(500), RATING DOUBLE)";
                 SqliteCommand createRecipeDb = new SqliteCommand(createRecipeDbText, db);
                 createRecipeDb.ExecuteReader();
 
@@ -64,7 +69,8 @@ namespace Recipe_Book.Utils
             {
                 long id = query.GetInt64(0);
                 String name = query.GetString(1);
-                Recipe savedRecipe = new Recipe(name, id);
+                double rating = query.GetDouble(2);
+                Recipe savedRecipe = new Recipe(name, id, rating);
                 savedRecipes.Add(savedRecipe);
             }
 
@@ -131,9 +137,10 @@ namespace Recipe_Book.Utils
             SqliteCommand insertCommand = new SqliteCommand();
             insertCommand.Connection = db;
 
-            insertCommand.CommandText = "INSERT INTO RECIPES (ID, NAME) VALUES (@ID, @Name);";
+            insertCommand.CommandText = "INSERT INTO RECIPES (ID, NAME, RATING) VALUES (@ID, @Name, @Rating);";
             insertCommand.Parameters.AddWithValue("@ID", recipe.ID);
             insertCommand.Parameters.AddWithValue("@Name", recipe.Name);
+            insertCommand.Parameters.AddWithValue("@Rating", recipe.Rating);
 
             insertCommand.ExecuteReader();
 

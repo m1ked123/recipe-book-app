@@ -136,6 +136,7 @@
     <Compile Include="StepDialog.xaml.cs">
       <DependentUpon>StepDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\IdentifierGenerator.cs" />
     <Compile Include="Utils\RecipeBookDataAccessor.cs" />
     <Compile Include="Utils\RecipeUtils.cs" />
     <Compile Include="ViewModels\RecipeList.cs" />
