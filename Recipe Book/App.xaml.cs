@@ -41,7 +41,7 @@ namespace Recipe_Book
             recipes = new RecipeList();
             RecipeBookDataAccessor.InitializeDatabase();
 
-            long startingId = RecipeBookDataAccessor.getMaxRecipeId() + 1;
+            long startingId = RecipeBookDataAccessor.getMaxId(Recipe.TABLE_NAME) + 1;
             RecipeList.recipeIdGenerator = new IdentifierGenerator(Recipe.TABLE_NAME, startingId);
 
             recipes.setRecipeList(RecipeBookDataAccessor.getSavedRecipes());

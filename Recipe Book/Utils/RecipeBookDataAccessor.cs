@@ -79,18 +79,22 @@ namespace Recipe_Book.Utils
         }
 
         /// <summary>
-        /// Gets the maximum ID of the recipes table
+        /// Gets the maximum ID value from the given table.
         /// </summary>
+        /// <param name="tableName">
+        /// The table to get the max ID value from
+        /// </param>
         /// <returns>
-        /// the maximum ID of the recipes table
+        /// The maximum ID in the given table
         /// </returns>
-        public static long getMaxRecipeId()
+        public static long getMaxId(String tableName)
         {
             long max = 0;
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
             db.Open();
 
-            SqliteCommand selectCommand = new SqliteCommand("SELECT ID from RECIPES", db);
+            String sqlStatement = "SELECT ID from " + tableName;
+            SqliteCommand selectCommand = new SqliteCommand(sqlStatement, db);
 
             SqliteDataReader query = selectCommand.ExecuteReader();
 
@@ -105,21 +109,6 @@ namespace Recipe_Book.Utils
 
             db.Close();
             return max;
-        }
-
-        public static long getMaxImageId()
-        {
-            return 0;
-        }
-
-        public static long getMaxStepId()
-        {
-            return 0;
-        }
-
-        public static long getMaxIngredientId()
-        {
-            return 0;
         }
 
         /// <summary>
