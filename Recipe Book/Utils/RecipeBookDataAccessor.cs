@@ -70,6 +70,7 @@ namespace Recipe_Book.Utils
                 long id = query.GetInt64(0);
                 String name = query.GetString(1);
                 double rating = query.GetDouble(2);
+                Debug.WriteLine("Saved Rating: " + rating);
                 Recipe savedRecipe = new Recipe(name, id, rating);
                 savedRecipes.Add(savedRecipe);
             }
@@ -130,6 +131,8 @@ namespace Recipe_Book.Utils
             insertCommand.Parameters.AddWithValue("@ID", recipe.ID);
             insertCommand.Parameters.AddWithValue("@Name", recipe.Name);
             insertCommand.Parameters.AddWithValue("@Rating", recipe.Rating);
+
+            Debug.WriteLine("New Recipe Rating: " + recipe.Rating);
 
             insertCommand.ExecuteReader();
 

@@ -118,7 +118,7 @@ namespace Recipe_Book.Models
 
         public Recipe(String name, long id) : this(name, id, 0) {}
 
-        public Recipe(String name, long id, double rating) : this(name, id, 0, "Never") {}
+        public Recipe(String name, long id, double rating) : this(name, id, rating, "Never") {}
 
         public Recipe(String name, long id, double rating, String lastMade)
         {
