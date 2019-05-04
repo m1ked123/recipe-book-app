@@ -169,5 +169,29 @@ namespace Recipe_Book.Utils
 
             db.Close();
         }
+
+        /// <summary>
+        /// Deleted the given recipe from the database. This will
+        /// cascade and remove all related data as well.
+        /// </summary>
+        /// <param name="deletingRecipe">
+        /// the recipe that will be deleted
+        /// </param>
+        public static void deleteRecipe(Recipe deletingRecipe)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand deleteCommand = new SqliteCommand();
+            deleteCommand.Connection = db;
+
+            deleteCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
+            deleteCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+
+            deleteCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
     }
 }

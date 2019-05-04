@@ -66,6 +66,7 @@ namespace Recipe_Book.ViewModels
         public void removeRecipe(Recipe recipeToRemove)
         {
             this.recipes.Remove(recipeToRemove);
+            RecipeBookDataAccessor.deleteRecipe(recipeToRemove);
         }
 
         public void setSelected(int selectedIndex)
