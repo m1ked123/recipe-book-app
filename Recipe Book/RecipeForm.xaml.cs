@@ -82,7 +82,6 @@ namespace Recipe_Book
             String newRecipeName = this.recipeName.Text;
             double newRecipeRating = this.recipeRating.Value;
 
-            recipe.ID = RecipeList.recipeIdGenerator.getId();
             recipe.Name = newRecipeName;
             recipe.Rating = newRecipeRating;
             recipe.LastMade = "";
@@ -92,12 +91,14 @@ namespace Recipe_Book
 
             if (!recipes.isEditing())
             {
+                recipe.ID = RecipeList.recipeIdGenerator.getId();
                 recipes.addRecipe(recipe);
                 RecipeBookDataAccessor.addRecipe(recipe);
             }
             else
             {
                 recipes.setEditing(false);
+                RecipeBookDataAccessor.updateRecipe(recipe);
             }
             Frame.GoBack();
         }

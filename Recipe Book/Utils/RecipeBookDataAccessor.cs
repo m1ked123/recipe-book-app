@@ -55,6 +55,14 @@ namespace Recipe_Book.Utils
             }
         }
 
+        /// <summary>
+        /// Gets a list of all saved recipes in the database. These
+        /// recipes will have all the information that has been saved
+        /// that is associated when a recipe.
+        /// </summary>
+        /// <returns>
+        /// a list of the recipes saved in the database
+        /// </returns>
         public static ObservableCollection<Recipe> getSavedRecipes()
         {
             ObservableCollection<Recipe> savedRecipes = new ObservableCollection<Recipe>();
@@ -70,7 +78,6 @@ namespace Recipe_Book.Utils
                 long id = query.GetInt64(0);
                 String name = query.GetString(1);
                 double rating = query.GetDouble(2);
-                Debug.WriteLine("Saved Rating: " + rating);
                 Recipe savedRecipe = new Recipe(name, id, rating);
                 savedRecipes.Add(savedRecipe);
             }
@@ -115,10 +122,10 @@ namespace Recipe_Book.Utils
         /// <summary>
         /// Adds the given recipe to the database
         /// </summary>
-        /// <param name="recipe">
+        /// <param name="newRecipe">
         /// the new recipe to add to the database
         /// </param>
-        public static void addRecipe(Recipe recipe)
+        public static void addRecipe(Recipe newRecipe)
         {
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
 
@@ -128,13 +135,37 @@ namespace Recipe_Book.Utils
             insertCommand.Connection = db;
 
             insertCommand.CommandText = "INSERT INTO RECIPES (ID, NAME, RATING) VALUES (@ID, @Name, @Rating);";
-            insertCommand.Parameters.AddWithValue("@ID", recipe.ID);
-            insertCommand.Parameters.AddWithValue("@Name", recipe.Name);
-            insertCommand.Parameters.AddWithValue("@Rating", recipe.Rating);
-
-            Debug.WriteLine("New Recipe Rating: " + recipe.Rating);
+            insertCommand.Parameters.AddWithValue("@ID", newRecipe.ID);
+            insertCommand.Parameters.AddWithValue("@Name", newRecipe.Name);
+            insertCommand.Parameters.AddWithValue("@Rating", newRecipe.Rating);
 
             insertCommand.ExecuteReader();
+
+            db.Close();
+        }
+
+        /// <summary>
+        /// Edits the given recipe in the database. This will cascade
+        /// to any related data. 
+        /// </summary>
+        /// <param name="updatedRecipe">
+        /// The recipe that will be updated
+        /// </param>
+        public static void updateRecipe(Recipe updatedRecipe)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand updateCommand = new SqliteCommand();
+            updateCommand.Connection = db;
+
+            updateCommand.CommandText = "UPDATE RECIPES SET NAME = @Name, RATING = @Rating WHERE ID = @ID";
+            updateCommand.Parameters.AddWithValue("@ID", updatedRecipe.ID);
+            updateCommand.Parameters.AddWithValue("@Name", updatedRecipe.Name);
+            updateCommand.Parameters.AddWithValue("@Rating", updatedRecipe.Rating);
+
+            updateCommand.ExecuteNonQuery();
 
             db.Close();
         }
