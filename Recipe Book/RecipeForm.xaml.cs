@@ -93,7 +93,6 @@ namespace Recipe_Book
             {
                 recipe.ID = RecipeList.recipeIdGenerator.getId();
                 recipes.addRecipe(recipe);
-                RecipeBookDataAccessor.addRecipe(recipe);
             }
             else
             {
