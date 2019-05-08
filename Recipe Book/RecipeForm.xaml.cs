@@ -66,7 +66,8 @@ namespace Recipe_Book
             else
             {
                 // we're creating a new recipe
-                recipe = new Recipe(); 
+                recipe = new Recipe();
+                recipe.ID = RecipeList.recipeIdGenerator.getId();
             }
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
@@ -91,7 +92,6 @@ namespace Recipe_Book
 
             if (!recipes.isEditing())
             {
-                recipe.ID = RecipeList.recipeIdGenerator.getId();
                 recipes.addRecipe(recipe);
             }
             else
@@ -162,8 +162,9 @@ namespace Recipe_Book
 
             if (ingredientDialog.NewIngredient != null)
             {
-                Debug.WriteLine(ingredientDialog.NewIngredient);
-                this.ingredients.Add(ingredientDialog.NewIngredient);
+                RecipeIngredient newIngredient = ingredientDialog.NewIngredient;
+                newIngredient.setRecipeId(recipe.ID);
+                this.ingredients.Add(newIngredient);
             }
         }
 

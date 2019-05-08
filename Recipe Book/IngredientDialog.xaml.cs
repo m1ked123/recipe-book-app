@@ -1,5 +1,6 @@
 ﻿using Recipe_Book.Models;
 using Recipe_Book.Utils;
+using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -71,7 +72,9 @@ namespace Recipe_Book
 
             if (canAddIngredient)
             {
-                newIngredient = new RecipeIngredient(ingredientQuantity, UOM, ingredientNameText);
+                long id = RecipeList.ingredientIdGenerator.getId();
+                newIngredient = new RecipeIngredient(id, 
+                    ingredientQuantity, UOM, ingredientNameText);
             }
         }
 

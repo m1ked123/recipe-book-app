@@ -21,7 +21,6 @@ namespace Recipe_Book.ViewModels
         public static IdentifierGenerator stepIdGenerator;
 
         private ObservableCollection<Recipe> recipes;
-        private Recipe editingRecipe;
         private int selectedRecipe;
         private bool editing;
 
@@ -108,6 +107,12 @@ namespace Recipe_Book.ViewModels
         {
             this.recipes.Add(newRecipe);
             RecipeBookDataAccessor.addRecipe(newRecipe);
+
+            for (int i = 0; i < newRecipe.RecipeIngredients.Count; i++)
+            {
+                RecipeIngredient ingredient = newRecipe.RecipeIngredients[i];
+                RecipeBookDataAccessor.addIngredient(ingredient);
+            }
         }
 
         /// <summary>

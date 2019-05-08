@@ -38,13 +38,14 @@ namespace Recipe_Book.Utils
 
                 String createIngredientDbText = "CREATE TABLE IF NOT " +
                     "EXISTS INGREDIENTS (ID INTEGER PRIMARY KEY, " +
-                    "QUANTITY DOUBLE, UOM VARCHAR(50), NAME VARCHAR(100))";
+                    "QUANTITY DOUBLE, UOM VARCHAR(50), NAME VARCHAR(100)," +
+                    "RID INTEGER)";
                 SqliteCommand createIngredientDb = new SqliteCommand(createIngredientDbText, db);
                 createIngredientDb.ExecuteReader();
 
                 String createStepsDbText = "CREATE TABLE IF NOT " +
                     "EXISTS STEPS (ID INTEGER PRIMARY KEY, STEPORDER INTEGER, " +
-                    "DESCRIPTION VARCHAR(1000))";
+                    "DESCRIPTION VARCHAR(1000), RID INTEGER)";
                 SqliteCommand createStepsDb = new SqliteCommand(createStepsDbText, db);
                 createStepsDb.ExecuteReader();
 
@@ -138,6 +139,35 @@ namespace Recipe_Book.Utils
             insertCommand.Parameters.AddWithValue("@ID", newRecipe.ID);
             insertCommand.Parameters.AddWithValue("@Name", newRecipe.Name);
             insertCommand.Parameters.AddWithValue("@Rating", newRecipe.Rating);
+
+            insertCommand.ExecuteReader();
+
+            db.Close();
+        }
+
+        /// <summary>
+        /// Adds the given ingredient to the database
+        /// </summary>
+        /// <param name="newIngredient">
+        /// the new ingredient to add to the database
+        /// </param>
+        public static void addIngredient(RecipeIngredient newIngredient)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand insertCommand = new SqliteCommand();
+            insertCommand.Connection = db;
+
+            insertCommand.CommandText = "INSERT INTO RECIPES " +
+                "(ID, QUANTITY, UOM, NAME, RID) VALUES " +
+                "(@ID, @Quantity, @UOM, @Name, @RecipeID)";
+            insertCommand.Parameters.AddWithValue("@ID", newIngredient.ID);
+            insertCommand.Parameters.AddWithValue("@Quantity", newIngredient.Quantity);
+            insertCommand.Parameters.AddWithValue("@UOM", newIngredient.UnitOfMeasure);
+            insertCommand.Parameters.AddWithValue("@Name", newIngredient.IngredientName);
+            insertCommand.Parameters.AddWithValue("@RecipeID", newIngredient.RecipeID);
 
             insertCommand.ExecuteReader();
 
