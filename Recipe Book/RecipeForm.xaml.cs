@@ -163,7 +163,6 @@ namespace Recipe_Book
             if (ingredientDialog.NewIngredient != null)
             {
                 RecipeIngredient newIngredient = ingredientDialog.NewIngredient;
-                newIngredient.setRecipeId(recipe.ID);
                 this.ingredients.Add(newIngredient);
             }
         }

@@ -88,6 +88,41 @@ namespace Recipe_Book.Utils
         }
 
         /// <summary>
+        /// Gets the ingredients related to the given recipe id
+        /// </summary>
+        /// <param name="recipeId">
+        /// the ID for the recipe to get ingredients for
+        /// </param>
+        /// <returns>
+        /// a list of ingredients for the related recipe
+        /// </returns>
+        public static ObservableCollection<RecipeIngredient> getIngredients(long recipeId)
+        {
+            ObservableCollection<RecipeIngredient> savedIngredients = new ObservableCollection<RecipeIngredient>();
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+            db.Open();
+
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from INGREDIENTS WHERE RID = " + recipeId, db);
+            
+            SqliteDataReader query = selectCommand.ExecuteReader();
+
+            while (query.Read())
+            {
+                long id = query.GetInt64(0);
+                double quantity = query.GetDouble(1);
+                String unitOfMeasure = query.GetString(2);
+                String ingredientName = query.GetString(3);
+                long rid = query.GetInt64(4);
+                RecipeIngredient savedIngredient = new RecipeIngredient(id, quantity, unitOfMeasure, ingredientName);
+                savedIngredient.setRecipeId(rid);
+                savedIngredients.Add(savedIngredient);
+            }
+
+            db.Close();
+            return savedIngredients;
+        }
+
+        /// <summary>
         /// Gets the maximum ID value from the given table.
         /// </summary>
         /// <param name="tableName">
@@ -160,7 +195,7 @@ namespace Recipe_Book.Utils
             SqliteCommand insertCommand = new SqliteCommand();
             insertCommand.Connection = db;
 
-            insertCommand.CommandText = "INSERT INTO RECIPES " +
+            insertCommand.CommandText = "INSERT INTO INGREDIENTS " +
                 "(ID, QUANTITY, UOM, NAME, RID) VALUES " +
                 "(@ID, @Quantity, @UOM, @Name, @RecipeID)";
             insertCommand.Parameters.AddWithValue("@ID", newIngredient.ID);

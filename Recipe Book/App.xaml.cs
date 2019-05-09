@@ -47,9 +47,16 @@ namespace Recipe_Book
             long ingredientStartingId = RecipeBookDataAccessor.getMaxId(RecipeIngredient.TABLE_NAME) + 1;
             RecipeList.ingredientIdGenerator = new IdentifierGenerator(RecipeIngredient.TABLE_NAME, ingredientStartingId);
 
-            Debug.WriteLine(ingredientStartingId);
 
-            recipes.setRecipeList(RecipeBookDataAccessor.getSavedRecipes());
+            ObservableCollection<Recipe> savedRecipes = RecipeBookDataAccessor.getSavedRecipes();
+            for (int i = 0; i < savedRecipes.Count; i++)
+            {
+                Recipe savedRecipe = savedRecipes[i];
+                ObservableCollection<RecipeIngredient> savedIngredients = RecipeBookDataAccessor.getIngredients(savedRecipe.ID);
+
+                savedRecipe.setIngredients(savedIngredients);
+            }
+            recipes.setRecipeList(savedRecipes);
         }
 
         /// <summary>
