@@ -148,6 +148,16 @@ namespace Recipe_Book.Models
 
         public void setIngredients(ObservableCollection<RecipeIngredient> newIngredients)
         {
+
+            for (int i = 0; i < newIngredients.Count; i++)
+            {
+                RecipeIngredient ingredient = newIngredients[i];
+                if (ingredient.getRecipeId() == -1)
+                {
+                    ingredient.setRecipeId(this.id);
+                    RecipeBookDataAccessor.addIngredient(ingredient);
+                }
+            }
             this.recipeIngredients = newIngredients;
         }
 

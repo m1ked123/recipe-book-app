@@ -107,13 +107,6 @@ namespace Recipe_Book.ViewModels
         {
             this.recipes.Add(newRecipe);
             RecipeBookDataAccessor.addRecipe(newRecipe);
-
-            for (int i = 0; i < newRecipe.RecipeIngredients.Count; i++)
-            {
-                RecipeIngredient ingredient = newRecipe.RecipeIngredients[i];
-                ingredient.setRecipeId(newRecipe.ID);
-                RecipeBookDataAccessor.addIngredient(ingredient);
-            }
         }
 
         /// <summary>

@@ -119,6 +119,7 @@ namespace Recipe_Book.Models
             this.unitOfMeasure = unitOfMeasure;
             this.ingredientName = ingredientName;
             this.id = id;
+            this.recipeId = -1;
         }
 
         /// <summary>
