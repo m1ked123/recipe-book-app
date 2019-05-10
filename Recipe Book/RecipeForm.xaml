@@ -43,6 +43,11 @@
 
         <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
             <Grid Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind Order}" Margin="0,0,24,0" />
                 <TextBlock Grid.Column="1" Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
             </Grid>
         </DataTemplate>

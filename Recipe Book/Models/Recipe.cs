@@ -146,19 +146,29 @@ namespace Recipe_Book.Models
             this.recipeImages = newImages;
         }
 
+        /// <summary>
+        /// Sets the ingredients of this recipe to the given list of
+        /// ingredients. 
+        /// </summary>
+        /// <param name="newIngredients">
+        /// the list of ingredients to change the current list of 
+        /// ingredients to
+        /// </param>
         public void setIngredients(ObservableCollection<RecipeIngredient> newIngredients)
         {
-
-            for (int i = 0; i < newIngredients.Count; i++)
+            if (newIngredients != null)
             {
-                RecipeIngredient ingredient = newIngredients[i];
-                if (ingredient.getRecipeId() == -1)
+                for (int i = 0; i < newIngredients.Count; i++)
                 {
-                    ingredient.setRecipeId(this.id);
-                    RecipeBookDataAccessor.addIngredient(ingredient);
+                    RecipeIngredient ingredient = newIngredients[i];
+                    if (ingredient.getRecipeId() == -1)
+                    {
+                        ingredient.setRecipeId(this.id);
+                        RecipeBookDataAccessor.addIngredient(ingredient);
+                    }
                 }
+                this.recipeIngredients = newIngredients;
             }
-            this.recipeIngredients = newIngredients;
         }
 
         /// <summary>
@@ -183,6 +193,15 @@ namespace Recipe_Book.Models
         {
             if (newRecipeSteps != null)
             {
+                for (int i = 0; i < newRecipeSteps.Count; i++)
+                {
+                    RecipeStep step = newRecipeSteps[i];
+                    if (step.RecipeID == -1)
+                    {
+                        step.setRecipeId(this.id);
+                        RecipeBookDataAccessor.addStep(step);
+                    }
+                }
                 this.recipeSteps = newRecipeSteps;
             }
         }

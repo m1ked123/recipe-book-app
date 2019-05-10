@@ -175,6 +175,7 @@ namespace Recipe_Book
             if (newRecipeStep != null)
             {
                 this.steps.Add(newRecipeStep);
+                newRecipeStep.setOrder(this.steps.Count);
             }
         }
     }

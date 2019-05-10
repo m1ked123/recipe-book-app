@@ -123,6 +123,41 @@ namespace Recipe_Book.Utils
         }
 
         /// <summary>
+        /// Gets the list of steps related to the recipe with the given ID
+        /// </summary>
+        /// <param name="recipeId">
+        /// the ID for the recipe to get steps for
+        /// </param>
+        /// <returns>
+        /// a list of the steps for the related recipe
+        /// </returns>
+        public static ObservableCollection<RecipeStep> getSteps(long recipeId)
+        {
+            ObservableCollection<RecipeStep> savedSteps = new ObservableCollection<RecipeStep>();
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+            db.Open();
+
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from STEPS WHERE RID = " + recipeId + 
+                " ORDER BY STEPORDER ASC", db);
+
+            SqliteDataReader query = selectCommand.ExecuteReader();
+
+            while (query.Read())
+            {
+                long id = query.GetInt64(0);
+                int order = query.GetInt32(1);
+                String description = query.GetString(2);
+                long rid = query.GetInt64(3);
+                RecipeStep savedStep = new RecipeStep(id, order, description);
+                savedStep.setRecipeId(rid);
+                savedSteps.Add(savedStep);
+            }
+
+            db.Close();
+            return savedSteps;
+        }
+
+        /// <summary>
         /// Gets the maximum ID value from the given table.
         /// </summary>
         /// <param name="tableName">
@@ -203,6 +238,34 @@ namespace Recipe_Book.Utils
             insertCommand.Parameters.AddWithValue("@UOM", newIngredient.UnitOfMeasure);
             insertCommand.Parameters.AddWithValue("@Name", newIngredient.IngredientName);
             insertCommand.Parameters.AddWithValue("@RecipeID", newIngredient.RecipeID);
+
+            insertCommand.ExecuteReader();
+
+            db.Close();
+        }
+
+        /// <summary>
+        /// Adds the given step to the database
+        /// </summary>
+        /// <param name="newStep">
+        /// the new step to add
+        /// </param>
+        public static void addStep(RecipeStep newStep)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand insertCommand = new SqliteCommand();
+            insertCommand.Connection = db;
+
+            insertCommand.CommandText = "INSERT INTO STEPS " +
+                "(ID, STEPORDER, DESCRIPTION, RID) VALUES " +
+                "(@ID, @Order, @Description, @RecipeID)";
+            insertCommand.Parameters.AddWithValue("@ID", newStep.ID);
+            insertCommand.Parameters.AddWithValue("@Order", newStep.Order);
+            insertCommand.Parameters.AddWithValue("@Description", newStep.StepDescription);
+            insertCommand.Parameters.AddWithValue("@RecipeID", newStep.RecipeID);
 
             insertCommand.ExecuteReader();
 
