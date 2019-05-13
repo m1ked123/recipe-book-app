@@ -157,6 +157,30 @@ namespace Recipe_Book.Utils
             return savedSteps;
         }
 
+        public static ObservableCollection<RecipeImage> getImages(long recipeId)
+        {
+            ObservableCollection<RecipeImage> savedImages = new ObservableCollection<RecipeImage>();
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+            db.Open();
+
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from IMAGES WHERE RID = " + recipeId, db);
+
+            SqliteDataReader query = selectCommand.ExecuteReader();
+
+            while (query.Read())
+            {
+                long id = query.GetInt64(0);
+                String path = query.GetString(1);
+                long rid = query.GetInt64(2);
+                RecipeImage savedImage = new RecipeImage(id, path);
+                savedImage.RecipeID = rid;
+                savedImages.Add(savedImage);
+            }
+
+            db.Close();
+            return savedImages;
+        }
+
         /// <summary>
         /// Gets the maximum ID value from the given table.
         /// </summary>
@@ -266,6 +290,27 @@ namespace Recipe_Book.Utils
             insertCommand.Parameters.AddWithValue("@Order", newStep.Order);
             insertCommand.Parameters.AddWithValue("@Description", newStep.StepDescription);
             insertCommand.Parameters.AddWithValue("@RecipeID", newStep.RecipeID);
+
+            insertCommand.ExecuteReader();
+
+            db.Close();
+        }
+
+        public static void addImage(RecipeImage newImage)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand insertCommand = new SqliteCommand();
+            insertCommand.Connection = db;
+
+            insertCommand.CommandText = "INSERT INTO IMAGES " +
+                "(ID, PATH, RID) VALUES " +
+                "(@ID, @Path, @RecipeID)";
+            insertCommand.Parameters.AddWithValue("@ID", newImage.ID);
+            insertCommand.Parameters.AddWithValue("@Path", newImage.ImagePath);
+            insertCommand.Parameters.AddWithValue("@RecipeID", newImage.RecipeID);
 
             insertCommand.ExecuteReader();
 

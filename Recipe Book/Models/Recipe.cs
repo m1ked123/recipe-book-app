@@ -131,11 +131,6 @@ namespace Recipe_Book.Models
             this.recipeSteps = new ObservableCollection<RecipeStep>();
         }
 
-        public void addImage(String imagePath)
-        {
-            this.recipeImages.Add(new RecipeImage(imagePath));
-        }
-
         public void addImage(RecipeImage newImage)
         {
             this.recipeImages.Add(newImage);
@@ -143,7 +138,19 @@ namespace Recipe_Book.Models
 
         public void setImages(ObservableCollection<RecipeImage> newImages)
         {
-            this.recipeImages = newImages;
+            if (newImages != null)
+            {
+                for (int i = 0; i < newImages.Count; i++)
+                {
+                    RecipeImage newImage = newImages[i];
+                    if (newImage.RecipeID == -1)
+                    {
+                        newImage.setRecipeId(this.id);
+                        RecipeBookDataAccessor.addImage(newImage);
+                    }
+                }
+                this.recipeImages = newImages;
+            }
         }
 
         /// <summary>

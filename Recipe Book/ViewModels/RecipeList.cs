@@ -1,11 +1,7 @@
 ﻿using Recipe_Book.Models;
 using Recipe_Book.Utils;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Recipe_Book.ViewModels
 {
@@ -19,6 +15,8 @@ namespace Recipe_Book.ViewModels
         public static IdentifierGenerator imageIdGenerator;
         public static IdentifierGenerator ingredientIdGenerator;
         public static IdentifierGenerator stepIdGenerator;
+
+        public static StorageFolder imageFolder;
 
         private ObservableCollection<Recipe> recipes;
         private int selectedRecipe;
@@ -64,7 +62,7 @@ namespace Recipe_Book.ViewModels
             selectedRecipe = 0;
             editing = false;
         }
-        
+
         /// <summary>
         /// Gets the recipe list behind the scenes as a list.
         /// </summary>
@@ -89,7 +87,8 @@ namespace Recipe_Book.ViewModels
             if (newRecipeList != null)
             {
                 this.recipes = newRecipeList;
-            } else
+            }
+            else
             {
                 this.recipes = new ObservableCollection<Recipe>();
                 // TODO: truncate all database tables
