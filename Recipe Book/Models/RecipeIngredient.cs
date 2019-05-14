@@ -166,6 +166,13 @@ namespace Recipe_Book.Models
             this.recipeId = recipeId;
         }
 
+        /// <summary>
+        /// Sets the quantity of the ingredient to the given amount if
+        /// it's positive.
+        /// </summary>
+        /// <param name="newQuantity">
+        /// the new positive quantity of the ingredient
+        /// </param>
         public void setQuantity(double newQuantity)
         {
             if (newQuantity > 0)
@@ -175,6 +182,12 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Sets the unit of measure to the given non-empty value
+        /// </summary>
+        /// <param name="newUOM">
+        /// the new unit of measure
+        /// </param>
         public void setUnitOfMeasure(String newUOM)
         {
             if (newUOM.Length > 0)
@@ -184,6 +197,12 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Sets the name of the ingredient to the given new name
+        /// </summary>
+        /// <param name="newIngredientName">
+        /// the new name for the ingredient
+        /// </param>
         public void setIngredientName(String newIngredientName)
         {
             if (newIngredientName.Length > 0)
