@@ -352,6 +352,12 @@ namespace Recipe_Book.Utils
         /// </param>
         public static void deleteRecipe(Recipe deletingRecipe)
         {
+            ObservableCollection<RecipeIngredient> ingredients = deletingRecipe.RecipeIngredients;
+            for (int i = 0; i < ingredients.Count; i++)
+            {
+                deleteIngredient(ingredients[i]);
+            }
+
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
 
             db.Open();
@@ -361,6 +367,29 @@ namespace Recipe_Book.Utils
 
             deleteCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
             deleteCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+
+            deleteCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
+        /// <summary>
+        /// Removes the given RecipeIngredient from the database
+        /// </summary>
+        /// <param name="deletingIngredient">
+        /// the ingredient to delete
+        /// </param>
+        public static void deleteIngredient(RecipeIngredient deletingIngredient)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand deleteCommand = new SqliteCommand();
+            deleteCommand.Connection = db;
+
+            deleteCommand.CommandText = "DELETE FROM INGREDIENTS WHERE ID = @ID";
+            deleteCommand.Parameters.AddWithValue("@ID", deletingIngredient.ID);
 
             deleteCommand.ExecuteNonQuery();
 
