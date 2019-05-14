@@ -26,7 +26,7 @@ namespace Recipe_Book
         private ObservableCollection<RecipeImage> images;
         private ObservableCollection<RecipeIngredient> ingredients;
         private ObservableCollection<RecipeStep> steps;
-        private StorageFolder imageFolder;
+        private StorageFolder tempImageFolder;
 
         public RecipeForm()
         {
@@ -72,7 +72,7 @@ namespace Recipe_Book
                 recipe.ID = RecipeList.recipeIdGenerator.getId();
             }
 
-            imageFolder = await RecipeList.imageFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.OpenIfExists);
+            tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.OpenIfExists);
 
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
@@ -110,12 +110,13 @@ namespace Recipe_Book
         /*
          * Do not save any changes and exit the edit session.
          */
-        private void cancelRecipeCreation(object sender, RoutedEventArgs e)
+        private async void cancelRecipeCreation(object sender, RoutedEventArgs e)
         {
             if (recipes.isEditing())
             {
                 recipes.setEditing(false);
             }
+            await tempImageFolder.DeleteAsync(); // delete all temp files added
             Frame.GoBack();
         }
 
@@ -135,7 +136,7 @@ namespace Recipe_Book
             StorageFile imageFile = await picker.PickSingleFileAsync();
             if (imageFile != null)
             {
-                StorageFile tempImage = await imageFile.CopyAsync(imageFolder);
+                StorageFile tempImage = await imageFile.CopyAsync(tempImageFolder);
                 Uri imageUri = new Uri(tempImage.Path, UriKind.Absolute);
                 RecipeImage newImage = null;
                 BitmapImage addedImage = null;
@@ -155,8 +156,9 @@ namespace Recipe_Book
                     addedImage.UriSource = imageUri;
                     newImage = new RecipeImage(addedImage);
                 }
-                Debug.WriteLine(imageUri.AbsoluteUri);
+                
                 newImage.ImagePath = imageUri.AbsoluteUri;
+                Debug.WriteLine(newImage.ImagePath);
                 images.Add(newImage);
                 this.imageFlipView.SelectedIndex = this.images.Count - 1;
             }

@@ -17,6 +17,7 @@ namespace Recipe_Book.ViewModels
         public static IdentifierGenerator stepIdGenerator;
 
         public static StorageFolder imageFolder;
+        public static StorageFolder tempFolder;
 
         private ObservableCollection<Recipe> recipes;
         private int selectedRecipe;

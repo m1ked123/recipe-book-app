@@ -126,11 +126,15 @@ namespace Recipe_Book
 
         private async void verifyImageFolder()
         {
+            StorageFolder tempFolder = ApplicationData.Current.TemporaryFolder;
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
             String desiredName = "images";
             StorageFolder imageFolder =
                 await localFolder.CreateFolderAsync(desiredName, CreationCollisionOption.OpenIfExists);
+            StorageFolder tempImageFolder =
+                await tempFolder.CreateFolderAsync(desiredName, CreationCollisionOption.OpenIfExists);
             RecipeList.imageFolder = imageFolder;
+            RecipeList.tempFolder = tempImageFolder;
         }
     }
 }
