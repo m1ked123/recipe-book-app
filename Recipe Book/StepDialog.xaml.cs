@@ -1,4 +1,5 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,7 +42,8 @@ namespace Recipe_Book
             String stepDescriptionText = this.stepDescription.Text;
             if (stepDescriptionText.Length > 0)
             {
-                newRecipeStep = new RecipeStep(stepDescriptionText);
+                long id = RecipeList.stepIdGenerator.getId();
+                newRecipeStep = new RecipeStep(id, 0, stepDescriptionText);
             }
         }
 

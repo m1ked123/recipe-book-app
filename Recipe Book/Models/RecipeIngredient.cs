@@ -9,12 +9,19 @@ namespace Recipe_Book.Models
 {
     public class RecipeIngredient : INotifyPropertyChanged
     {
+        public const String TABLE_NAME = "INGREDIENTS";
+
+        private long id;
         private double quantity;
         private String unitOfMeasure;
         private String ingredientName;
+        private long recipeId;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets or sets the quantity of this recipe ingredient.
+        /// </summary>
         public double Quantity
         {
             get
@@ -27,6 +34,10 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the unit of measure used for the recipe
+        /// ingredient
+        /// </summary>
         public String UnitOfMeasure
         {
             get
@@ -39,6 +50,9 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the name of this ingredient
+        /// </summary>
         public String IngredientName
         {
             get
@@ -51,11 +65,105 @@ namespace Recipe_Book.Models
             }
         }
 
-        public RecipeIngredient(double quantity, String unitOfMeasure, String ingredientName)
+        /// <summary>
+        /// Gets the ID of this ingredient
+        /// </summary>
+        public long ID
+        {
+            get
+            {
+                return getId();
+            }
+            private set { }
+        }
+
+        /// <summary>
+        /// Gets the ID of the recipe for this ingredient
+        /// </summary>
+        public long RecipeID
+        {
+            get
+            {
+                return getRecipeId();
+            }
+            set
+            {
+                setRecipeId(value);
+            }
+        }
+
+        /// <summary>
+        /// Constructs a new ingredient with the given ID, related
+        /// to the recipe with the given ID, in the given quantity,
+        /// with the given unit of measure, and the given name.
+        /// </summary>
+        /// <param name="id">
+        /// the ID for this ingredient
+        /// </param>
+        /// <param name="recipeId">
+        /// the id of the recipe this ingredient is related to
+        /// </param>
+        /// <param name="quantity">
+        /// the amount of this ingredient in the related recipe
+        /// </param>
+        /// <param name="unitOfMeasure">
+        /// the unit of measure for the quantity of this ingredient
+        /// </param>
+        /// <param name="ingredientName">
+        /// the name of this ingredient
+        /// </param>
+        public RecipeIngredient(long id, double quantity, 
+            String unitOfMeasure, String ingredientName)
         {
             this.quantity = quantity;
             this.unitOfMeasure = unitOfMeasure;
             this.ingredientName = ingredientName;
+            this.id = id;
+            this.recipeId = -1;
+        }
+
+        /// <summary>
+        /// Gets the name of this ingredient
+        /// </summary>
+        /// <returns>
+        /// the name of this ingredient
+        /// </returns>
+        public String getName()
+        {
+            return this.ingredientName;
+        }
+
+        /// <summary>
+        /// Gets the ID of this ingredient
+        /// </summary>
+        /// <returns>
+        /// the ID of this ingredient
+        /// </returns>
+        public long getId()
+        {
+            return this.id;
+        }
+
+        /// <summary>
+        /// Gets the ID of the recipe that  this ingredient is for
+        /// </summary>
+        /// <returns>
+        /// the id of the related recipe
+        /// </returns>
+        public long getRecipeId()
+        {
+            return this.recipeId;
+        }
+
+        /// <summary>
+        /// Sets the related recipe to the given id
+        /// </summary>
+        /// <param name="recipeId">
+        /// the id of the recipe this ingredient is related to
+        /// </param>
+        public void setRecipeId(long recipeId)
+        {
+            this.recipeId = recipeId;
         }
 
         public void setQuantity(double newQuantity)

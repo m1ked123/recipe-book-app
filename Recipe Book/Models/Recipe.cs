@@ -1,12 +1,21 @@
-﻿using System;
+﻿using Recipe_Book.Utils;
+using Recipe_Book.ViewModels;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Recipe_Book.Models
 {
     public class Recipe : INotifyPropertyChanged
     {
+        /// <summary>
+        /// The name of the SQLite table used to store recipes
+        /// </summary>
+        public const String TABLE_NAME = "RECIPES";
+
         private String name;
         private long id;
         private double rating;
@@ -107,13 +116,13 @@ namespace Recipe_Book.Models
 
 
         // TODO: consider cleaning up these constructors
-        public Recipe() : this("New Recipe") {}
+        public Recipe() : this("New Recipe") { }
 
-        public Recipe(String name) : this(name, -1) {}
+        public Recipe(String name) : this(name, -1) { }
 
-        public Recipe(String name, long id) : this(name, id, 0) {}
+        public Recipe(String name, long id) : this(name, id, 0) { }
 
-        public Recipe(String name, long id, double rating) : this(name, id, 0, "Never") {}
+        public Recipe(String name, long id, double rating) : this(name, id, rating, "Never") { }
 
         public Recipe(String name, long id, double rating, String lastMade)
         {
@@ -126,24 +135,77 @@ namespace Recipe_Book.Models
             this.recipeSteps = new ObservableCollection<RecipeStep>();
         }
 
-        public void addImage(String imagePath)
-        {
-            this.recipeImages.Add(new RecipeImage(imagePath));
-        }
-
         public void addImage(RecipeImage newImage)
         {
             this.recipeImages.Add(newImage);
         }
 
-        public void setImages(ObservableCollection<RecipeImage> newImages)
+        public async void setImages(ObservableCollection<RecipeImage> newImages)
         {
-            this.recipeImages = newImages;
+            if (newImages != null)
+            {
+                for (int i = 0; i < newImages.Count; i++)
+                {
+                    RecipeImage newImage = newImages[i];
+                    if (newImage.RecipeID == -1)
+                    {
+                        StorageFolder imageFolder = await RecipeList.imageFolder.CreateFolderAsync("" + this.id, CreationCollisionOption.OpenIfExists);
+                        StorageFile imageFile = await StorageFile.GetFileFromPathAsync(newImage.ImagePath);
+                        if (imageFile != null)
+                        {
+                            BitmapImage image = null;
+                            StorageFile savingImage = await imageFile.CopyAsync(imageFolder);
+
+                            if (imageFile.IsAvailable)
+                            {
+                                using (IRandomAccessStream stream = await savingImage.OpenAsync(FileAccessMode.Read))
+                                {
+                                    image = new BitmapImage();
+                                    await image.SetSourceAsync(stream);
+                                    newImage.setInternalImage(image);
+                                    stream.Dispose();
+                                }
+                            }
+                            else
+                            {
+                                image = new BitmapImage();
+                                image.UriSource = new Uri(savingImage.Path);
+                                newImage.setInternalImage(image);
+                            }
+                            newImage.ImagePath = savingImage.Path;
+                        }
+
+                        newImage.setRecipeId(this.id);
+                        RecipeBookDataAccessor.addImage(newImage);
+                    }
+                }
+                this.recipeImages = newImages;
+            }
         }
 
+        /// <summary>
+        /// Sets the ingredients of this recipe to the given list of
+        /// ingredients. 
+        /// </summary>
+        /// <param name="newIngredients">
+        /// the list of ingredients to change the current list of 
+        /// ingredients to
+        /// </param>
         public void setIngredients(ObservableCollection<RecipeIngredient> newIngredients)
         {
-            this.recipeIngredients = newIngredients;
+            if (newIngredients != null)
+            {
+                for (int i = 0; i < newIngredients.Count; i++)
+                {
+                    RecipeIngredient ingredient = newIngredients[i];
+                    if (ingredient.getRecipeId() == -1)
+                    {
+                        ingredient.setRecipeId(this.id);
+                        RecipeBookDataAccessor.addIngredient(ingredient);
+                    }
+                }
+                this.recipeIngredients = newIngredients;
+            }
         }
 
         /// <summary>
@@ -168,6 +230,15 @@ namespace Recipe_Book.Models
         {
             if (newRecipeSteps != null)
             {
+                for (int i = 0; i < newRecipeSteps.Count; i++)
+                {
+                    RecipeStep step = newRecipeSteps[i];
+                    if (step.RecipeID == -1)
+                    {
+                        step.setRecipeId(this.id);
+                        RecipeBookDataAccessor.addStep(step);
+                    }
+                }
                 this.recipeSteps = newRecipeSteps;
             }
         }

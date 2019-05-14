@@ -1,4 +1,5 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.Utils;
 using Recipe_Book.ViewModels;
 using System;
 using System.Collections.ObjectModel;
@@ -25,6 +26,7 @@ namespace Recipe_Book
         private ObservableCollection<RecipeImage> images;
         private ObservableCollection<RecipeIngredient> ingredients;
         private ObservableCollection<RecipeStep> steps;
+        private StorageFolder tempImageFolder;
 
         public RecipeForm()
         {
@@ -40,7 +42,7 @@ namespace Recipe_Book
          *  Existing recipe. If so, load that one. Otherwise, create
          *  a new recipe and use that as the context for this form.
          */
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -53,10 +55,11 @@ namespace Recipe_Book
                     ingredients.Add(recipe.RecipeIngredients[i]);
                 }
 
-                for (int i = 0; i < recipe.RecipeImages.Count; i++) {
+                for (int i = 0; i < recipe.RecipeImages.Count; i++)
+                {
                     images.Add(recipe.RecipeImages[i]);
                 }
-                
+
                 for (int i = 0; i < recipe.RecipeSteps.Count; i++)
                 {
                     steps.Add(recipe.RecipeSteps[i]);
@@ -65,8 +68,12 @@ namespace Recipe_Book
             else
             {
                 // we're creating a new recipe
-                recipe = new Recipe(); 
+                recipe = new Recipe();
+                recipe.ID = RecipeList.recipeIdGenerator.getId();
             }
+
+            tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.OpenIfExists);
+
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
             this.recipeSteps.ItemsSource = steps;
@@ -95,6 +102,7 @@ namespace Recipe_Book
             else
             {
                 recipes.setEditing(false);
+                RecipeBookDataAccessor.updateRecipe(recipe);
             }
             Frame.GoBack();
         }
@@ -102,12 +110,13 @@ namespace Recipe_Book
         /*
          * Do not save any changes and exit the edit session.
          */
-        private void cancelRecipeCreation(object sender, RoutedEventArgs e)
+        private async void cancelRecipeCreation(object sender, RoutedEventArgs e)
         {
             if (recipes.isEditing())
             {
                 recipes.setEditing(false);
             }
+            await tempImageFolder.DeleteAsync(); // delete all temp files added
             Frame.GoBack();
         }
 
@@ -127,12 +136,13 @@ namespace Recipe_Book
             StorageFile imageFile = await picker.PickSingleFileAsync();
             if (imageFile != null)
             {
-                Uri imageUri = new Uri(imageFile.Path, UriKind.Absolute);
+                StorageFile tempImage = await imageFile.CopyAsync(tempImageFolder);
+                Uri imageUri = new Uri(tempImage.Path, UriKind.Absolute);
                 RecipeImage newImage = null;
                 BitmapImage addedImage = null;
-                if (imageFile.IsAvailable)
+                if (tempImage.IsAvailable)
                 {
-                    using (IRandomAccessStream stream = await imageFile.OpenAsync(FileAccessMode.Read))
+                    using (IRandomAccessStream stream = await tempImage.OpenAsync(FileAccessMode.Read))
                     {
                         addedImage = new BitmapImage();
                         await addedImage.SetSourceAsync(stream);
@@ -146,7 +156,9 @@ namespace Recipe_Book
                     addedImage.UriSource = imageUri;
                     newImage = new RecipeImage(addedImage);
                 }
-
+                
+                newImage.ImagePath = imageUri.AbsoluteUri;
+                Debug.WriteLine(newImage.ImagePath);
                 images.Add(newImage);
                 this.imageFlipView.SelectedIndex = this.images.Count - 1;
             }
@@ -159,8 +171,8 @@ namespace Recipe_Book
 
             if (ingredientDialog.NewIngredient != null)
             {
-                Debug.WriteLine(ingredientDialog.NewIngredient);
-                this.ingredients.Add(ingredientDialog.NewIngredient);
+                RecipeIngredient newIngredient = ingredientDialog.NewIngredient;
+                this.ingredients.Add(newIngredient);
             }
         }
 
@@ -172,6 +184,7 @@ namespace Recipe_Book
             if (newRecipeStep != null)
             {
                 this.steps.Add(newRecipeStep);
+                newRecipeStep.setOrder(this.steps.Count);
             }
         }
     }

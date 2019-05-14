@@ -1,21 +1,13 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.Utils;
 using Recipe_Book.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Recipe_Book
@@ -36,6 +28,35 @@ namespace Recipe_Book
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             recipes = new RecipeList();
+
+            verifyImageFolder();
+
+            RecipeBookDataAccessor.InitializeDatabase();
+
+            long recipeStartingId = RecipeBookDataAccessor.getMaxId(Recipe.TABLE_NAME) + 1;
+            RecipeList.recipeIdGenerator = new IdentifierGenerator(Recipe.TABLE_NAME, recipeStartingId);
+
+            long ingredientStartingId = RecipeBookDataAccessor.getMaxId(RecipeIngredient.TABLE_NAME) + 1;
+            RecipeList.ingredientIdGenerator = new IdentifierGenerator(RecipeIngredient.TABLE_NAME, ingredientStartingId);
+
+            long stepStartingId = RecipeBookDataAccessor.getMaxId(RecipeStep.TABLE_NAME) + 1;
+            RecipeList.stepIdGenerator = new IdentifierGenerator(RecipeStep.TABLE_NAME, stepStartingId);
+
+            long imageStartingId = RecipeBookDataAccessor.getMaxId(RecipeImage.TABLE_NAME) + 1;
+            RecipeList.imageIdGenerator = new IdentifierGenerator(RecipeImage.TABLE_NAME, imageStartingId);
+
+            ObservableCollection<Recipe> savedRecipes = RecipeBookDataAccessor.getSavedRecipes();
+            for (int i = 0; i < savedRecipes.Count; i++)
+            {
+                Recipe savedRecipe = savedRecipes[i];
+                ObservableCollection<RecipeIngredient> savedIngredients = RecipeBookDataAccessor.getIngredients(savedRecipe.ID);
+                ObservableCollection<RecipeStep> savedSteps = RecipeBookDataAccessor.getSteps(savedRecipe.ID);
+                ObservableCollection<RecipeImage> savedImages = RecipeBookDataAccessor.getImages(savedRecipe.ID);
+                savedRecipe.setIngredients(savedIngredients);
+                savedRecipe.setSteps(savedSteps);
+                savedRecipe.setImages(savedImages);
+            }
+            recipes.setRecipeList(savedRecipes);
         }
 
         /// <summary>
@@ -101,6 +122,19 @@ namespace Recipe_Book
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private async void verifyImageFolder()
+        {
+            StorageFolder tempFolder = ApplicationData.Current.TemporaryFolder;
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            String desiredName = "images";
+            StorageFolder imageFolder =
+                await localFolder.CreateFolderAsync(desiredName, CreationCollisionOption.OpenIfExists);
+            StorageFolder tempImageFolder =
+                await tempFolder.CreateFolderAsync(desiredName, CreationCollisionOption.OpenIfExists);
+            RecipeList.imageFolder = imageFolder;
+            RecipeList.tempFolder = tempImageFolder;
         }
     }
 }
