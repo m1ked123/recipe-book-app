@@ -23,6 +23,7 @@ namespace Recipe_Book.Utils
             units.Add("Cups");
             units.Add("Liters");
             units.Add("Milliliters");
+            units.Add(" ");
 
             return units;
         }

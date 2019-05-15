@@ -352,6 +352,24 @@ namespace Recipe_Book.Utils
         /// </param>
         public static void deleteRecipe(Recipe deletingRecipe)
         {
+            ObservableCollection<RecipeIngredient> ingredients = deletingRecipe.RecipeIngredients;
+            for (int i = 0; i < ingredients.Count; i++)
+            {
+                deleteIngredient(ingredients[i]);
+            }
+
+            ObservableCollection<RecipeStep> steps = deletingRecipe.RecipeSteps;
+            for (int i = 0; i < steps.Count; i++)
+            {
+                deleteStep(steps[i]);
+            }
+
+            ObservableCollection<RecipeImage> images = deletingRecipe.RecipeImages;
+            for (int i = 0; i < images.Count; i++)
+            {
+                deleteImage(images[i]);
+            }
+
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
 
             db.Open();
@@ -361,6 +379,75 @@ namespace Recipe_Book.Utils
 
             deleteCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
             deleteCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+
+            deleteCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
+        /// <summary>
+        /// Removes the given RecipeIngredient from the database
+        /// </summary>
+        /// <param name="deletingIngredient">
+        /// the ingredient to delete
+        /// </param>
+        public static void deleteIngredient(RecipeIngredient deletingIngredient)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand deleteCommand = new SqliteCommand();
+            deleteCommand.Connection = db;
+
+            deleteCommand.CommandText = "DELETE FROM INGREDIENTS WHERE ID = @ID";
+            deleteCommand.Parameters.AddWithValue("@ID", deletingIngredient.ID);
+
+            deleteCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
+        /// <summary>
+        /// Deletes the given recipe step from the database.
+        /// </summary>
+        /// <param name="deletingStep">
+        /// the recipe step to delete
+        /// </param>
+        public static void deleteStep(RecipeStep deletingStep)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand deleteCommand = new SqliteCommand();
+            deleteCommand.Connection = db;
+
+            deleteCommand.CommandText = "DELETE FROM STEPS WHERE ID = @ID";
+            deleteCommand.Parameters.AddWithValue("@ID", deletingStep.ID);
+
+            deleteCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
+        /// <summary>
+        /// Deletes the given image from the database
+        /// </summary>
+        /// <param name="deletingImage">
+        /// the image to delete
+        /// </param>
+        public static void deleteImage(RecipeImage deletingImage)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand deleteCommand = new SqliteCommand();
+            deleteCommand.Connection = db;
+
+            deleteCommand.CommandText = "DELETE FROM IMAGES WHERE ID = @ID";
+            deleteCommand.Parameters.AddWithValue("@ID", deletingImage.ID);
 
             deleteCommand.ExecuteNonQuery();
 

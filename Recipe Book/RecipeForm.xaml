@@ -12,7 +12,13 @@
 
     <Page.Resources>
         <DataTemplate x:Name="imagesTemplate" x:DataType="models:RecipeImage">
-            <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
+            <Image Source="{x:Bind InternalImage}" Stretch="Uniform">
+                <Image.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteImage" />
+                    </MenuFlyout>
+                </Image.ContextFlyout>
+            </Image>
         </DataTemplate>
 
         <DataTemplate x:Name="IngredientListHeaderTemplate">
@@ -35,6 +41,11 @@
                     <ColumnDefinition Width="180"/>
                     <ColumnDefinition Width="360"/>
                 </Grid.ColumnDefinitions>
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteIngredient" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
                 <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}"/>
                 <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
@@ -47,6 +58,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteStep" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
                 <TextBlock Text="{x:Bind Order}" Margin="0,0,24,0" />
                 <TextBlock Grid.Column="1" Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
             </Grid>
@@ -72,11 +88,11 @@
                     <TextBox x:Name="recipeName" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" MinWidth="320" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
                     <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=OneWay}"/>
                 </StackPanel>
-                <StackPanel  x:Name="imagesSection" Orientation="Horizontal"  RelativePanel.Below="headerInformation">
+                <StackPanel  x:Name="imagesSection" Orientation="Vertical"  RelativePanel.Below="headerInformation">
+                    <CommandBar>
+                        <AppBarButton Icon="Add" Label="Add Image" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Image" Click="addImage"/>
+                    </CommandBar>
                     <FlipView x:Name="imageFlipView" Width="300" Height="200" ItemTemplate="{StaticResource imagesTemplate}"/>
-                    <Button x:Name="addImages" RelativePanel.RightOf="imagesSection" Click="addImage" HorizontalAlignment="Right" VerticalAlignment="Stretch" FontFamily="Segoe MDL2 Assets">
-                        <SymbolIcon Symbol="Add"/>
-                    </Button>
                 </StackPanel>
                 <ListView x:Name="ingredientList" RelativePanel.Below="imagesSection" HeaderTemplate="{StaticResource IngredientListHeaderTemplate}" ItemTemplate="{StaticResource IngredientItemTemplate}" Margin="0,14,0,0">
                     <ListView.FooterTemplate>
@@ -98,7 +114,6 @@
                 </CommandBar>
                 <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Center" ItemTemplate="{StaticResource RecipeStepTemplate}" />
             </Grid>
-            
         </Grid>
     </Grid>
 </Page>
