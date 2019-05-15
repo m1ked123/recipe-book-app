@@ -220,7 +220,13 @@ namespace Recipe_Book
 
         private void deleteImage(object sender, RoutedEventArgs e)
         {
-
+            RecipeImage imageToRemove =
+                (RecipeImage)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            images.Remove(imageToRemove);
+            if (imageToRemove.ID > 0)
+            {
+                RecipeBookDataAccessor.deleteImage(imageToRemove);
+            }
         }
     }
 }

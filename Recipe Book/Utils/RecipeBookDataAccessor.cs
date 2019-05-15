@@ -364,6 +364,12 @@ namespace Recipe_Book.Utils
                 deleteStep(steps[i]);
             }
 
+            ObservableCollection<RecipeImage> images = deletingRecipe.RecipeImages;
+            for (int i = 0; i < images.Count; i++)
+            {
+                deleteImage(images[i]);
+            }
+
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
 
             db.Open();
