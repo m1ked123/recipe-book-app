@@ -37,7 +37,6 @@ namespace Recipe_Book
             this.InitializeComponent();
             recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.getRecipeList();
-            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -62,7 +61,45 @@ namespace Recipe_Book
 
         private void deleteRecipe(object sender, RoutedEventArgs e)
         {
-            recipes.removeRecipe((Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext);
+            Recipe recipeToDelete = 
+                (Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            tryDeleteRecipe(recipeToDelete);
+        }
+
+        private async void tryDeleteRecipe(Recipe recipeToDelete)
+        {
+            ContentDialog deleteConfirmationDialog = new ContentDialog
+            {
+                Title = "Permenantly delete recipe?",
+                Content = "If you delete this recipe, you won't be" +
+                " able to recover it. Are you Sure you want to delete" +
+                " it?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteConfirmationDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                int oldIndex = recipes.getRecipeList().IndexOf(recipeToDelete);
+                
+                int currSelectedRecipe = recipes.getSelectedIndex(); ;
+
+                if (currSelectedRecipe == oldIndex && currSelectedRecipe > 0)
+                {
+                    this.recipeListView.SelectedIndex = currSelectedRecipe - 1;
+                }
+                else if (currSelectedRecipe == oldIndex && currSelectedRecipe == 0)
+                {
+                    this.recipeListView.SelectedIndex = 0;
+                } else
+                {
+                    this.recipeListView.SelectedIndex = currSelectedRecipe;
+                }
+                recipes.setSelected(this.recipeListView.SelectedIndex);
+                recipes.removeRecipe(recipeToDelete);
+            }
         }
 
         private void selectRecipe(object sender, SelectionChangedEventArgs e)
@@ -89,17 +126,8 @@ namespace Recipe_Book
 
         private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
         {
-            int selectedIndex = this.recipeListView.SelectedIndex;
-            recipes.removeRecipe((Recipe)this.recipeListView.SelectedItem);
-            if (selectedIndex > 0)
-            {
-                this.recipeListView.SelectedIndex = selectedIndex - 1;
-            }
-            else
-            {
-                this.recipeListView.SelectedIndex = 0 ;
-            }
-            recipes.setSelected(this.recipeListView.SelectedIndex);
+            Recipe recipeToDelete = (Recipe)this.recipeListView.SelectedItem;
+            tryDeleteRecipe(recipeToDelete);
         }
     }
 }
