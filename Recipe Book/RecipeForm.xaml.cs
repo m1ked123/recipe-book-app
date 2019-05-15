@@ -187,5 +187,15 @@ namespace Recipe_Book
                 newRecipeStep.setOrder(this.steps.Count);
             }
         }
+
+        private void deleteIngredient(object sender, RoutedEventArgs e)
+        {
+            RecipeIngredient ingredientToRemove = (RecipeIngredient)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            ingredients.Remove(ingredientToRemove);
+            if (ingredientToRemove.ID > 0)
+            {
+                RecipeBookDataAccessor.deleteIngredient(ingredientToRemove);
+            }
+        }
     }
 }

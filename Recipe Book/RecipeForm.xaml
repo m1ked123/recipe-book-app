@@ -35,6 +35,11 @@
                     <ColumnDefinition Width="180"/>
                     <ColumnDefinition Width="360"/>
                 </Grid.ColumnDefinitions>
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteIngredient" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
                 <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
                 <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}"/>
                 <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
