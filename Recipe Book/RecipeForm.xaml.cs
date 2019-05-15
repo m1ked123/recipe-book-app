@@ -164,6 +164,10 @@ namespace Recipe_Book
             }
         }
 
+        /*
+         * Adds a new ingredient to the ingredient list for this recipe
+         * that's being added or edited in this form.
+         */
         private async void addIngredient(object sender, RoutedEventArgs e)
         {
             IngredientDialog ingredientDialog = new IngredientDialog();
@@ -188,14 +192,35 @@ namespace Recipe_Book
             }
         }
 
+        /*
+         * Deletes the recipe ingredient with the context menu that
+         * was activated.
+         */
         private void deleteIngredient(object sender, RoutedEventArgs e)
         {
-            RecipeIngredient ingredientToRemove = (RecipeIngredient)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            RecipeIngredient ingredientToRemove = 
+                (RecipeIngredient)((MenuFlyoutItem)e.OriginalSource).DataContext;
             ingredients.Remove(ingredientToRemove);
             if (ingredientToRemove.ID > 0)
             {
                 RecipeBookDataAccessor.deleteIngredient(ingredientToRemove);
             }
+        }
+
+        private void deleteStep(object sender, RoutedEventArgs e)
+        {
+            RecipeStep stepToRemove = 
+                (RecipeStep)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            steps.Remove(stepToRemove);
+            if (stepToRemove.ID > 0)
+            {
+                RecipeBookDataAccessor.deleteStep(stepToRemove);
+            }
+        }
+
+        private void deleteImage(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
