@@ -142,7 +142,8 @@ namespace Recipe_Book.ViewModels
         /// </returns>
         public Recipe getSelected()
         {
-            // TODO: handle the case when the index is out of bounds
+            
+            this.selectedRecipe = 0;
             return this.recipes[this.selectedRecipe];
         }
 

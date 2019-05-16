@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -47,10 +48,6 @@ namespace Recipe_Book
             {
                 this.recipeListView.SelectedIndex = 0;
                 this.recipes.setSelected(0);
-            }
-            else
-            {
-                this.recipeListView.SelectedIndex = recipes.getSelectedIndex();
             }
         }
 
@@ -104,8 +101,8 @@ namespace Recipe_Book
 
         private void selectRecipe(object sender, SelectionChangedEventArgs e)
         {
-            int selectedRecipe = this.recipeListView.SelectedIndex;
-            recipes.setSelected(selectedRecipe);
+            int selectedIndex = this.recipeListView.SelectedIndex;
+            recipes.setSelected(selectedIndex);
         }
 
         private void editRecipe(object sender, RoutedEventArgs e)
@@ -128,6 +125,14 @@ namespace Recipe_Book
         {
             Recipe recipeToDelete = (Recipe)this.recipeListView.SelectedItem;
             tryDeleteRecipe(recipeToDelete);
+        }
+
+        private void updateLayoutFromState(object sender, VisualStateChangedEventArgs e)
+        {
+            VisualState newState = e.NewState;
+            VisualState oldState = e.OldState;
+
+            Debug.WriteLine("Showing detail for " + recipes.getSelectedIndex());
         }
     }
 }
