@@ -1,0 +1,63 @@
+﻿<Page
+    x:Class="Recipe_Book.DetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Recipe_Book"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Recipe_Book.Models"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+    <Page.Resources>
+        <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
+            <Grid Margin="0,0,0,24">
+                <TextBlock Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="IngredientItemTemplate" x:DataType="models:RecipeIngredient">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="360"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}"/>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="ImagesTemplate" x:DataType="models:RecipeImage">
+            <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
+        </DataTemplate>
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer>
+            <Grid Margin="14,14,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel x:Name="headerInformation">
+                    <TextBlock Text="{x:Bind recipe.ID, Mode=OneWay}" />
+                    <TextBlock HorizontalAlignment="Left" Text="{x:Bind recipe.Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>
+                        <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind recipe.RecipeImages}" Height="480" MinWidth="320"/>
+                <ListView x:Name="ingredientList" Grid.Row="2" ItemsSource="{x:Bind recipe.RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
+                <ListView x:Name="recipeSteps" Grid.Row="3" HorizontalAlignment="Center" ItemsSource="{x:Bind recipe.RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

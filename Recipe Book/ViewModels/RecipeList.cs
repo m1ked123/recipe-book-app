@@ -142,8 +142,10 @@ namespace Recipe_Book.ViewModels
         /// </returns>
         public Recipe getSelected()
         {
-            
-            this.selectedRecipe = 0;
+            if (this.selectedRecipe < 0)
+            {
+                return null;
+            }
             return this.recipes[this.selectedRecipe];
         }
 
