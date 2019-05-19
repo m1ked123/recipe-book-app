@@ -81,46 +81,46 @@
         </DataTemplate>
     </Page.Resources>
 
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="updateLayout">
+            <VisualState x:Name="DefaultState">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="720" />
+                </VisualState.StateTriggers>
+            </VisualState>
+
+            <VisualState x:Name="NarrowState">
+                <VisualState.StateTriggers>
+                    <AdaptiveTrigger MinWindowWidth="0" />
+                </VisualState.StateTriggers>
+
+                <VisualState.Setters>
+                    <Setter Target="MasterColumn.Width" Value="*" />
+                    <Setter Target="DetailColumn.Width" Value="0" />
+                    <Setter Target="recipeListView.SelectionMode" Value="None"/>
+                </VisualState.Setters>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+
     <Grid>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="updateLayoutFromState">
-                <VisualState x:Name="DefaultState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="MasterColumn.Width" Value="*" />
-                        <Setter Target="DetailColumn.Width" Value="0" />
-                        <Setter Target="recipeListView.SelectionMode" Value="None"/>
-                        <Setter Target="recipeListView.IsItemClickEnabled" Value="True"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="MasterColumn" Width="320"/>
+            <ColumnDefinition x:Name="DetailColumn" Width="*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
             <AppBarButton Icon="Add" Label="Add" Click="addNewRecipe"/>
+        </CommandBar>
+        <ListView Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True" />
+        
+        <CommandBar Grid.Row="0" Grid.Column="1">
             <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
             <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
         </CommandBar>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="MasterColumn" Width="320"/>
-                <ColumnDefinition x:Name="DetailColumn" Width="*" />
-            </Grid.ColumnDefinitions>
-            <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionChanged="selectRecipe" SelectionMode="Single" ItemClick="showDetailView" />
-            <ContentPresenter x:Name="detailView" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" />
-        </Grid>
-        
+        <ContentPresenter x:Name="detailView" Grid.Row="1" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" />
     </Grid>
 </Page>

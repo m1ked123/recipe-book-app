@@ -1,6 +1,7 @@
 ﻿using Recipe_Book.Models;
 using Recipe_Book.Utils;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Windows.Storage;
 
 namespace Recipe_Book.ViewModels
@@ -144,6 +145,7 @@ namespace Recipe_Book.ViewModels
         {
             if (this.selectedRecipe < 0)
             {
+                Debug.WriteLine("recipe index in class: " + this.selectedRecipe);
                 return null;
             }
             return this.recipes[this.selectedRecipe];

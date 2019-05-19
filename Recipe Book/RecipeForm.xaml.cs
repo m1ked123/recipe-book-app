@@ -98,12 +98,14 @@ namespace Recipe_Book
             if (!recipes.isEditing())
             {
                 recipes.addRecipe(recipe);
+                recipes.setSelected(recipes.getRecipeList().Count - 1);
             }
             else
             {
                 recipes.setEditing(false);
                 RecipeBookDataAccessor.updateRecipe(recipe);
             }
+            
             Frame.GoBack();
         }
 

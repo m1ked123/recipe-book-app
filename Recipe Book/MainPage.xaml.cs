@@ -32,7 +32,6 @@ namespace Recipe_Book
     public sealed partial class MainPage : Page
     {
         private RecipeList recipes;
-        private Random r;
         public MainPage()
         {
             this.InitializeComponent();
@@ -44,16 +43,24 @@ namespace Recipe_Book
         {
             base.OnNavigatedTo(e);
 
+            int index = -1;
             if (e.Parameter == null)
             {
-                this.recipeListView.SelectedIndex = -1;
-                this.recipes.setSelected(-1);
-            } else
-            {
-                int recipeIndex = (int)e.Parameter;
-                this.recipeListView.SelectedIndex = recipeIndex;
-                this.recipes.setSelected(recipeIndex);
+                int numRecipes = recipes.getRecipeList().Count;
+                if (numRecipes != 0)
+                {
+                    index = 0;
+                }
             }
+            else
+            {
+                index = (int)e.Parameter;
+            }
+
+            Debug.WriteLine("initial index: " + index);
+            this.recipeListView.SelectedIndex = index;
+            this.recipes.setSelected(index);
+
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
         }
 
@@ -106,24 +113,6 @@ namespace Recipe_Book
             }
         }
 
-        private void selectRecipe(object sender, SelectionChangedEventArgs e)
-        {
-            int selectedIndex = this.recipeListView.SelectedIndex;
-            recipes.setSelected(selectedIndex);
-            Recipe selectedRecipe = recipes.getSelected();
-
-            bool isNarrow = AdaptiveStates.CurrentState == NarrowState;
-            if (isNarrow)
-            {
-                // Resize down to the detail item. Don't play a transition.
-                Frame.Navigate(typeof(DetailPage), recipes, new SuppressNavigationTransitionInfo());
-            } else
-            {
-                detailView.ContentTransitions.Clear();
-                detailView.ContentTransitions.Add(new EntranceThemeTransition());
-            }
-        }
-
         private void editRecipe(object sender, RoutedEventArgs e)
         {
             Recipe clickedRecipe = (Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext;
@@ -146,7 +135,7 @@ namespace Recipe_Book
             tryDeleteRecipe(recipeToDelete);
         }
 
-        private void updateLayoutFromState(object sender, VisualStateChangedEventArgs e)
+        private void updateLayout(object sender, VisualStateChangedEventArgs e)
         {
             VisualState newState = e.NewState;
             VisualState oldState = e.OldState;
@@ -173,9 +162,18 @@ namespace Recipe_Book
 
         private void showDetailView(object sender, ItemClickEventArgs e)
         {
+            bool isNarrow = AdaptiveStates.CurrentState == NarrowState;
             int itemIndex = recipes.getRecipeList().IndexOf((Recipe)e.ClickedItem);
             recipes.setSelected(itemIndex);
-            Frame.Navigate(typeof(DetailPage), recipes, new DrillInNavigationTransitionInfo());
+            if (isNarrow)
+            {
+                Frame.Navigate(typeof(DetailPage), recipes, new DrillInNavigationTransitionInfo());
+            }
+            else
+            {
+                detailView.ContentTransitions.Clear();
+                detailView.ContentTransitions.Add(new EntranceThemeTransition());
+            }
         }
     }
 }
