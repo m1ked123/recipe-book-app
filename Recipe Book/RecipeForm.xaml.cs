@@ -2,6 +2,7 @@
 using Recipe_Book.Utils;
 using Recipe_Book.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.Storage;
@@ -105,7 +106,23 @@ namespace Recipe_Book
                 recipes.setEditing(false);
                 RecipeBookDataAccessor.updateRecipe(recipe);
             }
-            
+
+            IList<PageStackEntry> backStack = Frame.BackStack;
+            int backStackCount = backStack.Count;
+            if (backStackCount > 0)
+            {
+                PageStackEntry masterPageEntry = backStack[backStackCount - 1];
+                backStack.RemoveAt(backStackCount - 1);
+
+                PageStackEntry modifiedEntry = new PageStackEntry(
+                    masterPageEntry.SourcePageType,
+                    recipes.getSelectedIndex(),
+                    masterPageEntry.NavigationTransitionInfo
+                    );
+
+                backStack.Add(modifiedEntry);
+            }
+
             Frame.GoBack();
         }
 
@@ -158,7 +175,7 @@ namespace Recipe_Book
                     addedImage.UriSource = imageUri;
                     newImage = new RecipeImage(addedImage);
                 }
-                
+
                 newImage.ImagePath = imageUri.AbsoluteUri;
                 Debug.WriteLine(newImage.ImagePath);
                 images.Add(newImage);
@@ -200,7 +217,7 @@ namespace Recipe_Book
          */
         private void deleteIngredient(object sender, RoutedEventArgs e)
         {
-            RecipeIngredient ingredientToRemove = 
+            RecipeIngredient ingredientToRemove =
                 (RecipeIngredient)((MenuFlyoutItem)e.OriginalSource).DataContext;
             ingredients.Remove(ingredientToRemove);
             if (ingredientToRemove.ID > 0)
@@ -211,7 +228,7 @@ namespace Recipe_Book
 
         private void deleteStep(object sender, RoutedEventArgs e)
         {
-            RecipeStep stepToRemove = 
+            RecipeStep stepToRemove =
                 (RecipeStep)((MenuFlyoutItem)e.OriginalSource).DataContext;
             steps.Remove(stepToRemove);
             if (stepToRemove.ID > 0)

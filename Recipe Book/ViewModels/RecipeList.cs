@@ -145,7 +145,6 @@ namespace Recipe_Book.ViewModels
         {
             if (this.selectedRecipe < 0)
             {
-                Debug.WriteLine("recipe index in class: " + this.selectedRecipe);
                 return null;
             }
             return this.recipes[this.selectedRecipe];
