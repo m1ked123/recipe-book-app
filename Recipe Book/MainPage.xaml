@@ -8,6 +8,11 @@
     xmlns:models="using:Recipe_Book.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
     <Page.Resources>
         <DataTemplate x:Key="RecipeItemTemplate" x:DataType="models:Recipe">
             <Grid>
@@ -29,8 +34,8 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
-            <ScrollViewer>
-                <Grid Margin="14,14,0,0">
+            <ScrollViewer Margin="12">
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -45,7 +50,7 @@
                             <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
                         </StackPanel>
                     </StackPanel>
-                    <FlipView x:Name="imagesSection" Grid.Row="1" Margin="0,5,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Width="600" Height="400"/>
+                    <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Height="480" MinWidth="320"/>
                     <ListView x:Name="ingredientList" Grid.Row="2" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
                     <ListView x:Name="recipeSteps" Grid.Row="3" HorizontalAlignment="Center" ItemsSource="{x:Bind RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
                 </Grid>
@@ -77,22 +82,44 @@
     </Page.Resources>
 
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="updateLayout">
+                <VisualState x:Name="DefaultState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="MasterColumn.Width" Value="*" />
+                        <Setter Target="DetailColumn.Width" Value="0" />
+                        <!--<Setter Target="recipeListView.SelectionMode" Value="None"/>-->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="MasterColumn" Width="320"/>
+            <ColumnDefinition x:Name="DetailColumn" Width="*" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
             <AppBarButton Icon="Add" Label="Add" Click="addNewRecipe"/>
+        </CommandBar>
+        <ListView Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True"/>
+
+        <CommandBar Grid.Row="0" Grid.Column="1">
             <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
             <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
         </CommandBar>
-        <SplitView Grid.Row="1" HorizontalAlignment="Left" Height="auto" VerticalAlignment="Top" IsPaneOpen="True" DisplayMode="Inline" PaneBackground="{x:Null}">
-            <SplitView.Pane>
-               <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionChanged="selectRecipe" />
-            </SplitView.Pane>
-            <SplitView.Content>
-                <ContentPresenter x:Name="detailView" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" />
-            </SplitView.Content>
-        </SplitView>
+        <ContentPresenter x:Name="detailView" Grid.Row="1" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" />
     </Grid>
 </Page>

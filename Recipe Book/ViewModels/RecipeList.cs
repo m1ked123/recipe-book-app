@@ -1,6 +1,7 @@
 ﻿using Recipe_Book.Models;
 using Recipe_Book.Utils;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using Windows.Storage;
 
 namespace Recipe_Book.ViewModels
@@ -142,7 +143,10 @@ namespace Recipe_Book.ViewModels
         /// </returns>
         public Recipe getSelected()
         {
-            // TODO: handle the case when the index is out of bounds
+            if (this.selectedRecipe < 0)
+            {
+                return null;
+            }
             return this.recipes[this.selectedRecipe];
         }
 
