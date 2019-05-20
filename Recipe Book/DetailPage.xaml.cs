@@ -50,6 +50,17 @@ namespace Recipe_Book
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested += onBackRequested;
             systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            Window.Current.SizeChanged += windowSizeChanged;
+        }
+
+        private void windowSizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            bool shouldGoWide = Window.Current.Bounds.Width >= 720;
+            if (shouldGoWide)
+            {
+                Window.Current.SizeChanged -= windowSizeChanged;
+                Frame.GoBack(new EntranceNavigationTransitionInfo());
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -59,6 +70,7 @@ namespace Recipe_Book
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested -= onBackRequested;
             systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            Window.Current.SizeChanged -= windowSizeChanged;
         }
 
         private void onBackRequested(object sender, BackRequestedEventArgs e)

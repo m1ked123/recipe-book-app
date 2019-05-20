@@ -98,7 +98,7 @@
                     <VisualState.Setters>
                         <Setter Target="MasterColumn.Width" Value="*" />
                         <Setter Target="DetailColumn.Width" Value="0" />
-                        <Setter Target="recipeListView.SelectionMode" Value="None"/>
+                        <!--<Setter Target="recipeListView.SelectionMode" Value="None"/>-->
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
@@ -114,8 +114,8 @@
         <CommandBar Grid.Row="0">
             <AppBarButton Icon="Add" Label="Add" Click="addNewRecipe"/>
         </CommandBar>
-        <ListView Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True" />
-        
+        <ListView Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True"/>
+
         <CommandBar Grid.Row="0" Grid.Column="1">
             <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
             <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
