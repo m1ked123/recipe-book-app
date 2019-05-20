@@ -1,12 +1,8 @@
 ﻿using Microsoft.Data.Sqlite;
 using Recipe_Book.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Recipe_Book.Utils
 {
@@ -103,7 +99,7 @@ namespace Recipe_Book.Utils
             db.Open();
 
             SqliteCommand selectCommand = new SqliteCommand("SELECT * from INGREDIENTS WHERE RID = " + recipeId, db);
-            
+
             SqliteDataReader query = selectCommand.ExecuteReader();
 
             while (query.Read())
@@ -137,7 +133,7 @@ namespace Recipe_Book.Utils
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
             db.Open();
 
-            SqliteCommand selectCommand = new SqliteCommand("SELECT * from STEPS WHERE RID = " + recipeId + 
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from STEPS WHERE RID = " + recipeId +
                 " ORDER BY STEPORDER ASC", db);
 
             SqliteDataReader query = selectCommand.ExecuteReader();
@@ -352,38 +348,42 @@ namespace Recipe_Book.Utils
         /// </param>
         public static void deleteRecipe(Recipe deletingRecipe)
         {
-            ObservableCollection<RecipeIngredient> ingredients = deletingRecipe.RecipeIngredients;
-            for (int i = 0; i < ingredients.Count; i++)
-            {
-                deleteIngredient(ingredients[i]);
-            }
-
-            ObservableCollection<RecipeStep> steps = deletingRecipe.RecipeSteps;
-            for (int i = 0; i < steps.Count; i++)
-            {
-                deleteStep(steps[i]);
-            }
-
-            ObservableCollection<RecipeImage> images = deletingRecipe.RecipeImages;
-            for (int i = 0; i < images.Count; i++)
-            {
-                deleteImage(images[i]);
-            }
-
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
 
             db.Open();
 
-            SqliteCommand deleteCommand = new SqliteCommand();
-            deleteCommand.Connection = db;
+            SqliteCommand deleteRecipeCommand = new SqliteCommand();
+            SqliteCommand deleteIngredientCommand = new SqliteCommand();
+            SqliteCommand deleteImagesCommand = new SqliteCommand();
+            SqliteCommand deleteStepsCommand = new SqliteCommand();
 
-            deleteCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
-            deleteCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteRecipeCommand.Connection = db;
+            deleteIngredientCommand.Connection = db;
+            deleteImagesCommand.Connection = db;
+            deleteStepsCommand.Connection = db;
 
-            deleteCommand.ExecuteNonQuery();
+            deleteRecipeCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
+            deleteIngredientCommand.CommandText = "DELETE FROM INGREDIENTS WHERE RID = @ID";
+            deleteImagesCommand.CommandText = "DELETE FROM IMAGES WHERE RID = @ID";
+            deleteStepsCommand.CommandText = "DELETE FROM STEPS WHERE RID = @ID";
+
+            deleteRecipeCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteIngredientCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteImagesCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteStepsCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+
+            deleteRecipeCommand.ExecuteNonQuery();
+            deleteStepsCommand.ExecuteNonQuery();
+            deleteIngredientCommand.ExecuteNonQuery();
+            deleteImagesCommand.ExecuteNonQuery();
 
             db.Close();
         }
+
+        //private int removeDataForRecipeId(String tableName, long rid)
+        //{
+
+        //}
 
         /// <summary>
         /// Removes the given RecipeIngredient from the database
