@@ -23,7 +23,6 @@ namespace Recipe_Book
     {
         private RecipeList recipes; // The recipe list ViewModel
         private Recipe recipe; // the recipe being edited/created in this form
-        private Random r;
         private ObservableCollection<RecipeImage> images;
         private ObservableCollection<RecipeIngredient> ingredients;
         private ObservableCollection<RecipeStep> steps;
@@ -32,7 +31,6 @@ namespace Recipe_Book
         public RecipeForm()
         {
             this.InitializeComponent();
-            r = new Random();
             images = new ObservableCollection<RecipeImage>();
             ingredients = new ObservableCollection<RecipeIngredient>();
             steps = new ObservableCollection<RecipeStep>();
