@@ -3,6 +3,7 @@ using Recipe_Book.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
@@ -150,6 +151,7 @@ namespace Recipe_Book.Models
                     if (newImage.RecipeID == -1)
                     {
                         StorageFolder imageFolder = await RecipeList.imageFolder.CreateFolderAsync("" + this.id, CreationCollisionOption.OpenIfExists);
+                        Debug.WriteLine(newImage.ImagePath);
                         StorageFile imageFile = await StorageFile.GetFileFromPathAsync(newImage.ImagePath);
                         if (imageFile != null)
                         {

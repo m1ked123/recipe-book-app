@@ -6,13 +6,16 @@ using System.Diagnostics;
 
 namespace Recipe_Book.Utils
 {
+    /// <summary>
+    /// Class RecipeBookDataAccessor contains several static methods
+    /// that are used to persist data in the application database.
+    /// </summary>
     public class RecipeBookDataAccessor
     {
-        public const String RECIPE_TABLE_NAME = "RECIPES";
-        public const String INGREDIENT_TABLE_NAME = "INGREDIENTS";
-        public const String IMAGE_TABLE_NAME = "IMAGES";
-        public const String STEP_TABLE_NAME = "STEPS";
-
+        /// <summary>
+        /// Initializes the database that will be used to store recipe
+        /// book items.
+        /// </summary>
         public static void InitializeDatabase()
         {
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
@@ -30,20 +33,22 @@ namespace Recipe_Book.Utils
                     "IMAGES (ID INTEGER PRIMARY KEY, PATH VARCHAR(1000), " +
                     "RID INTEGER)";
                 SqliteCommand createImageDb = new SqliteCommand(createImageDbText, db);
-                createImageDb.ExecuteReader();
+                createImageDb.ExecuteNonQuery();
 
                 String createIngredientDbText = "CREATE TABLE IF NOT " +
                     "EXISTS INGREDIENTS (ID INTEGER PRIMARY KEY, " +
                     "QUANTITY DOUBLE, UOM VARCHAR(50), NAME VARCHAR(100)," +
                     "RID INTEGER)";
                 SqliteCommand createIngredientDb = new SqliteCommand(createIngredientDbText, db);
-                createIngredientDb.ExecuteReader();
+                createIngredientDb.ExecuteNonQuery();
 
                 String createStepsDbText = "CREATE TABLE IF NOT " +
                     "EXISTS STEPS (ID INTEGER PRIMARY KEY, STEPORDER INTEGER, " +
                     "DESCRIPTION VARCHAR(1000), RID INTEGER)";
                 SqliteCommand createStepsDb = new SqliteCommand(createStepsDbText, db);
-                createStepsDb.ExecuteReader();
+                createStepsDb.ExecuteNonQuery();
+
+                db.Close();
 
             }
             catch (SqliteException ex)
@@ -153,6 +158,17 @@ namespace Recipe_Book.Utils
             return savedSteps;
         }
 
+        /// <summary>
+        /// Gets a list of all the images that are associated to the
+        /// given recipe ID.
+        /// </summary>
+        /// <param name="recipeId">
+        /// the ID of the recipe for which images will be retrieved.
+        /// </param>
+        /// <returns>
+        /// an observable collection of images associated to the given
+        /// recipe.
+        /// </returns>
         public static ObservableCollection<RecipeImage> getImages(long recipeId)
         {
             ObservableCollection<RecipeImage> savedImages = new ObservableCollection<RecipeImage>();
@@ -292,6 +308,12 @@ namespace Recipe_Book.Utils
             db.Close();
         }
 
+        /// <summary>
+        /// Adds the given recipe image to the database.
+        /// </summary>
+        /// <param name="newImage">
+        /// the new image to add
+        /// </param>
         public static void addImage(RecipeImage newImage)
         {
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
@@ -379,11 +401,6 @@ namespace Recipe_Book.Utils
 
             db.Close();
         }
-
-        //private int removeDataForRecipeId(String tableName, long rid)
-        //{
-
-        //}
 
         /// <summary>
         /// Removes the given RecipeIngredient from the database
