@@ -1,22 +1,21 @@
 ﻿using Microsoft.Data.Sqlite;
 using Recipe_Book.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Recipe_Book.Utils
 {
+    /// <summary>
+    /// Class RecipeBookDataAccessor contains several static methods
+    /// that are used to persist data in the application database.
+    /// </summary>
     public class RecipeBookDataAccessor
     {
-        public const String RECIPE_TABLE_NAME = "RECIPES";
-        public const String INGREDIENT_TABLE_NAME = "INGREDIENTS";
-        public const String IMAGE_TABLE_NAME = "IMAGES";
-        public const String STEP_TABLE_NAME = "STEPS";
-
+        /// <summary>
+        /// Initializes the database that will be used to store recipe
+        /// book items.
+        /// </summary>
         public static void InitializeDatabase()
         {
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
@@ -34,20 +33,22 @@ namespace Recipe_Book.Utils
                     "IMAGES (ID INTEGER PRIMARY KEY, PATH VARCHAR(1000), " +
                     "RID INTEGER)";
                 SqliteCommand createImageDb = new SqliteCommand(createImageDbText, db);
-                createImageDb.ExecuteReader();
+                createImageDb.ExecuteNonQuery();
 
                 String createIngredientDbText = "CREATE TABLE IF NOT " +
                     "EXISTS INGREDIENTS (ID INTEGER PRIMARY KEY, " +
                     "QUANTITY DOUBLE, UOM VARCHAR(50), NAME VARCHAR(100)," +
                     "RID INTEGER)";
                 SqliteCommand createIngredientDb = new SqliteCommand(createIngredientDbText, db);
-                createIngredientDb.ExecuteReader();
+                createIngredientDb.ExecuteNonQuery();
 
                 String createStepsDbText = "CREATE TABLE IF NOT " +
                     "EXISTS STEPS (ID INTEGER PRIMARY KEY, STEPORDER INTEGER, " +
                     "DESCRIPTION VARCHAR(1000), RID INTEGER)";
                 SqliteCommand createStepsDb = new SqliteCommand(createStepsDbText, db);
-                createStepsDb.ExecuteReader();
+                createStepsDb.ExecuteNonQuery();
+
+                db.Close();
 
             }
             catch (SqliteException ex)
@@ -103,7 +104,7 @@ namespace Recipe_Book.Utils
             db.Open();
 
             SqliteCommand selectCommand = new SqliteCommand("SELECT * from INGREDIENTS WHERE RID = " + recipeId, db);
-            
+
             SqliteDataReader query = selectCommand.ExecuteReader();
 
             while (query.Read())
@@ -137,7 +138,7 @@ namespace Recipe_Book.Utils
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
             db.Open();
 
-            SqliteCommand selectCommand = new SqliteCommand("SELECT * from STEPS WHERE RID = " + recipeId + 
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from STEPS WHERE RID = " + recipeId +
                 " ORDER BY STEPORDER ASC", db);
 
             SqliteDataReader query = selectCommand.ExecuteReader();
@@ -157,6 +158,17 @@ namespace Recipe_Book.Utils
             return savedSteps;
         }
 
+        /// <summary>
+        /// Gets a list of all the images that are associated to the
+        /// given recipe ID.
+        /// </summary>
+        /// <param name="recipeId">
+        /// the ID of the recipe for which images will be retrieved.
+        /// </param>
+        /// <returns>
+        /// an observable collection of images associated to the given
+        /// recipe.
+        /// </returns>
         public static ObservableCollection<RecipeImage> getImages(long recipeId)
         {
             ObservableCollection<RecipeImage> savedImages = new ObservableCollection<RecipeImage>();
@@ -296,6 +308,12 @@ namespace Recipe_Book.Utils
             db.Close();
         }
 
+        /// <summary>
+        /// Adds the given recipe image to the database.
+        /// </summary>
+        /// <param name="newImage">
+        /// the new image to add
+        /// </param>
         public static void addImage(RecipeImage newImage)
         {
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
@@ -352,35 +370,34 @@ namespace Recipe_Book.Utils
         /// </param>
         public static void deleteRecipe(Recipe deletingRecipe)
         {
-            ObservableCollection<RecipeIngredient> ingredients = deletingRecipe.RecipeIngredients;
-            for (int i = 0; i < ingredients.Count; i++)
-            {
-                deleteIngredient(ingredients[i]);
-            }
-
-            ObservableCollection<RecipeStep> steps = deletingRecipe.RecipeSteps;
-            for (int i = 0; i < steps.Count; i++)
-            {
-                deleteStep(steps[i]);
-            }
-
-            ObservableCollection<RecipeImage> images = deletingRecipe.RecipeImages;
-            for (int i = 0; i < images.Count; i++)
-            {
-                deleteImage(images[i]);
-            }
-
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
 
             db.Open();
 
-            SqliteCommand deleteCommand = new SqliteCommand();
-            deleteCommand.Connection = db;
+            SqliteCommand deleteRecipeCommand = new SqliteCommand();
+            SqliteCommand deleteIngredientCommand = new SqliteCommand();
+            SqliteCommand deleteImagesCommand = new SqliteCommand();
+            SqliteCommand deleteStepsCommand = new SqliteCommand();
 
-            deleteCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
-            deleteCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteRecipeCommand.Connection = db;
+            deleteIngredientCommand.Connection = db;
+            deleteImagesCommand.Connection = db;
+            deleteStepsCommand.Connection = db;
 
-            deleteCommand.ExecuteNonQuery();
+            deleteRecipeCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
+            deleteIngredientCommand.CommandText = "DELETE FROM INGREDIENTS WHERE RID = @ID";
+            deleteImagesCommand.CommandText = "DELETE FROM IMAGES WHERE RID = @ID";
+            deleteStepsCommand.CommandText = "DELETE FROM STEPS WHERE RID = @ID";
+
+            deleteRecipeCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteIngredientCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteImagesCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteStepsCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+
+            deleteRecipeCommand.ExecuteNonQuery();
+            deleteStepsCommand.ExecuteNonQuery();
+            deleteIngredientCommand.ExecuteNonQuery();
+            deleteImagesCommand.ExecuteNonQuery();
 
             db.Close();
         }

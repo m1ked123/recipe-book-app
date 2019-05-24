@@ -71,7 +71,7 @@ namespace Recipe_Book
                 recipe.ID = RecipeList.recipeIdGenerator.getId();
             }
 
-            tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.OpenIfExists);
+            tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.ReplaceExisting);
 
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
@@ -82,7 +82,7 @@ namespace Recipe_Book
          * Save the changes made to an existing recipe or add the new
          * recipe to the recipe list.
          */
-        private void saveRecipe(object sender, RoutedEventArgs e)
+        private async void saveRecipe(object sender, RoutedEventArgs e)
         {
             String newRecipeName = this.recipeName.Text;
             double newRecipeRating = this.recipeRating.Value;
@@ -120,7 +120,6 @@ namespace Recipe_Book
 
                 backStack.Add(modifiedEntry);
             }
-
             Frame.GoBack();
         }
 
@@ -175,7 +174,6 @@ namespace Recipe_Book
                 }
 
                 newImage.ImagePath = imageUri.AbsoluteUri;
-                Debug.WriteLine(newImage.ImagePath);
                 images.Add(newImage);
                 this.imageFlipView.SelectedIndex = this.images.Count - 1;
             }
