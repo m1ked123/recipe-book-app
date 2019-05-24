@@ -108,7 +108,7 @@
                 <CommandBar>
                     <AppBarButton Icon="Add" Label="Add Step" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Step" Click="addStep" />
                 </CommandBar>
-                <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Center" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" />
+                <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Center" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" CanReorderItems="True" CanDrag="True" AllowDrop="True" />
             </Grid>
         </Grid>
     </Grid>
