@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Recipe_Book.Models
 {
@@ -14,6 +15,7 @@ namespace Recipe_Book.Models
         private int order;
         private long id;
         private long recipeId;
+
 
         /// <summary>
         /// The description of this recipe step.

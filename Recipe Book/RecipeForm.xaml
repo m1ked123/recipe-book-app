@@ -40,18 +40,13 @@
         </DataTemplate>
 
         <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
-            <Grid Margin="0,12,0,12">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="64" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteStep" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>
-                <TextBlock Text="{x:Bind Order}" />
-                <TextBlock Grid.Column="1" Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
+                <TextBlock Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -108,7 +103,7 @@
                 <CommandBar>
                     <AppBarButton Icon="Add" Label="Add Step" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Step" Click="addStep" />
                 </CommandBar>
-                <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Center" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" CanReorderItems="True" CanDrag="True" AllowDrop="True" />
+                <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" CanReorderItems="True" AllowDrop="True" IsItemClickEnabled="True" HorizontalContentAlignment="Stretch" />
             </Grid>
         </Grid>
     </Grid>

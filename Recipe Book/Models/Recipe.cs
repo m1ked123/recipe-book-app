@@ -238,11 +238,19 @@ namespace Recipe_Book.Models
                     if (step.RecipeID == -1)
                     {
                         step.setRecipeId(this.id);
+                        step.setOrder(i);
                         RecipeBookDataAccessor.addStep(step);
+                    } else
+                    {
+                        if (step.Order != i)
+                        {
+                            step.setOrder(i);
+                        }
+                        RecipeBookDataAccessor.updateStep(step);
                     }
                 }
                 this.recipeSteps = newRecipeSteps;
-            }
+            } 
         }
     }
 }
