@@ -200,7 +200,7 @@ namespace Recipe_Book
         {
             StepDialog stepDialog = new StepDialog();
             await stepDialog.ShowAsync();
-            RecipeStep newRecipeStep = stepDialog.NewRecipeStep;
+            RecipeStep newRecipeStep = stepDialog.TargetRecipeStep;
             if (newRecipeStep != null)
             {
                 this.steps.Add(newRecipeStep);
@@ -241,6 +241,19 @@ namespace Recipe_Book
             if (imageToRemove.ID > 0)
             {
                 RecipeBookDataAccessor.deleteImage(imageToRemove);
+            }
+        }
+
+        private async void editStep(object sender, RoutedEventArgs e)
+        {
+            RecipeStep stepToEdit = (RecipeStep)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            int stepIndex = steps.IndexOf(stepToEdit);
+            StepDialog stepDialog = new StepDialog(stepToEdit);
+            await stepDialog.ShowAsync();
+            RecipeStep updatedStep = stepDialog.TargetRecipeStep;
+            if (updatedStep != null)
+            {
+                this.steps[stepIndex] = updatedStep;
             }
         }
     }

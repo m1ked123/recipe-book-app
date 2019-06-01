@@ -43,6 +43,7 @@
             <Grid>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
+                        <MenuFlyoutItem Text="Edit" Icon="Edit" Click="editStep" />
                         <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteStep" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>

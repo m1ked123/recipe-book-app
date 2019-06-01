@@ -21,13 +21,13 @@ namespace Recipe_Book
 {
     public sealed partial class StepDialog : ContentDialog
     {
-        private RecipeStep newRecipeStep;
+        private RecipeStep targetRecipeStep;
 
-        public RecipeStep NewRecipeStep
+        public RecipeStep TargetRecipeStep
         {
             get
             {
-                return this.newRecipeStep;
+                return this.targetRecipeStep;
             }
             private set { }
         }
@@ -37,13 +37,27 @@ namespace Recipe_Book
             this.InitializeComponent();
         }
 
+        public StepDialog(RecipeStep editingStep)
+        {
+            this.InitializeComponent();
+            this.targetRecipeStep = editingStep;
+            this.stepDescription.Text = editingStep.StepDescription;
+        }
+
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             String stepDescriptionText = this.stepDescription.Text;
             if (stepDescriptionText.Length > 0)
             {
-                long id = RecipeList.stepIdGenerator.getId();
-                newRecipeStep = new RecipeStep(id, 0, stepDescriptionText);
+                if (targetRecipeStep == null)
+                {
+                    long id = RecipeList.stepIdGenerator.getId();
+                    targetRecipeStep = new RecipeStep(id, 0, stepDescriptionText);
+                } else
+                {
+                    targetRecipeStep.setDescription(stepDescriptionText);
+                }
+                
             }
         }
 
