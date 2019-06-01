@@ -309,6 +309,32 @@ namespace Recipe_Book.Utils
         }
 
         /// <summary>
+        /// Updates the recipe step with the given updated information.
+        /// </summary>
+        /// <param name="updatedStep">
+        /// The updated step
+        /// </param>
+        public static void updateStep(RecipeStep updatedStep)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand updateCommand = new SqliteCommand();
+            updateCommand.Connection = db;
+
+            updateCommand.CommandText = "UPDATE STEPS SET STEPORDER = @Order," +
+                " DESCRIPTION = @Description WHERE ID = @ID";
+            updateCommand.Parameters.AddWithValue("@Order", updatedStep.Order);
+            updateCommand.Parameters.AddWithValue("@Description", updatedStep.StepDescription);
+            updateCommand.Parameters.AddWithValue("@ID", updatedStep.ID);
+
+            updateCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
+        /// <summary>
         /// Adds the given recipe image to the database.
         /// </summary>
         /// <param name="newImage">
