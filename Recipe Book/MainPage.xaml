@@ -113,6 +113,7 @@
         </Grid.RowDefinitions>
         <CommandBar Grid.Row="0">
             <AppBarButton Icon="Add" Label="Add" Click="addNewRecipe"/>
+            <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
         </CommandBar>
         <ListView Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True"/>
 

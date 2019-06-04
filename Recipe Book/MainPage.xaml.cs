@@ -162,5 +162,10 @@ namespace Recipe_Book
                 detailView.ContentTransitions.Add(new EntranceThemeTransition());
             }
         }
+
+        private void showSettingsPage(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
+        }
     }
 }
