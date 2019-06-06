@@ -12,6 +12,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Button VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource NavigationBackButtonNormalStyle}" Click="goBack"/>
 
@@ -21,6 +22,17 @@
                 Empty the recipe book of all recipes.
             </TextBlock>
             <Button Content="Empty Recipe Book" Click="tryEmptyBook" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="12">
+            <TextBlock Text="Help" Margin="0,0,0,12" />
+            <TextBlock Margin="0,0,0,12" TextWrapping="WrapWholeWords">
+                This application allows you to create a simple collection
+                of recipes either that you've made or would like to make.
+                It also allows you to make adjustments to the recipe by
+                rearranging steps and adjusting ingredient amounts. You
+                can also track the different times you've made the recipe
+                and how the different outcomes ended up.
+            </TextBlock>
         </StackPanel>
     </Grid>
 </Page>
