@@ -20,6 +20,11 @@ namespace Recipe_Book.Utils
         /// </summary>
         public const long DEFAULT_STEP = 1;
 
+        /// <summary>
+        /// The default ID for an ID generator
+        /// </summary>
+        public const long DEFAULT_ID = 0;
+
         private long startingId; // the id used to start this generator
         private long nextId; // the next id in the sequence
         private String tableName; // the name of the table this generator is for
@@ -97,6 +102,17 @@ namespace Recipe_Book.Utils
         public String getTableName()
         {
             return tableName;
+        }
+
+        /// <summary>
+        /// Resets the IdentifierGenerator to a "factory default". This
+        /// should only be done if the user's db has been truncated.
+        /// </summary>
+        public void reset()
+        {
+            this.startingId = DEFAULT_ID;
+            this.nextId = startingId;
+            this.step = DEFAULT_STEP;
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using Recipe_Book.Models;
 using Recipe_Book.Utils;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using Windows.Storage;
 
 namespace Recipe_Book.ViewModels
@@ -182,6 +181,16 @@ namespace Recipe_Book.ViewModels
         public void setEditing(bool isEditing)
         {
             this.editing = isEditing;
+        }
+
+        public void empty()
+        {
+            this.recipes.Clear();
+            RecipeBookDataAccessor.emptyRecipteList();
+            recipeIdGenerator.reset();
+            imageIdGenerator.reset();
+            ingredientIdGenerator.reset();
+            stepIdGenerator.reset();
         }
     }
 }

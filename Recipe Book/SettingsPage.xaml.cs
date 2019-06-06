@@ -47,8 +47,10 @@ namespace Recipe_Book
             {
 
                 // Delete recipes in database
-                // Create a new recipe list object
+                // Empty recipe list object
+                // Delete all recipe images
                 // Set the empty button to be disabled
+                App.recipes.empty();
                 Debug.WriteLine("Recipe book emptied");
             }
         }

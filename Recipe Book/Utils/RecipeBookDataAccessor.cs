@@ -496,5 +496,37 @@ namespace Recipe_Book.Utils
 
             db.Close();
         }
+
+        /// <summary>
+        /// Empties the recipe list in the user's backend app DB.
+        /// </summary>
+        public static void emptyRecipteList()
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand truncateRecipesCommand = new SqliteCommand();
+            SqliteCommand truncateImagesCommand = new SqliteCommand();
+            SqliteCommand truncateStepsCommand = new SqliteCommand();
+            SqliteCommand truncateIngredientsCommand = new SqliteCommand();
+
+            truncateRecipesCommand.Connection = db;
+            truncateImagesCommand.Connection = db;
+            truncateStepsCommand.Connection = db;
+            truncateIngredientsCommand.Connection = db;
+
+            truncateRecipesCommand.CommandText = "DELETE FROM RECIPES";
+            truncateImagesCommand.CommandText = "DELETE FROM IMAGES";
+            truncateStepsCommand.CommandText = "DELETE FROM STEPS";
+            truncateIngredientsCommand.CommandText = "DELETE FROM INGREDIENTS";
+
+            truncateRecipesCommand.ExecuteNonQuery();
+            truncateImagesCommand.ExecuteNonQuery();
+            truncateStepsCommand.ExecuteNonQuery();
+            truncateIngredientsCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
     }
 }
