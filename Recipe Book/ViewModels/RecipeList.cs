@@ -183,7 +183,11 @@ namespace Recipe_Book.ViewModels
             this.editing = isEditing;
         }
 
-        public void empty()
+        /// <summary>
+        /// Empties this recipe list and deletes all related 
+        /// information
+        /// </summary>
+        public async void empty()
         {
             this.recipes.Clear();
             RecipeBookDataAccessor.emptyRecipteList();
@@ -191,6 +195,7 @@ namespace Recipe_Book.ViewModels
             imageIdGenerator.reset();
             ingredientIdGenerator.reset();
             stepIdGenerator.reset();
+            imageFolder.DeleteAsync();
         }
     }
 }
