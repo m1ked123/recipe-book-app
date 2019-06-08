@@ -2,6 +2,7 @@
 using Recipe_Book.Utils;
 using System.Collections.ObjectModel;
 using Windows.Storage;
+using System;
 
 namespace Recipe_Book.ViewModels
 {
@@ -142,7 +143,7 @@ namespace Recipe_Book.ViewModels
         /// </returns>
         public Recipe getSelected()
         {
-            if (this.selectedRecipe < 0)
+            if (this.selectedRecipe < 0 || this.recipes.Count == 0)
             {
                 return null;
             }
@@ -191,11 +192,12 @@ namespace Recipe_Book.ViewModels
         {
             this.recipes.Clear();
             RecipeBookDataAccessor.emptyRecipteList();
+            selectedRecipe = -1;
             recipeIdGenerator.reset();
             imageIdGenerator.reset();
             ingredientIdGenerator.reset();
             stepIdGenerator.reset();
-            imageFolder.DeleteAsync();
+            await imageFolder.DeleteAsync();
         }
     }
 }

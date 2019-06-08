@@ -151,7 +151,6 @@ namespace Recipe_Book.Models
                     if (newImage.RecipeID == -1)
                     {
                         StorageFolder imageFolder = await RecipeList.imageFolder.CreateFolderAsync("" + this.id, CreationCollisionOption.OpenIfExists);
-                        Debug.WriteLine(newImage.ImagePath);
                         StorageFile imageFile = await StorageFile.GetFileFromPathAsync(newImage.ImagePath);
                         if (imageFile != null)
                         {
