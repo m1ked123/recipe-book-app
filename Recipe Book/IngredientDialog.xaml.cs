@@ -37,7 +37,6 @@ namespace Recipe_Book
         public IngredientDialog()
         {
             this.InitializeComponent();
-            this.unitsOfMeasure.ItemsSource = RecipeUtils.getUnitsOfMeasure();
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -62,13 +61,7 @@ namespace Recipe_Book
                 canAddIngredient = false;
             }
 
-            String UOM = (String)this.unitsOfMeasure.SelectedItem;
-            if (UOM == null || UOM.Length == 0)
-            {
-                args.Cancel = true;
-                this.dialogErrorText.Text += "\nIngredient UOM cannot be empty.";
-                canAddIngredient = false;
-            }
+            String UOM = this.units.Text;
 
             if (canAddIngredient)
             {

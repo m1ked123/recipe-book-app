@@ -16,18 +16,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBox x:Name="ingredientName" Header="Ingredient" />
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,24,0,0">
-            <TextBox x:Name="ingredientQuant" Header="Quantity"/>
-            <ComboBox x:Name="unitsOfMeasure" Header="Units" Margin="24,0,0,0">
-                <ComboBoxItem></ComboBoxItem>
-                <ComboBoxItem>Cups</ComboBoxItem>
-                <ComboBoxItem>Tablespoons</ComboBoxItem>
-                <ComboBoxItem>Teaspoons</ComboBoxItem>
-            </ComboBox>
+        <StackPanel Grid.Row="0" Orientation="Vertical" >
+            <TextBox x:Name="ingredientName" Header="Ingredient" Margin="0,0,0,24" />
+            <TextBox x:Name="ingredientQuant" Header="Quantity" Margin="0,0,0,24" />
+            <TextBox x:Name="units" Header="Units" MaxLength="50" Margin="0,0,0,24"/>
         </StackPanel>
-        <TextBlock x:Name="dialogErrorText" Grid.Row="2" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}" />
+        <TextBlock x:Name="dialogErrorText" Grid.Row="1" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}" />
     </Grid>
 </ContentDialog>
