@@ -35,7 +35,7 @@ namespace Recipe_Book
             if (e.Parameter == null)
             {
                 int numRecipes = recipes.getRecipeList().Count;
-                if (numRecipes != 0)
+                if (numRecipes > 0)
                 {
                     index = 0;
                 }
@@ -132,7 +132,13 @@ namespace Recipe_Book
 
         private void updateLayoutFromState(VisualState newState, VisualState oldState)
         {
-            Recipe selectedRecipe = recipes.getSelected();
+            int selectedIndex = recipes.getSelectedIndex();
+            Debug.WriteLine("Selected index: " + selectedIndex);
+            Recipe selectedRecipe = null;
+            if (selectedIndex >= 0)
+            {
+                selectedRecipe = recipes.getSelected();
+            }
             bool isNarrow = newState == NarrowState;
             if (isNarrow && oldState == DefaultState && selectedRecipe != null)
             {
@@ -161,6 +167,11 @@ namespace Recipe_Book
                 detailView.ContentTransitions.Clear();
                 detailView.ContentTransitions.Add(new EntranceThemeTransition());
             }
+        }
+
+        private void showSettingsPage(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage));
         }
     }
 }

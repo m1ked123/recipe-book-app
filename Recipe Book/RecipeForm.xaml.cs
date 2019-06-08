@@ -233,13 +233,15 @@ namespace Recipe_Book
             }
         }
 
-        private void deleteImage(object sender, RoutedEventArgs e)
+        private async void deleteImage(object sender, RoutedEventArgs e)
         {
             RecipeImage imageToRemove =
                 (RecipeImage)((MenuFlyoutItem)e.OriginalSource).DataContext;
             images.Remove(imageToRemove);
             if (imageToRemove.ID > 0)
             {
+                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(imageToRemove.getImagePath());
+                await imageFile.DeleteAsync();
                 RecipeBookDataAccessor.deleteImage(imageToRemove);
             }
         }

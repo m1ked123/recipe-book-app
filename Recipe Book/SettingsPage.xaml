@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="Recipe_Book.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Recipe_Book"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Button VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource NavigationBackButtonNormalStyle}" Click="goBack"/>
+
+        <StackPanel Grid.Row="1" Margin="12">
+            <TextBlock Text="Empty" Margin="0,0,0,12" />
+            <TextBlock Margin="0,0,0,12">
+                Empty the recipe book of all recipes.
+            </TextBlock>
+            <Button Content="Empty Recipe Book" Click="tryEmptyBook" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="12">
+            <TextBlock Text="Help" Margin="0,0,0,12" />
+            <TextBlock Margin="0,0,0,12" TextWrapping="WrapWholeWords">
+                This application allows you to create a simple collection
+                of recipes either that you've made or would like to make.
+                It also allows you to make adjustments to the recipe by
+                rearranging steps and adjusting ingredient amounts. You
+                can also track the different times you've made the recipe
+                and how the different outcomes ended up.
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Page>
