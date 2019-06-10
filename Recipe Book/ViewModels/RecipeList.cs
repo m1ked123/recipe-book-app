@@ -7,8 +7,9 @@ using System;
 namespace Recipe_Book.ViewModels
 {
     /// <summary>
-    /// The main application view model that controls the interactions
-    /// between the UI and models behind the scenes.
+    /// Represents a list of Recipes. A recipe list allows for access
+    /// of recipes including adding, removing, and retrieving a 
+    /// recipe.
     /// </summary>
     public class RecipeList
     {
@@ -20,7 +21,10 @@ namespace Recipe_Book.ViewModels
         public static StorageFolder imageFolder;
         public static StorageFolder tempFolder;
 
-        private ObservableCollection<Recipe> recipes;
+        private const int DEFAULT_SIZE = 10;
+
+        private int size;
+        private Recipe[] recipes;
         private int selectedRecipe;
         private bool editing;
 
@@ -46,7 +50,8 @@ namespace Recipe_Book.ViewModels
         /// </summary>
         public RecipeList()
         {
-            recipes = new ObservableCollection<Recipe>();
+            recipes = new Recipe[DEFAULT_SIZE];
+            size = 0;
             selectedRecipe = 0;
             editing = false;
         }
@@ -58,28 +63,34 @@ namespace Recipe_Book.ViewModels
         /// <param name="recipes">
         /// a list of recipes to use for this view model
         /// </param>
-        public RecipeList(ObservableCollection<Recipe> recipes)
+        public RecipeList(Recipe[] recipes)
         {
             this.recipes = recipes;
+            this.size = recipes.Length;
             selectedRecipe = 0;
             editing = false;
         }
 
         /// <summary>
-        /// Gets the recipe list behind the scenes as a list.
+        /// Gets the recipe list behind the scenes as an observable
+        /// collection.
         /// </summary>
         /// <returns>
-        /// the list of recipes contained in this ViewModel
+        /// an observable list of recipes in this recipe list
         /// </returns>
         public ObservableCollection<Recipe> getRecipeList()
         {
-            return this.recipes;
+            ObservableCollection<Recipe> result = new ObservableCollection<Recipe>();
+            for (int i = 0; i < size; i++)
+            {
+                result.Add(recipes[i]);
+            }
+            return result;
         }
 
         /// <summary>
         /// Sets this recipe list to the given recipe list. If the
-        /// given list is null, this recipe list will replaced with
-        /// an ampty recipe list.
+        /// given list is null, this recipe list will remain unchanged.
         /// </summary>
         /// <param name="newRecipeList">
         /// The new list of recipes to replace this list with
@@ -88,13 +99,29 @@ namespace Recipe_Book.ViewModels
         {
             if (newRecipeList != null)
             {
-                this.recipes = newRecipeList;
+                int newRecipeCount = newRecipeList.Count;
+                if (recipes.Length < newRecipeCount)
+                {
+                    int growthFactor = newRecipeCount - recipes.Length;
+                    increseArraySize(growthFactor);
+                }
+                for (int i = 0; i < newRecipeCount; i++)
+                {
+                    recipes[i] = newRecipeList[i];
+                }
+                this.size = newRecipeCount;
             }
-            else
+        }
+
+        // Increses the size of the recipe list by a fixed number
+        private void increseArraySize(int growthFactor)
+        {
+            Recipe[] newRecipeList = new Recipe[recipes.Length + growthFactor];
+            for (int i = 0; i < this.size; i++)
             {
-                this.recipes = new ObservableCollection<Recipe>();
-                // TODO: truncate all database tables
+                newRecipeList[i] = this.recipes[i];
             }
+            this.recipes = newRecipeList;
         }
 
         /// <summary>
@@ -106,8 +133,13 @@ namespace Recipe_Book.ViewModels
         /// </param>
         public void addRecipe(Recipe newRecipe)
         {
-            this.recipes.Add(newRecipe);
+            if (this.recipes.Length <= this.size)
+            {
+                increseArraySize(100);
+            }
+            this.recipes[this.size] = newRecipe;
             RecipeBookDataAccessor.addRecipe(newRecipe);
+            this.size++;
         }
 
         /// <summary>
@@ -119,7 +151,7 @@ namespace Recipe_Book.ViewModels
         /// </param>
         public void removeRecipe(Recipe recipeToRemove)
         {
-            this.recipes.Remove(recipeToRemove);
+            // this.recipes.Remove(recipeToRemove);
             RecipeBookDataAccessor.deleteRecipe(recipeToRemove);
         }
 
@@ -143,7 +175,7 @@ namespace Recipe_Book.ViewModels
         /// </returns>
         public Recipe getSelected()
         {
-            if (this.selectedRecipe < 0 || this.recipes.Count == 0)
+            if (this.selectedRecipe < 0 || this.size == 0)
             {
                 return null;
             }
@@ -190,7 +222,7 @@ namespace Recipe_Book.ViewModels
         /// </summary>
         public async void empty()
         {
-            this.recipes.Clear();
+            this.recipes = new Recipe[this.recipes.Length];
             RecipeBookDataAccessor.emptyRecipteList();
             selectedRecipe = -1;
             recipeIdGenerator.reset();
