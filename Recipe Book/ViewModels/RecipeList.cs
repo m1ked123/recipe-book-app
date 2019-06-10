@@ -133,13 +133,37 @@ namespace Recipe_Book.ViewModels
         /// </param>
         public void addRecipe(Recipe newRecipe)
         {
-            if (this.recipes.Length <= this.size)
+            if (recipes.Length <= size)
             {
                 increseArraySize(100);
             }
-            this.recipes[this.size] = newRecipe;
+            recipes[size] = newRecipe;
             RecipeBookDataAccessor.addRecipe(newRecipe);
-            this.size++;
+            size++;
+        }
+
+        /// <summary>
+        /// Removes the recipe at the given index. If the index is
+        /// negative or if it overruns the list, this function will
+        /// throw an ArgumentOutOfRangeException.
+        /// </summary>
+        /// <param name="index">
+        /// The index of the recipe to remove from the list.
+        /// </param>
+        public void removeRecipe(int index)
+        {
+            if (index >= 0 || index <= size - 1)
+            {
+                for (int i = index; i < size; i++)
+                {
+                    this.recipes[i] = this.recipes[i + 1];
+                }
+                size--;
+            } else
+            {
+                throw new ArgumentOutOfRangeException("Index outside" +
+                    " of valid range: " + index);
+            }
         }
 
         /// <summary>
@@ -151,7 +175,15 @@ namespace Recipe_Book.ViewModels
         /// </param>
         public void removeRecipe(Recipe recipeToRemove)
         {
-            // this.recipes.Remove(recipeToRemove);
+            for (int i = 0; i < size - 1; i++)
+            {
+                Recipe r = this.recipes[i];
+                if (r != null && r.Equals(recipeToRemove))
+                {
+                    this.recipes[i] = this.recipes[i + 1];
+                    size--;
+                }
+            }
             RecipeBookDataAccessor.deleteRecipe(recipeToRemove);
         }
 
