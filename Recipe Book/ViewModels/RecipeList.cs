@@ -21,7 +21,7 @@ namespace Recipe_Book.ViewModels
         public static StorageFolder tempFolder;
 
         private ObservableCollection<Recipe> recipes;
-        private int selectedRecipe;
+        private int selectedRecipeIndex;
         private bool editing;
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Recipe_Book.ViewModels
         public RecipeList()
         {
             recipes = new ObservableCollection<Recipe>();
-            selectedRecipe = 0;
+            selectedRecipeIndex = 0;
             editing = false;
         }
 
@@ -61,7 +61,7 @@ namespace Recipe_Book.ViewModels
         public RecipeList(ObservableCollection<Recipe> recipes)
         {
             this.recipes = recipes;
-            selectedRecipe = 0;
+            selectedRecipeIndex = 0;
             editing = false;
         }
 
@@ -78,8 +78,8 @@ namespace Recipe_Book.ViewModels
 
         /// <summary>
         /// Sets this recipe list to the given recipe list. If the
-        /// given list is null, this recipe list will replaced with
-        /// an ampty recipe list.
+        /// given list is null, this function will throw an
+        /// ArgumentNullException.
         /// </summary>
         /// <param name="newRecipeList">
         /// The new list of recipes to replace this list with
@@ -88,12 +88,11 @@ namespace Recipe_Book.ViewModels
         {
             if (newRecipeList != null)
             {
-                this.recipes = newRecipeList;
+                recipes = newRecipeList;
             }
             else
             {
-                this.recipes = new ObservableCollection<Recipe>();
-                // TODO: truncate all database tables
+                throw new ArgumentNullException();
             }
         }
 
@@ -131,8 +130,13 @@ namespace Recipe_Book.ViewModels
         /// </param>
         public void setSelected(int selectedIndex)
         {
-            // TODO: handle the case when the index is out of bounds
-            this.selectedRecipe = selectedIndex;
+            if (selectedIndex < 0 || selectedIndex > recipes.Count - 1)
+            {
+                throw new ArgumentOutOfRangeException("The given index" +
+                    " is outside of the recipe list's range: " +
+                    selectedIndex, new IndexOutOfRangeException());
+            }
+            selectedRecipeIndex = selectedIndex;
         }
 
         /// <summary>
@@ -143,11 +147,11 @@ namespace Recipe_Book.ViewModels
         /// </returns>
         public Recipe getSelected()
         {
-            if (this.selectedRecipe < 0 || this.recipes.Count == 0)
+            if (selectedRecipeIndex < 0 || recipes.Count == 0)
             {
                 return null;
             }
-            return this.recipes[this.selectedRecipe];
+            return recipes[selectedRecipeIndex];
         }
 
         /// <summary>
@@ -158,7 +162,7 @@ namespace Recipe_Book.ViewModels
         /// </returns>
         public int getSelectedIndex()
         {
-            return this.selectedRecipe;
+            return selectedRecipeIndex;
         }
 
         /// <summary>
@@ -170,7 +174,7 @@ namespace Recipe_Book.ViewModels
         /// </returns>
         public bool isEditing()
         {
-            return this.editing;
+            return editing;
         }
 
         /// <summary>
@@ -181,7 +185,7 @@ namespace Recipe_Book.ViewModels
         /// </param>
         public void setEditing(bool isEditing)
         {
-            this.editing = isEditing;
+            editing = isEditing;
         }
 
         /// <summary>
@@ -190,9 +194,9 @@ namespace Recipe_Book.ViewModels
         /// </summary>
         public async void empty()
         {
-            this.recipes.Clear();
+            recipes.Clear();
             RecipeBookDataAccessor.emptyRecipteList();
-            selectedRecipe = -1;
+            selectedRecipeIndex = -1;
             recipeIdGenerator.reset();
             imageIdGenerator.reset();
             ingredientIdGenerator.reset();
