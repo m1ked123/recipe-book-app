@@ -15,7 +15,7 @@ namespace Recipe_Book.Models
     /// a name, a collection of images, a collection of ingredients,
     /// and a collection of steps that describe how to make it.
     /// </summary>
-    public class Recipe : INotifyPropertyChanged
+    public class Recipe
     {
         /// <summary>
         /// The name of the SQLite table used to store recipes
@@ -28,8 +28,6 @@ namespace Recipe_Book.Models
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets or sets the name of this recipe.
@@ -188,8 +186,16 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Sets the associated images of this recipe to the given new
+        /// set of images.
+        /// </summary>
+        /// <param name="newImages">
+        /// The new images to associate to this recipe.
+        /// </param>
         public async void setImages(ObservableCollection<RecipeImage> newImages)
         {
+            // TODO: clean up this code a bit, it's messy
             if (newImages != null)
             {
                 for (int i = 0; i < newImages.Count; i++)
