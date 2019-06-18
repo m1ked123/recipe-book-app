@@ -88,11 +88,11 @@ namespace Recipe_Book.Models
         {
             get
             {
-                return this.recipeImages;
+                return getImages();
             }
             set
             {
-                this.recipeImages = value;
+                setImages(value);
             }
         }
 
@@ -103,11 +103,11 @@ namespace Recipe_Book.Models
         {
             get
             {
-                return this.getSteps();
+                return getSteps();
             }
             set
             {
-                this.setSteps(value);
+                setSteps(value);
             }
         }
 
@@ -265,6 +265,17 @@ namespace Recipe_Book.Models
         public ObservableCollection<RecipeStep> getSteps()
         {
             return this.recipeSteps;
+        }
+
+        /// <summary>
+        /// Gets the list of images that are associated to this recipe
+        /// </summary>
+        /// <returns>
+        /// The list of images associated to this recipe
+        /// </returns>
+        public ObservableCollection<RecipeImage> getImages()
+        {
+            return recipeImages;
         }
 
         /// <summary>
