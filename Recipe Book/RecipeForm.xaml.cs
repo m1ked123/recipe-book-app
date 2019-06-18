@@ -90,7 +90,6 @@ namespace Recipe_Book
 
             recipe.Name = newRecipeName;
             recipe.Rating = newRecipeRating;
-            recipe.LastMade = "";
             recipe.setImages(images);
             recipe.setIngredients(ingredients);
             recipe.setSteps(steps);
