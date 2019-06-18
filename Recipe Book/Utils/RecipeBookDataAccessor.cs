@@ -80,7 +80,7 @@ namespace Recipe_Book.Utils
                 long id = query.GetInt64(0);
                 String name = query.GetString(1);
                 double rating = query.GetDouble(2);
-                Recipe savedRecipe = new Recipe(name, id, rating);
+                Recipe savedRecipe = new Recipe(id, name, rating);
                 savedRecipes.Add(savedRecipe);
             }
 

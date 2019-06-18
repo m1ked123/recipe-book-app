@@ -10,6 +10,11 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Recipe_Book.Models
 {
+    /// <summary>
+    /// Class <code>Recipe</code> represents a recipe. Recipes have
+    /// a name, a collection of images, a collection of ingredients,
+    /// and a collection of steps that describe how to make it.
+    /// </summary>
     public class Recipe : INotifyPropertyChanged
     {
         /// <summary>
@@ -17,16 +22,19 @@ namespace Recipe_Book.Models
         /// </summary>
         public const String TABLE_NAME = "RECIPES";
 
-        private String name;
-        private long id;
-        private double rating;
-        private String lastMade;
+        private String name; // recipe name
+        private long id; // recipe's id for database
+        private double rating; // recipe rating
+        private String lastMade; // when the recipe was last made
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Gets or sets the name of this recipe.
+        /// </summary>
         public String Name
         {
             get
@@ -36,10 +44,13 @@ namespace Recipe_Book.Models
             set
             {
                 this.name = value;
-                // PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Name"));
             }
         }
 
+        /// <summary>
+        /// Gets or sets the rating for this recipe. The rating must
+        /// be between 1 and 5.
+        /// </summary>
         public double Rating
         {
             get
@@ -51,7 +62,6 @@ namespace Recipe_Book.Models
                 if (value >= 0 && value < 6)
                 {
                     this.rating = value;
-                    // PropertyChanged.Invoke(this, new PropertyChangedEventArgs("Rating"));
                 }
             }
         }
@@ -68,6 +78,9 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the ID of this recipe.
+        /// </summary>
         public long ID
         {
             get
@@ -80,6 +93,10 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Gets or sets the collection of images associated with this
+        /// recipe.
+        /// </summary>
         public ObservableCollection<RecipeImage> RecipeImages
         {
             get
@@ -107,6 +124,9 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Gets the ingredients that are associated with this recipe
+        /// </summary>
         public ObservableCollection<RecipeIngredient> RecipeIngredients
         {
             get
@@ -115,30 +135,71 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Creates a new recipe with a default id and name.
+        /// </summary>
+        public Recipe() : this(-1) { }
 
-        // TODO: consider cleaning up these constructors
-        public Recipe() : this("New Recipe") { }
+        /// <summary>
+        /// Creates a new recipe witht he given id and a default name.
+        /// </summary>
+        /// <param name="id">
+        /// the ID for this recipe
+        /// </param>
+        public Recipe(long id) : this(id, "New Recipe") { }
+        
+        /// <summary>
+        /// Creates a recipe with the given ID and name. It won't
+        /// have a rating.
+        /// </summary>
+        /// <param name="id">
+        /// The ID for this recipe.
+        /// </param>
+        /// <param name="name">
+        /// The name for this recipe.
+        /// </param>
+        public Recipe(long id, String name) : this(id, name, 0) { }
 
-        public Recipe(String name) : this(name, -1) { }
-
-        public Recipe(String name, long id) : this(name, id, 0) { }
-
-        public Recipe(String name, long id, double rating) : this(name, id, rating, "Never") { }
-
-        public Recipe(String name, long id, double rating, String lastMade)
+        /// <summary>
+        /// Creates a recipe with the given id, name, and rating
+        /// </summary>
+        /// <param name="id">
+        /// The ID for this recipe.
+        /// </param>
+        /// <param name="name">
+        /// The name for this recipe.
+        /// </param>
+        /// <param name="rating">
+        /// The rating for this recipe.
+        /// </param>
+        public Recipe(long id, String name, double rating)
         {
             this.name = name;
             this.id = id;
             this.rating = rating;
-            this.lastMade = lastMade;
+            this.lastMade = "";
             this.recipeImages = new ObservableCollection<RecipeImage>();
             this.recipeIngredients = new ObservableCollection<RecipeIngredient>();
             this.recipeSteps = new ObservableCollection<RecipeStep>();
         }
 
+        /// <summary>
+        /// Adds the given recipe image to the recipe. The image cannot
+        /// be null.
+        /// </summary>
+        /// <param name="newImage">
+        /// the new image that will be associated with this recipe
+        /// </param>
         public void addImage(RecipeImage newImage)
         {
-            this.recipeImages.Add(newImage);
+            if (newImage != null)
+            {
+                this.recipeImages.Add(newImage);
+            } else
+            {
+                throw new ArgumentNullException("The recipe image being" +
+                    " added cannot be null", new ArgumentNullException());
+            }
         }
 
         public async void setImages(ObservableCollection<RecipeImage> newImages)
