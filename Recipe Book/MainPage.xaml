@@ -27,10 +27,7 @@
                     </MenuFlyout>
                 </Grid.ContextFlyout>
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
-                <StackPanel Orientation="Horizontal" Grid.Row="1">
-                    <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" />
-                    <TextBlock Text="2019-03-21" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}" Margin="24,0,0,0" VerticalAlignment="Center" />
-                </StackPanel>
+                <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
@@ -45,10 +42,7 @@
                     <StackPanel x:Name="headerInformation">
                         <TextBlock Text="{x:Bind ID, Mode=OneWay}" />
                         <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
-                        <StackPanel Orientation="Horizontal">
-                            <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind Rating, Mode=Oneway}"/>
-                            <TextBlock HorizontalAlignment="Left" Text="2019-03-21" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
-                        </StackPanel>
+                        <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind Rating, Mode=Oneway}"/>
                     </StackPanel>
                     <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Height="480" MinWidth="320"/>
                     <ListView x:Name="ingredientList" Grid.Row="2" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>

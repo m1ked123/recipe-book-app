@@ -25,7 +25,6 @@ namespace Recipe_Book.Models
         private String name; // recipe name
         private long id; // recipe's id for database
         private double rating; // recipe rating
-        private String lastMade; // when the recipe was last made
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
@@ -63,18 +62,6 @@ namespace Recipe_Book.Models
                 {
                     this.rating = value;
                 }
-            }
-        }
-
-        public String LastMade
-        {
-            get
-            {
-                return this.lastMade;
-            }
-            set
-            {
-                this.lastMade = value;
             }
         }
 
@@ -177,7 +164,6 @@ namespace Recipe_Book.Models
             this.name = name;
             this.id = id;
             this.rating = rating;
-            this.lastMade = "";
             this.recipeImages = new ObservableCollection<RecipeImage>();
             this.recipeIngredients = new ObservableCollection<RecipeIngredient>();
             this.recipeSteps = new ObservableCollection<RecipeStep>();
