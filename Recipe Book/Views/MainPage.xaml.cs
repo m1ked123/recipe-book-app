@@ -4,6 +4,8 @@ using System;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -98,15 +100,6 @@ namespace Recipe_Book
                 recipes.setSelected(this.recipeListView.SelectedIndex);
                 recipes.removeRecipe(recipeToDelete);
             }
-        }
-
-        private void editRecipe(object sender, RoutedEventArgs e)
-        {
-            Recipe clickedRecipe = (Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext;
-            int editingRecipe = recipes.Recipes.IndexOf(clickedRecipe);
-            recipes.setSelected(editingRecipe);
-            recipes.setEditing(true);
-            Frame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void editSelectedRecipe(object sender, RoutedEventArgs e)

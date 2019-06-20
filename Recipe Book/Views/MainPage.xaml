@@ -14,44 +14,41 @@
         </TransitionCollection>
     </Page.Transitions>
     <Page.Resources>
-        <DataTemplate x:Key="RecipeItemTemplate" x:DataType="models:Recipe">
+        <DataTemplate x:Key="RecipeItemTemplate" x:DataType="models:Recipe" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <Grid.ContextFlyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="Edit" Icon="Edit" Click="editRecipe" />
-                        <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteRecipe" />
-                    </MenuFlyout>
-                </Grid.ContextFlyout>
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
                 <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>
             </Grid>
         </DataTemplate>
-        
-        <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
-            <ScrollViewer Margin="12">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <StackPanel x:Name="headerInformation">
-                        <TextBlock Text="{x:Bind ID, Mode=OneWay}" />
-                        <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
-                        <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind Rating, Mode=Oneway}"/>
-                    </StackPanel>
-                    <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Height="480" MinWidth="320"/>
-                    <ListView x:Name="ingredientList" Grid.Row="2" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
-                    <ListView x:Name="recipeSteps" Grid.Row="3" HorizontalAlignment="Center" ItemsSource="{x:Bind RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
-                </Grid>
-            </ScrollViewer>
-        </DataTemplate>
 
+        <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <CommandBar Grid.Row="0" Background="{x:Null}" ClosedDisplayMode="Compact" >
+                    <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
+                    <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
+                </CommandBar>
+                <StackPanel x:Name="headerInformation" Grid.Row="1" >
+                    <TextBlock Text="{x:Bind ID, Mode=OneWay}" />
+                    <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
+                    <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind Rating, Mode=Oneway}"/>
+                </StackPanel>
+                <FlipView x:Name="imagesSection" Grid.Row="2" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Height="360" MinWidth="320"/>
+                <ListView x:Name="ingredientList" Grid.Row="3" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
+                <ListView x:Name="recipeSteps" Grid.Row="4" HorizontalAlignment="Center" ItemsSource="{x:Bind RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
+            </Grid>
+        </DataTemplate>
+        
         <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
             <Grid Margin="0,0,0,24">
                 <TextBlock Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
@@ -110,12 +107,7 @@
             <AppBarButton Icon="Add" Label="Add" Click="addNewRecipe"/>
             <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
         </CommandBar>
-        <ListView Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True"/>
-
-        <CommandBar Grid.Row="0" Grid.Column="1">
-            <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
-            <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
-        </CommandBar>
-        <ContentPresenter x:Name="detailView" Grid.Row="1" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" />
+        <ListView Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True" />
+        <ContentPresenter x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" />
     </Grid>
 </Page>
