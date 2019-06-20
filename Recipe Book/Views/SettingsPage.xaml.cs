@@ -1,5 +1,6 @@
 ﻿using Recipe_Book.Utils;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.UI.Core;
@@ -57,6 +58,19 @@ namespace Recipe_Book
 
         private void goBack(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            IList<PageStackEntry> backStack = Frame.BackStack;
+            int backStackCount = backStack.Count;
+            if (backStackCount > 0)
+            {
+                PageStackEntry masterPageEntry = backStack[backStackCount - 1];
+                backStack.RemoveAt(backStackCount - 1);
+
+                PageStackEntry modifiedEntry = new PageStackEntry(
+                    masterPageEntry.SourcePageType,
+                    null, null);
+
+                backStack.Add(modifiedEntry);
+            }
             Frame.GoBack();
         }
     }

@@ -40,15 +40,25 @@ namespace Recipe_Book
                 if (numRecipes > 0)
                 {
                     index = 0;
+                    Debug.WriteLine("Index set to 0 because of recipe number: " + numRecipes);
                 }
             }
             else
             {
                 index = (int)e.Parameter;
+                Debug.WriteLine("Index set from parameter: " + index);
             }
 
-            this.recipeListView.SelectedIndex = index;
-            this.recipes.setSelected(index);
+            
+            if (index < 0)
+            {
+                this.detailView.Visibility = Visibility.Collapsed;
+            } else
+            {
+                this.recipeListView.SelectedIndex = index;
+                this.recipes.setSelected(index);
+                this.detailView.Visibility = Visibility.Visible;
+            }
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
         }
@@ -126,7 +136,6 @@ namespace Recipe_Book
         private void updateLayoutFromState(VisualState newState, VisualState oldState)
         {
             int selectedIndex = recipes.getSelectedIndex();
-            Debug.WriteLine("Selected index: " + selectedIndex);
             Recipe selectedRecipe = null;
             if (selectedIndex >= 0)
             {
