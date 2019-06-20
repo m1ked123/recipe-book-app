@@ -119,13 +119,13 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DetailPage.xaml.cs">
+    <Compile Include="Views\DetailPage.xaml.cs">
       <DependentUpon>DetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IngredientDialog.xaml.cs">
+    <Compile Include="Views\IngredientDialog.xaml.cs">
       <DependentUpon>IngredientDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\Recipe.cs" />
@@ -133,13 +133,13 @@
     <Compile Include="Models\RecipeIngredient.cs" />
     <Compile Include="Models\RecipeStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RecipeForm.xaml.cs">
+    <Compile Include="Views\RecipeForm.xaml.cs">
       <DependentUpon>RecipeForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPage.xaml.cs">
+    <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="StepDialog.xaml.cs">
+    <Compile Include="Views\StepDialog.xaml.cs">
       <DependentUpon>StepDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\IdentifierGenerator.cs" />
@@ -168,27 +168,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="DetailPage.xaml">
+    <Page Include="Views\DetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="IngredientDialog.xaml">
+    <Page Include="Views\IngredientDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainPage.xaml">
+    <Page Include="Views\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="RecipeForm.xaml">
+    <Page Include="Views\RecipeForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPage.xaml">
+    <Page Include="Views\SettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StepDialog.xaml">
+    <Page Include="Views\StepDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

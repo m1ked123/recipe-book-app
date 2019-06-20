@@ -30,6 +30,7 @@
                 <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>
             </Grid>
         </DataTemplate>
+        
         <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
             <ScrollViewer Margin="12">
                 <Grid>
