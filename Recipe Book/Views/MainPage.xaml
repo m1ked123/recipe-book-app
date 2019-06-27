@@ -100,14 +100,17 @@
             <ColumnDefinition x:Name="DetailColumn" Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <CommandBar Grid.Row="0">
-            <AppBarButton Icon="Add" Label="Add" Click="addNewRecipe"/>
-            <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
+        
+        <ListView Grid.Row="0" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True" />
+        <CommandBar Grid.Row="1" DefaultLabelPosition="Right">
+            <AppBarButton Icon="Add" Label="New Recipe" Click="addNewRecipe"/>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
+            </CommandBar.SecondaryCommands>
         </CommandBar>
-        <ListView Grid.Row="1" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True" />
-        <ContentPresenter x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" />
+        <ContentPresenter x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" Margin="12,0,12,0" />
     </Grid>
 </Page>

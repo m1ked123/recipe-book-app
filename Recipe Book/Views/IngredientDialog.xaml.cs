@@ -51,13 +51,11 @@ namespace Recipe_Book
                 canAddIngredient = false;
             }
 
-            String ingredientQuantityText = this.ingredientQuant.Text;
-            double ingredientQuantity = 0.0;
-            Double.TryParse(ingredientQuantityText, out ingredientQuantity);
-            if (ingredientQuantity <= 0)
+            String ingredientQuantity = this.ingredientQuant.Text;
+            if (ingredientQuantity.Length == 0)
             {
                 args.Cancel = true;
-                this.dialogErrorText.Text += "\nIngredient quantity must be a number.";
+                this.dialogErrorText.Text += "\nIngredient quantity cannot be empty.";
                 canAddIngredient = false;
             }
 

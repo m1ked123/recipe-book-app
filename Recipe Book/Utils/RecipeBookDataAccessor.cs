@@ -37,7 +37,7 @@ namespace Recipe_Book.Utils
 
                 String createIngredientDbText = "CREATE TABLE IF NOT " +
                     "EXISTS INGREDIENTS (ID INTEGER PRIMARY KEY, " +
-                    "QUANTITY DOUBLE, UOM VARCHAR(50), NAME VARCHAR(100)," +
+                    "QUANTITY VARCHAR(5), UOM VARCHAR(50), NAME VARCHAR(100)," +
                     "RID INTEGER)";
                 SqliteCommand createIngredientDb = new SqliteCommand(createIngredientDbText, db);
                 createIngredientDb.ExecuteNonQuery();
@@ -103,14 +103,14 @@ namespace Recipe_Book.Utils
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
             db.Open();
 
-            SqliteCommand selectCommand = new SqliteCommand("SELECT * from INGREDIENTS WHERE RID = " + recipeId, db);
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * FROM INGREDIENTS WHERE RID = " + recipeId, db);
 
             SqliteDataReader query = selectCommand.ExecuteReader();
 
             while (query.Read())
             {
                 long id = query.GetInt64(0);
-                double quantity = query.GetDouble(1);
+                String quantity = query.GetString(1);
                 String unitOfMeasure = query.GetString(2);
                 String ingredientName = query.GetString(3);
                 long rid = query.GetInt64(4);
