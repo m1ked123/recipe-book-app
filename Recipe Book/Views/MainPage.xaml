@@ -30,7 +30,6 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="2*" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
@@ -44,8 +43,15 @@
                     <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind Rating, Mode=Oneway}"/>
                 </StackPanel>
                 <FlipView x:Name="imagesSection" Grid.Row="2" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Height="360" MinWidth="320"/>
-                <ListView x:Name="ingredientList" Grid.Row="3" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
-                <ListView x:Name="recipeSteps" Grid.Row="4" HorizontalAlignment="Center" ItemsSource="{x:Bind RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
+                <Grid  Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ListView x:Name="ingredientList" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
+                    <ListView x:Name="recipeSteps" Grid.Column="1" HorizontalAlignment="Center" ItemsSource="{x:Bind RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
+                </Grid>
+                
             </Grid>
         </DataTemplate>
         
@@ -58,13 +64,13 @@
         <DataTemplate x:Name="IngredientItemTemplate" x:DataType="models:RecipeIngredient">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="180"/>
-                    <ColumnDefinition Width="180"/>
-                    <ColumnDefinition Width="360"/>
+                    <ColumnDefinition Width="64"/>
+                    <ColumnDefinition Width="128"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}"/>
-                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
+                <TextBlock Grid.Column="0" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" Margin="0,0,12,0" />
+                <TextBlock Grid.Column="1" Text="{x:Bind UnitOfMeasure}" Margin="0,0,12,0"/>
+                <TextBlock Grid.Column="2" Text="{x:Bind IngredientName}" />
             </Grid>
         </DataTemplate>
 

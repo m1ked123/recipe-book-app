@@ -69,27 +69,29 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <StackPanel x:Name="headerInformation">
-                    <TextBox x:Name="recipeName" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" MinWidth="320" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
+                    <TextBox x:Name="recipeName" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" MinWidth="320" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" Header="Recipe Name" />
                     <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=OneWay}"/>
                 </StackPanel>
-                <StackPanel  x:Name="imagesSection" Orientation="Vertical" Grid.Row="1">
-                    <CommandBar>
+                <StackPanel  x:Name="imagesSection" Orientation="Vertical" Grid.Row="1" Margin="0,24,0,0">
+                    <TextBlock Margin="0,0,0,6">Images</TextBlock>
+                    <CommandBar DefaultLabelPosition="Right" FontFamily="Segoe UI">
                         <AppBarButton Icon="Add" Label="Add Image" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Image" Click="addImage"/>
                     </CommandBar>
-                    <FlipView x:Name="imageFlipView" MinWidth="320" Height="240" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource imagesTemplate}"/>
+                    <FlipView x:Name="imageFlipView" MinWidth="320" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource imagesTemplate}"/>
                 </StackPanel>
 
-                <Grid Grid.Row="2">
+                <Grid Grid.Row="2" Margin="0,24,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel Margin="0,24,0,0">
-                        <CommandBar>
+                    <StackPanel>
+                        <TextBlock Margin="0,0,0,6">Ingredients</TextBlock>
+                        <CommandBar DefaultLabelPosition="Right" >
                             <AppBarButton Icon="Add" Label="Add Ingredient" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Ingredient" Click="addIngredient"/>
                         </CommandBar>
                     </StackPanel>
@@ -101,9 +103,13 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <CommandBar>
-                    <AppBarButton Icon="Add" Label="Add Step" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Step" Click="addStep" />
-                </CommandBar>
+                <StackPanel>
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,6">Steps</TextBlock>
+                    <CommandBar DefaultLabelPosition="Right" >
+                        <AppBarButton Icon="Add" Label="Add Step" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Step" Click="addStep" />
+                    </CommandBar>
+                </StackPanel>
+                
                 <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" CanReorderItems="True" AllowDrop="True" IsItemClickEnabled="True" HorizontalContentAlignment="Stretch" />
             </Grid>
         </Grid>
