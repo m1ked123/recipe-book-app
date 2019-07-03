@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -28,6 +29,9 @@ namespace Recipe_Book
         private ObservableCollection<RecipeIngredient> ingredients;
         private ObservableCollection<RecipeStep> steps;
         private StorageFolder tempImageFolder;
+        private List<RecipeStep> removedSteps;
+        private List<RecipeImage> removedImages;
+        private List<RecipeIngredient> removedIngredients;
 
         public RecipeForm()
         {
@@ -35,6 +39,9 @@ namespace Recipe_Book
             images = new ObservableCollection<RecipeImage>();
             ingredients = new ObservableCollection<RecipeIngredient>();
             steps = new ObservableCollection<RecipeStep>();
+            removedImages = new List<RecipeImage>();
+            removedIngredients = new List<RecipeIngredient>();
+            removedSteps = new List<RecipeStep>();
         }
 
         /*  
@@ -83,7 +90,7 @@ namespace Recipe_Book
          * Save the changes made to an existing recipe or add the new
          * recipe to the recipe list.
          */
-        private void saveRecipe(object sender, RoutedEventArgs e)
+        private async void saveRecipe(object sender, RoutedEventArgs e)
         {
             String newRecipeName = this.recipeName.Text;
             double newRecipeRating = this.recipeRating.Value;
@@ -103,6 +110,22 @@ namespace Recipe_Book
             {
                 recipes.setEditing(false);
                 RecipeBookDataAccessor.updateRecipe(recipe);
+            }
+
+            for (int i = 0; i < removedSteps.Count; i++)
+            {
+                RecipeBookDataAccessor.deleteStep(removedSteps[i]);
+            }
+            for (int i = 0; i < removedIngredients.Count; i++)
+            {
+                RecipeBookDataAccessor.deleteIngredient(removedIngredients[i]);
+            }
+            for (int i = 0; i < removedImages.Count; i++)
+            {
+                RecipeImage imageToRemove = removedImages[i];
+                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(imageToRemove.getImagePath());
+                await imageFile.DeleteAsync();
+                RecipeBookDataAccessor.deleteImage(imageToRemove);
             }
 
             IList<PageStackEntry> backStack = Frame.BackStack;
@@ -210,38 +233,64 @@ namespace Recipe_Book
          * Deletes the recipe ingredient with the context menu that
          * was activated.
          */
-        private void deleteIngredient(object sender, RoutedEventArgs e)
+        private async void deleteIngredient(object sender, RoutedEventArgs e)
         {
             RecipeIngredient ingredientToRemove =
                 (RecipeIngredient)((MenuFlyoutItem)e.OriginalSource).DataContext;
-            ingredients.Remove(ingredientToRemove);
-            if (ingredientToRemove.ID > 0)
+            bool result = await tryDeleteItem("ingredient");
+            if (result)
             {
-                RecipeBookDataAccessor.deleteIngredient(ingredientToRemove);
+                ingredients.Remove(ingredientToRemove);
+                if (ingredientToRemove.ID > 0)
+                {
+                    removedIngredients.Add(ingredientToRemove);
+                }
             }
         }
 
-        private void deleteStep(object sender, RoutedEventArgs e)
+        private async void deleteStep(object sender, RoutedEventArgs e)
         {
             RecipeStep stepToRemove =
                 (RecipeStep)((MenuFlyoutItem)e.OriginalSource).DataContext;
-            steps.Remove(stepToRemove);
-            if (stepToRemove.ID > 0)
+            bool result = await tryDeleteItem("step");
+            if (result)
             {
-                RecipeBookDataAccessor.deleteStep(stepToRemove);
+                steps.Remove(stepToRemove);
+                if (stepToRemove.ID > 0)
+                {
+                    removedSteps.Add(stepToRemove);
+                }
             }
+        }
+
+        private async Task<bool> tryDeleteItem(String itemLabel)
+        {
+            ContentDialog deleteConfirmationDialog = new ContentDialog
+            {
+                Title = "Permenantly delete " + itemLabel + "?",
+                Content = "If you delete this " + itemLabel + ", you won't be" +
+                " able to recover it. Are you sure you want to delete" +
+                " it?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteConfirmationDialog.ShowAsync();
+            return result == ContentDialogResult.Primary;
         }
 
         private async void deleteImage(object sender, RoutedEventArgs e)
         {
             RecipeImage imageToRemove =
                 (RecipeImage)((MenuFlyoutItem)e.OriginalSource).DataContext;
-            images.Remove(imageToRemove);
-            if (imageToRemove.ID > 0)
+            bool result = await tryDeleteItem("image");
+            if (result)
             {
-                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(imageToRemove.getImagePath());
-                await imageFile.DeleteAsync();
-                RecipeBookDataAccessor.deleteImage(imageToRemove);
+                images.Remove(imageToRemove);
+                if (imageToRemove.ID > 0)
+                {
+                    removedImages.Add(imageToRemove);
+                }
             }
         }
 

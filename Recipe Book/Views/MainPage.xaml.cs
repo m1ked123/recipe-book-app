@@ -17,8 +17,6 @@ namespace Recipe_Book
     /// This is the main page of the Recipe Book app. It represents
     /// the main page that opens when the app is opened.
     /// </summary>
-    // TODO: make this UI responsive
-    // TODO: make the detail UI show nothing is the list is empty
     public sealed partial class MainPage : Page
     {
         private RecipeList recipes;
