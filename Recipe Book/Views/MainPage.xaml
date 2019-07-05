@@ -42,7 +42,7 @@
                     <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
                     <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind Rating, Mode=Oneway}"/>
                 </StackPanel>
-                <FlipView x:Name="imagesSection" Grid.Row="2" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" Height="360" MinWidth="320"/>
+                <FlipView x:Name="imagesSection" Grid.Row="2" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" MinWidth="320"/>
                 <Grid  Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
