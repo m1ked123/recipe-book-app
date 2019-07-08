@@ -30,6 +30,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
+                        <MenuFlyoutItem Text="Edit" Icon="Edit" />
                         <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteIngredient" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>
@@ -40,7 +41,7 @@
         </DataTemplate>
 
         <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
-            <Grid>
+            <Grid Padding="0,12,0,12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Edit" Icon="Edit" Click="editStep" />
@@ -101,7 +102,13 @@
                             <AppBarButton Icon="Add" Label="Add Ingredient" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Ingredient" Click="addIngredient"/>
                         </CommandBar>
                     </StackPanel>
-                    <ListView x:Name="ingredientList" Grid.Row="1" ItemTemplate="{StaticResource IngredientItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Auto" SelectionMode="None" />
+                    <ListView x:Name="ingredientList" Grid.Row="1" ItemTemplate="{StaticResource IngredientItemTemplate}" SelectionMode="None" CanReorderItems="True" AllowDrop="True" IsItemClickEnabled="True" HorizontalContentAlignment="Stretch">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1" Margin="12">
@@ -116,7 +123,13 @@
                     </CommandBar>
                 </StackPanel>
 
-                <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" CanReorderItems="True" AllowDrop="True" IsItemClickEnabled="True" HorizontalContentAlignment="Stretch" />
+                <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" CanReorderItems="True" AllowDrop="True" IsItemClickEnabled="True" HorizontalContentAlignment="Stretch">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
             </Grid>
         </Grid>
     </Grid>
