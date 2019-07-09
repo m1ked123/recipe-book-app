@@ -13,6 +13,6 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <Grid>
-        <TextBox x:Name="stepDescription" Header="Step Instructions" TextWrapping="Wrap" Height="100" />
+        <TextBox x:Name="stepDescription" Header="Step Instructions" TextWrapping="Wrap" Height="100" MaxLength="1000" />
     </Grid>
 </ContentDialog>

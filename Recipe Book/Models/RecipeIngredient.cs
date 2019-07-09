@@ -12,7 +12,7 @@ namespace Recipe_Book.Models
         public const String TABLE_NAME = "INGREDIENTS";
 
         private long id;
-        private double quantity;
+        private String quantity;
         private String unitOfMeasure;
         private String ingredientName;
         private long recipeId;
@@ -22,7 +22,7 @@ namespace Recipe_Book.Models
         /// <summary>
         /// Gets or sets the quantity of this recipe ingredient.
         /// </summary>
-        public double Quantity
+        public String Quantity
         {
             get
             {
@@ -112,7 +112,7 @@ namespace Recipe_Book.Models
         /// <param name="ingredientName">
         /// the name of this ingredient
         /// </param>
-        public RecipeIngredient(long id, double quantity, 
+        public RecipeIngredient(long id, String quantity, 
             String unitOfMeasure, String ingredientName)
         {
             this.quantity = quantity;
@@ -173,9 +173,9 @@ namespace Recipe_Book.Models
         /// <param name="newQuantity">
         /// the new positive quantity of the ingredient
         /// </param>
-        public void setQuantity(double newQuantity)
+        public void setQuantity(String newQuantity)
         {
-            if (newQuantity > 0)
+            if (newQuantity.Length != 0)
             {
                 this.quantity = newQuantity;
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IngredientQuantity"));

@@ -25,11 +25,12 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80"/>
-                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="100"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
+                        <MenuFlyoutItem Text="Edit" Icon="Edit" />
                         <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteIngredient" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>
@@ -40,7 +41,7 @@
         </DataTemplate>
 
         <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
-            <Grid>
+            <Grid Padding="0,12,0,12" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Edit" Icon="Edit" Click="editStep" />
@@ -69,31 +70,45 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <StackPanel x:Name="headerInformation">
-                    <TextBox x:Name="recipeName" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" MinWidth="320" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" />
+                    <TextBox x:Name="recipeName" HorizontalAlignment="Stretch" TextWrapping="Wrap" VerticalAlignment="Top" MaxLength="500" MinWidth="320" PlaceholderText="New Recipe" Text="{x:Bind recipe.Name, Mode=OneWay}" Header="Recipe Name" />
                     <RatingControl x:Name="recipeRating" HorizontalAlignment="Left" VerticalAlignment="Center" Value="{x:Bind recipe.Rating, Mode=OneWay}"/>
                 </StackPanel>
-                <StackPanel  x:Name="imagesSection" Orientation="Vertical" Grid.Row="1">
-                    <CommandBar>
-                        <AppBarButton Icon="Add" Label="Add Image" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Image" Click="addImage"/>
-                    </CommandBar>
-                    <FlipView x:Name="imageFlipView" MinWidth="320" Height="240" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource imagesTemplate}"/>
-                </StackPanel>
-
-                <Grid Grid.Row="2">
+                <Grid  x:Name="imagesSection" Grid.Row="1" Margin="0,24,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <StackPanel Margin="0,24,0,0">
-                        <CommandBar>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Margin="0,0,0,6">Images</TextBlock>
+                        <CommandBar DefaultLabelPosition="Right" FontFamily="Segoe UI">
+                            <AppBarButton Icon="Add" Label="Add Image" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Image" Click="addImage"/>
+                        </CommandBar>
+                    </StackPanel>
+                    <FlipView x:Name="imageFlipView" Grid.Row="1" MinWidth="320" ItemTemplate="{StaticResource imagesTemplate}" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                </Grid>
+
+                <Grid Grid.Row="2" Margin="0,24,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock Margin="0,0,0,6">Ingredients</TextBlock>
+                        <CommandBar DefaultLabelPosition="Right" >
                             <AppBarButton Icon="Add" Label="Add Ingredient" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Ingredient" Click="addIngredient"/>
                         </CommandBar>
                     </StackPanel>
-                    <ListView x:Name="ingredientList" Grid.Row="1" ItemTemplate="{StaticResource IngredientItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Auto" SelectionMode="None" />
+                    <ListView x:Name="ingredientList" Grid.Row="1" ItemTemplate="{StaticResource IngredientItemTemplate}" SelectionMode="None" CanReorderItems="True" AllowDrop="True" IsItemClickEnabled="True" HorizontalContentAlignment="Stretch">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1" Margin="12">
@@ -101,10 +116,20 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <CommandBar>
-                    <AppBarButton Icon="Add" Label="Add Step" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Step" Click="addStep" />
-                </CommandBar>
-                <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" CanReorderItems="True" AllowDrop="True" IsItemClickEnabled="True" HorizontalContentAlignment="Stretch" />
+                <StackPanel>
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Margin="0,0,0,6">Steps</TextBlock>
+                    <CommandBar DefaultLabelPosition="Right" >
+                        <AppBarButton Icon="Add" Label="Add Step" AllowFocusOnInteraction="True" ToolTipService.ToolTip="Add Step" Click="addStep" />
+                    </CommandBar>
+                </StackPanel>
+
+                <ListView x:Name="recipeSteps" Grid.Row="1" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource RecipeStepTemplate}" SelectionMode="None" CanReorderItems="True" AllowDrop="True" IsItemClickEnabled="True" HorizontalContentAlignment="Stretch">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
             </Grid>
         </Grid>
     </Grid>

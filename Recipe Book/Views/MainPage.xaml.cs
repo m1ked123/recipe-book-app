@@ -4,6 +4,8 @@ using System;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -15,8 +17,6 @@ namespace Recipe_Book
     /// This is the main page of the Recipe Book app. It represents
     /// the main page that opens when the app is opened.
     /// </summary>
-    // TODO: make this UI responsive
-    // TODO: make the detail UI show nothing is the list is empty
     public sealed partial class MainPage : Page
     {
         private RecipeList recipes;
@@ -38,15 +38,25 @@ namespace Recipe_Book
                 if (numRecipes > 0)
                 {
                     index = 0;
+                    Debug.WriteLine("Index set to 0 because of recipe number: " + numRecipes);
                 }
             }
             else
             {
                 index = (int)e.Parameter;
+                Debug.WriteLine("Index set from parameter: " + index);
             }
 
-            this.recipeListView.SelectedIndex = index;
-            this.recipes.setSelected(index);
+            
+            if (index < 0)
+            {
+                this.detailView.Visibility = Visibility.Collapsed;
+            } else
+            {
+                this.recipeListView.SelectedIndex = index;
+                this.recipes.setSelected(index);
+                this.detailView.Visibility = Visibility.Visible;
+            }
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
         }
@@ -100,15 +110,6 @@ namespace Recipe_Book
             }
         }
 
-        private void editRecipe(object sender, RoutedEventArgs e)
-        {
-            Recipe clickedRecipe = (Recipe)((MenuFlyoutItem)e.OriginalSource).DataContext;
-            int editingRecipe = recipes.Recipes.IndexOf(clickedRecipe);
-            recipes.setSelected(editingRecipe);
-            recipes.setEditing(true);
-            Frame.Navigate((typeof(RecipeForm)), recipes);
-        }
-
         private void editSelectedRecipe(object sender, RoutedEventArgs e)
         {
             recipes.setSelected(this.recipeListView.SelectedIndex);
@@ -133,7 +134,6 @@ namespace Recipe_Book
         private void updateLayoutFromState(VisualState newState, VisualState oldState)
         {
             int selectedIndex = recipes.getSelectedIndex();
-            Debug.WriteLine("Selected index: " + selectedIndex);
             Recipe selectedRecipe = null;
             if (selectedIndex >= 0)
             {
