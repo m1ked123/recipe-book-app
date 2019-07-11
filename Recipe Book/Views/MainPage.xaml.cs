@@ -24,7 +24,8 @@ namespace Recipe_Book
         {
             this.InitializeComponent();
             recipes = App.recipes;
-            this.recipeListView.ItemsSource = recipes.getRecipeList();
+            this.recipeListView.ItemsSource = recipes.Recipes;
+            Debug.WriteLine("Create the main page");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

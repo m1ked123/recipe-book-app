@@ -198,6 +198,7 @@ namespace Recipe_Book.Models
             // TODO: clean up this code a bit, it's messy
             if (newImages != null)
             {
+                recipeImages.Clear();
                 for (int i = 0; i < newImages.Count; i++)
                 {
                     RecipeImage newImage = newImages[i];
@@ -232,8 +233,8 @@ namespace Recipe_Book.Models
                         newImage.setRecipeId(this.id);
                         RecipeBookDataAccessor.addImage(newImage);
                     }
+                    recipeImages.Add(newImage);
                 }
-                this.recipeImages = newImages;
             }
         }
 
