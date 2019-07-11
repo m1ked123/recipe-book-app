@@ -30,7 +30,7 @@
                 </Grid.ColumnDefinitions>
                 <Grid.ContextFlyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem Text="Edit" Icon="Edit" />
+                        <MenuFlyoutItem Text="Edit" Icon="Edit" Click="editIngredient" />
                         <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteIngredient" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>

@@ -31,6 +31,7 @@ namespace Recipe_Book.Models
             set
             {
                 setQuantity(value);
+                RaisePropertyChanged("Quantity");
             }
         }
 
@@ -47,6 +48,7 @@ namespace Recipe_Book.Models
             set
             {
                 setUnitOfMeasure(value);
+                RaisePropertyChanged("UnitOfMeasure");
             }
         }
 
@@ -62,6 +64,7 @@ namespace Recipe_Book.Models
             set
             {
                 setIngredientName(value);
+                RaisePropertyChanged("IngredientName");
             }
         }
 
@@ -89,6 +92,7 @@ namespace Recipe_Book.Models
             set
             {
                 setRecipeId(value);
+                RaisePropertyChanged("RecipeID");
             }
         }
 
@@ -178,7 +182,6 @@ namespace Recipe_Book.Models
             if (newQuantity.Length != 0)
             {
                 this.quantity = newQuantity;
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IngredientQuantity"));
             }
         }
 
@@ -193,7 +196,6 @@ namespace Recipe_Book.Models
             if (newUOM.Length > 0)
             {
                 this.unitOfMeasure = newUOM;
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IngredientUOM"));
             }
         }
 
@@ -208,7 +210,14 @@ namespace Recipe_Book.Models
             if (newIngredientName.Length > 0)
             {
                 this.ingredientName = newIngredientName;
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs("IngredientName"));
+            }
+        }
+
+        protected void RaisePropertyChanged(String name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
         }
     }

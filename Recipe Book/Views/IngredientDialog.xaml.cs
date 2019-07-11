@@ -39,6 +39,15 @@ namespace Recipe_Book
             this.InitializeComponent();
         }
 
+        public IngredientDialog(RecipeIngredient editingIngredient)
+        {
+            this.InitializeComponent();
+            this.newIngredient = editingIngredient;
+            this.ingredientName.Text = editingIngredient.IngredientName;
+            this.ingredientQuant.Text = editingIngredient.Quantity;
+            this.units.Text = editingIngredient.UnitOfMeasure;
+        }
+
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             bool canAddIngredient = true;
@@ -60,12 +69,24 @@ namespace Recipe_Book
             }
 
             String UOM = this.units.Text;
+            if (UOM.Length == 0)
+            {
+                this.units.Text = "-";
+            }
 
             if (canAddIngredient)
             {
-                long id = RecipeList.ingredientIdGenerator.getId();
-                newIngredient = new RecipeIngredient(id, 
-                    ingredientQuantity, UOM, ingredientNameText);
+                if (this.newIngredient == null)
+                {
+                    long id = RecipeList.ingredientIdGenerator.getId();
+                    newIngredient = new RecipeIngredient(id,
+                        ingredientQuantity, UOM, ingredientNameText);
+                } else
+                {
+                    newIngredient.setIngredientName(ingredientNameText);
+                    newIngredient.setQuantity(ingredientQuantity);
+                    newIngredient.setUnitOfMeasure(UOM);
+                }
             }
         }
 

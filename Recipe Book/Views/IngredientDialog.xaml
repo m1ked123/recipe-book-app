@@ -20,7 +20,7 @@
         <StackPanel Grid.Row="0" Orientation="Vertical" >
             <TextBox x:Name="ingredientName" Header="Ingredient" Margin="0,0,0,24" MaxLength="100" />
             <TextBox x:Name="ingredientQuant" Header="Quantity" Margin="0,0,0,24" MaxLength="5" />
-            <TextBox x:Name="units" Header="Units" MaxLength="50" Margin="0,0,0,24" />
+            <TextBox x:Name="units" Header="Units" MaxLength="50" Margin="0,0,0,24" Text="-" />
         </StackPanel>
         <TextBlock x:Name="dialogErrorText" Grid.Row="1" Style="{ThemeResource BodyTextBlockStyle}" Foreground="{ThemeResource SystemControlErrorTextForegroundBrush}" />
     </Grid>
