@@ -257,6 +257,9 @@ namespace Recipe_Book.Models
                     {
                         ingredient.setRecipeId(this.id);
                         RecipeBookDataAccessor.addIngredient(ingredient);
+                    } else
+                    {
+                        RecipeBookDataAccessor.updateIngredient(ingredient);
                     }
                 }
                 this.recipeIngredients = newIngredients;

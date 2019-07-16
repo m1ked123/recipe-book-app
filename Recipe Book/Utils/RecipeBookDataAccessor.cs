@@ -280,6 +280,27 @@ namespace Recipe_Book.Utils
             db.Close();
         }
 
+        public static void updateIngredient(RecipeIngredient updatedIngredient)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand updateCommand = new SqliteCommand();
+            updateCommand.Connection = db;
+
+            updateCommand.CommandText = "UPDATE INGREDIENTS SET QUANTITY = @Quantity," +
+                " UOM = @UOM, NAME = @Name WHERE ID = @ID";
+            updateCommand.Parameters.AddWithValue("@ID", updatedIngredient.ID);
+            updateCommand.Parameters.AddWithValue("@Quantity", updatedIngredient.Quantity);
+            updateCommand.Parameters.AddWithValue("@UOM", updatedIngredient.UnitOfMeasure);
+            updateCommand.Parameters.AddWithValue("@Name", updatedIngredient.IngredientName);
+
+            updateCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
         /// <summary>
         /// Adds the given step to the database
         /// </summary>

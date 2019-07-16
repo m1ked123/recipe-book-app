@@ -306,5 +306,18 @@ namespace Recipe_Book
                 this.steps[stepIndex] = updatedStep;
             }
         }
+
+        private async void editIngredient(object sender, RoutedEventArgs e)
+        {
+            RecipeIngredient ingredientToEdit = (RecipeIngredient)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            int ingredientIndex = ingredients.IndexOf(ingredientToEdit);
+            IngredientDialog ingredientDialog = new IngredientDialog(ingredientToEdit);
+            await ingredientDialog.ShowAsync();
+            RecipeIngredient updatedIngredient = ingredientDialog.NewIngredient;
+            if (updatedIngredient != null)
+            {
+                this.ingredients[ingredientIndex] = updatedIngredient;
+            }
+        }
     }
 }
