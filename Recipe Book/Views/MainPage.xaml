@@ -117,6 +117,15 @@
                 <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
-        <ContentPresenter x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" Margin="12,0,12,0" />
+        <NavigationView x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" IsPaneToggleButtonVisible="False" IsSettingsVisible="False" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" ItemInvoked="navigateToPage">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Recipe" x:Name="recipeContentView" />
+                <NavigationViewItem Content="Recipe Journal" x:Name="journalContentView" />
+            </NavigationView.MenuItems>
+            <ScrollViewer>
+                <Frame x:Name="contentFrame" />
+            </ScrollViewer>
+        </NavigationView>
+        <!--<ContentPresenter x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" Margin="12,0,12,0" />-->
     </Grid>
 </Page>

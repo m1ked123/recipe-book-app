@@ -60,6 +60,7 @@ namespace Recipe_Book
             }
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
+            detailView.SelectedItem = detailView.MenuItems[0];
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
@@ -173,6 +174,16 @@ namespace Recipe_Book
         private void showSettingsPage(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SettingsPage));
+        }
+
+        private void navigateToPage(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            String itemName = args.InvokedItemContainer.Name;
+            var preNavPageType = contentFrame.CurrentSourcePageType;
+
+            if (itemName == "recipeContentView") {
+                contentFrame.Navigate(typeof(DetailPage), recipes);
+            }
         }
     }
 }
