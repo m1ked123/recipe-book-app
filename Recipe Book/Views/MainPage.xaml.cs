@@ -1,5 +1,6 @@
 ﻿using Recipe_Book.Models;
 using Recipe_Book.ViewModels;
+using Recipe_Book.Views;
 using System;
 using System.Diagnostics;
 using Windows.UI.Xaml;
@@ -57,10 +58,11 @@ namespace Recipe_Book
                 this.recipeListView.SelectedIndex = index;
                 this.recipes.setSelected(index);
                 this.detailView.Visibility = Visibility.Visible;
+                detailView.SelectedItem = detailView.MenuItems[0];
+                contentFrame.Navigate(typeof(DetailPage), recipes);
             }
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
-            detailView.SelectedItem = detailView.MenuItems[0];
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
@@ -168,6 +170,8 @@ namespace Recipe_Book
             {
                 detailView.ContentTransitions.Clear();
                 detailView.ContentTransitions.Add(new EntranceThemeTransition());
+                detailView.SelectedItem = detailView.MenuItems[0];
+                contentFrame.Navigate(typeof(DetailPage), recipes);
             }
         }
 
@@ -183,6 +187,9 @@ namespace Recipe_Book
 
             if (itemName == "recipeContentView") {
                 contentFrame.Navigate(typeof(DetailPage), recipes);
+            } else
+            {
+                contentFrame.Navigate(typeof(JournalPage));
             }
         }
     }

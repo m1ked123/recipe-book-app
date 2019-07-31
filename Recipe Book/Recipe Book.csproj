@@ -128,6 +128,9 @@
     <Compile Include="Views\JournalDialog.xaml.cs">
       <DependentUpon>JournalDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\JournalPage.xaml.cs">
+      <DependentUpon>JournalPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -219,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\JournalDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JournalPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
