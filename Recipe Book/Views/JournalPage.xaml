@@ -9,6 +9,13 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <CommandBar>
+            <AppBarButton Icon="Add" Label="Add Entry"/>
+        </CommandBar>
+        <ListView Grid.Row="1"/>
     </Grid>
 </Page>

@@ -24,59 +24,6 @@
                 <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>
             </Grid>
         </DataTemplate>
-
-        <DataTemplate x:Key="RecipeDetailTemplate" x:DataType="models:Recipe">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <CommandBar Grid.Row="0" Background="{x:Null}" ClosedDisplayMode="Compact" >
-                    <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
-                    <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
-                </CommandBar>
-                <StackPanel x:Name="headerInformation" Grid.Row="1" >
-                    <TextBlock Text="{x:Bind ID, Mode=OneWay}" />
-                    <TextBlock HorizontalAlignment="Left" Text="{x:Bind Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
-                    <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind Rating, Mode=Oneway}"/>
-                </StackPanel>
-                <FlipView x:Name="imagesSection" Grid.Row="2" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch" ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind RecipeImages}" MinWidth="320"/>
-                <Grid  Grid.Row="3">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <ListView x:Name="ingredientList" ItemsSource="{x:Bind RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
-                    <ListView x:Name="recipeSteps" Grid.Column="1" HorizontalAlignment="Center" ItemsSource="{x:Bind RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
-                </Grid>
-                
-            </Grid>
-        </DataTemplate>
-        
-        <DataTemplate x:Name="RecipeStepTemplate" x:DataType="models:RecipeStep">
-            <Grid Margin="0,0,0,24">
-                <TextBlock Text="{x:Bind StepDescription}" TextWrapping="WrapWholeWords" />
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Name="IngredientItemTemplate" x:DataType="models:RecipeIngredient">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="64"/>
-                    <ColumnDefinition Width="128"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" Margin="0,0,12,0" />
-                <TextBlock Grid.Column="1" Text="{x:Bind UnitOfMeasure}" Margin="0,0,12,0"/>
-                <TextBlock Grid.Column="2" Text="{x:Bind IngredientName}" />
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Name="ImagesTemplate" x:DataType="models:RecipeImage">
-            <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
-        </DataTemplate>
     </Page.Resources>
 
     <Grid>
@@ -122,10 +69,9 @@
                 <NavigationViewItem Content="Recipe" x:Name="recipeContentView" />
                 <NavigationViewItem Content="Recipe Journal" x:Name="journalContentView" />
             </NavigationView.MenuItems>
-            <ScrollViewer>
+            <Grid>
                 <Frame x:Name="contentFrame" />
-            </ScrollViewer>
+            </Grid>
         </NavigationView>
-        <!--<ContentPresenter x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" Content="{x:Bind recipeListView.SelectedItem, Mode=OneWay}" ContentTemplate="{StaticResource RecipeDetailTemplate}" Margin="12,0,12,0" />-->
     </Grid>
 </Page>
