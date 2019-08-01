@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <CommandBar>
-            <AppBarButton Icon="Add" Label="Add Entry"/>
+            <AppBarButton Icon="Add" Label="Add Entry" Click="showJournalDialog"/>
         </CommandBar>
         <ListView Grid.Row="1"/>
     </Grid>

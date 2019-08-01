@@ -26,5 +26,11 @@ namespace Recipe_Book.Views
         {
             this.InitializeComponent();
         }
+
+        private async void showJournalDialog(object sender, RoutedEventArgs e)
+        {
+            JournalDialog journalDialog = new JournalDialog();
+            await journalDialog.ShowAsync();
+        }
     }
 }
