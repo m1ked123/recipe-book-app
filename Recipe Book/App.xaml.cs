@@ -57,6 +57,9 @@ namespace Recipe_Book
                 savedRecipe.setImages(savedImages);
             }
             recipes.setRecipeList(savedRecipes);
+
+            long entryId = 0;
+            RecipeList.journalEntryIdGenerator = new IdentifierGenerator("", entryId);
         }
 
         /// <summary>

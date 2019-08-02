@@ -16,6 +16,7 @@ namespace Recipe_Book.ViewModels
         public static IdentifierGenerator imageIdGenerator;
         public static IdentifierGenerator ingredientIdGenerator;
         public static IdentifierGenerator stepIdGenerator;
+        public static IdentifierGenerator journalEntryIdGenerator;
 
         public static StorageFolder imageFolder;
         public static StorageFolder tempFolder;

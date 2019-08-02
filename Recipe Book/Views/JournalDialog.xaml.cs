@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +21,16 @@ namespace Recipe_Book.Views
 {
     public sealed partial class JournalDialog : ContentDialog
     {
+        private RecipeJournalEntry newEntry;
+
+        public RecipeJournalEntry NewEntry
+        {
+            get
+            {
+                return newEntry;
+            }
+        }
+
         public JournalDialog()
         {
             this.InitializeComponent();
@@ -26,10 +38,16 @@ namespace Recipe_Book.Views
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            long newId = RecipeList.journalEntryIdGenerator.getId();
+            newEntry = new RecipeJournalEntry(newId);
+            newEntry.setEntryDate(entryDatePicker.Date.Value);
+            newEntry.setEntryNotes(entryNotesControl.Text);
+            newEntry.setRating(entryRatingControl.Value);
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            this.Hide();
         }
     }
 }

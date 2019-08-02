@@ -14,9 +14,9 @@
 
     <Grid>
         <StackPanel>
-            <CalendarDatePicker/>
-            <RatingControl/>
-            <TextBox />
+            <CalendarDatePicker x:Name="entryDatePicker"/>
+            <RatingControl x:Name="entryRatingControl"/>
+            <TextBox x:Name="entryNotesControl" />
         </StackPanel>
     </Grid>
 </ContentDialog>

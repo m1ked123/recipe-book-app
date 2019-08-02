@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Recipe_Book.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,15 +24,22 @@ namespace Recipe_Book.Views
     /// </summary>
     public sealed partial class JournalPage : Page
     {
+        private ObservableCollection<RecipeJournalEntry> journalEntries;
         public JournalPage()
         {
             this.InitializeComponent();
+            journalEntries = new ObservableCollection<RecipeJournalEntry>();
         }
 
         private async void showJournalDialog(object sender, RoutedEventArgs e)
         {
             JournalDialog journalDialog = new JournalDialog();
             await journalDialog.ShowAsync();
+
+            if (journalDialog.NewEntry != null)
+            {
+                journalEntries.Add(journalDialog.NewEntry);
+            }
         }
     }
 }

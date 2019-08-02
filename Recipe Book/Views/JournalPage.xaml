@@ -5,9 +5,25 @@
     xmlns:local="using:Recipe_Book.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Recipe_Book.Models"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.Resources>
+        <DataTemplate x:Name="JournalEntryItemTemplate" x:DataType="models:RecipeJournalEntry">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{x:Bind EntryDate}"/>
+                <RatingControl Grid.Column="1" Value="{x:Bind Rating}" />
+                <TextBlock Text="{x:Bind EntryNotes}" Grid.Column="2" />
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -16,6 +32,6 @@
         <CommandBar>
             <AppBarButton Icon="Add" Label="Add Entry" Click="showJournalDialog"/>
         </CommandBar>
-        <ListView Grid.Row="1"/>
+        <ListView Grid.Row="1" ItemTemplate="{StaticResource JournalEntryItemTemplate}" ItemsSource="{x:Bind journalEntries}"/>
     </Grid>
 </Page>
