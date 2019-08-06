@@ -48,6 +48,13 @@ namespace Recipe_Book.Utils
                 SqliteCommand createStepsDb = new SqliteCommand(createStepsDbText, db);
                 createStepsDb.ExecuteNonQuery();
 
+                String createJournalEntryDbText = "CREATE TABLE IF" +
+                    " NOT EXISTS JOURNAL_ENTRIES (ID INTEGER" +
+                    " PRIMARY KEY, RID INTEGER, ENTRYNOTES VARCHAR(5000)," +
+                    " RATING DOUBLE, ENTRYDATE DATETIME)";
+                SqliteCommand createJournalDb = new SqliteCommand(createJournalEntryDbText, db);
+                createJournalDb.ExecuteNonQuery();
+
                 db.Close();
 
             }

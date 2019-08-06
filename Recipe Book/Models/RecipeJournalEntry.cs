@@ -8,6 +8,7 @@ namespace Recipe_Book.Models
 {
     public class RecipeJournalEntry
     {
+        public const String TABLE_NAME = "JOURNAL_ENTRIES";
         private DateTimeOffset entryDate;
         private double recipeRating;
         private String entryNotes;
