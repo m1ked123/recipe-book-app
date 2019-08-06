@@ -189,7 +189,7 @@ namespace Recipe_Book
                 contentFrame.Navigate(typeof(DetailPage), recipes);
             } else
             {
-                contentFrame.Navigate(typeof(JournalPage), recipes);
+                contentFrame.Navigate(typeof(JournalPage), recipes.getSelected());
             }
         }
     }

@@ -28,6 +28,7 @@ namespace Recipe_Book.Models
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
+        private ObservableCollection<RecipeJournalEntry> journalEntries;
 
         /// <summary>
         /// Gets or sets the name of this recipe.
@@ -120,6 +121,14 @@ namespace Recipe_Book.Models
             }
         }
 
+        public ObservableCollection<RecipeJournalEntry> JournalEntries
+        {
+            get
+            {
+                return this.journalEntries;
+            }
+        }
+
         /// <summary>
         /// Creates a new recipe with a default id and name.
         /// </summary>
@@ -165,6 +174,21 @@ namespace Recipe_Book.Models
             this.recipeImages = new ObservableCollection<RecipeImage>();
             this.recipeIngredients = new ObservableCollection<RecipeIngredient>();
             this.recipeSteps = new ObservableCollection<RecipeStep>();
+            this.journalEntries = new ObservableCollection<RecipeJournalEntry>();
+        }
+
+        public void addJournalEntry(RecipeJournalEntry newEntry)
+        {
+            if (newEntry != null)
+            {
+                journalEntries.Add(newEntry);
+                RecipeBookDataAccessor.addJournalEntry(newEntry);
+            }
+        }
+
+        public void setJournalEntries(ObservableCollection<RecipeJournalEntry> entries)
+        {
+            this.journalEntries = entries;
         }
 
         /// <summary>

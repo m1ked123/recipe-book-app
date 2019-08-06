@@ -206,9 +206,9 @@ namespace Recipe_Book.Utils
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
             db.Open();
 
-            SqliteCommand selectCommand = new SqliteCommand("SELECT * from JOURNAL_ENTRIES WHERE RID = @RID");
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from JOURNAL_ENTRIES WHERE RID = @RecipeID");
             selectCommand.Connection = db;
-            selectCommand.Parameters.AddWithValue("@RID", recipeId);
+            selectCommand.Parameters.AddWithValue("@RecipeID", recipeId);
             SqliteDataReader query = selectCommand.ExecuteReader();
 
             while (query.Read())
@@ -226,6 +226,7 @@ namespace Recipe_Book.Utils
             }
 
             db.Close();
+            Debug.WriteLine("Saved Entries: " + savedjournalEntries.Count);
             return savedjournalEntries;
         }
 
@@ -412,6 +413,29 @@ namespace Recipe_Book.Utils
             insertCommand.Parameters.AddWithValue("@ID", newImage.ID);
             insertCommand.Parameters.AddWithValue("@Path", newImage.ImagePath);
             insertCommand.Parameters.AddWithValue("@RecipeID", newImage.RecipeID);
+
+            insertCommand.ExecuteReader();
+
+            db.Close();
+        }
+
+        public static void addJournalEntry(RecipeJournalEntry newEntry)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand insertCommand = new SqliteCommand();
+            insertCommand.Connection = db;
+
+            insertCommand.CommandText = "INSERT INTO JOURNAL_ENTRIES " +
+                "(ID, RID, ENTRYNOTES, RATING, ENTRYDATE) VALUES " +
+                "(@ID, @RecipeID, @EntryNotes, @Rating, @EntryDate)";
+            insertCommand.Parameters.AddWithValue("@ID", newEntry.ID);
+            insertCommand.Parameters.AddWithValue("@RecipeID", newEntry.RecipeID);
+            insertCommand.Parameters.AddWithValue("@EntryNotes", newEntry.EntryNotes);
+            insertCommand.Parameters.AddWithValue("@Rating", newEntry.Rating);
+            insertCommand.Parameters.AddWithValue("@EntryDate", newEntry.EntryDate);
 
             insertCommand.ExecuteReader();
 

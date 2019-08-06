@@ -1,18 +1,10 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -25,11 +17,21 @@ namespace Recipe_Book.Views
     public sealed partial class JournalPage : Page
     {
         private ObservableCollection<RecipeJournalEntry> journalEntries;
+        private Recipe recipe;
         public JournalPage()
         {
             this.InitializeComponent();
-            journalEntries = new ObservableCollection<RecipeJournalEntry>();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            recipe = (Recipe)e.Parameter;
+            journalEntries = recipe.JournalEntries;
+            Debug.WriteLine(journalEntries.Count + " entries");
+        }
+
 
         private async void showJournalDialog(object sender, RoutedEventArgs e)
         {
@@ -38,7 +40,8 @@ namespace Recipe_Book.Views
 
             if (journalDialog.NewEntry != null)
             {
-                journalEntries.Add(journalDialog.NewEntry);
+                journalDialog.NewEntry.RecipeID = recipe.ID;
+                recipe.addJournalEntry(journalDialog.NewEntry);
             }
         }
     }
