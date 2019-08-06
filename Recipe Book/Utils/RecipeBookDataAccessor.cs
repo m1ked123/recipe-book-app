@@ -200,6 +200,35 @@ namespace Recipe_Book.Utils
             return savedImages;
         }
 
+        public static ObservableCollection<RecipeJournalEntry> getJournalEntries(long recipeId)
+        {
+            ObservableCollection<RecipeJournalEntry> savedjournalEntries = new ObservableCollection<RecipeJournalEntry>();
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+            db.Open();
+
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from JOURNAL_ENTRIES WHERE RID = @RID");
+            selectCommand.Connection = db;
+            selectCommand.Parameters.AddWithValue("@RID", recipeId);
+            SqliteDataReader query = selectCommand.ExecuteReader();
+
+            while (query.Read())
+            {
+                long id = query.GetInt64(0);
+                String entryNotes = query.GetString(2);
+                double rating = query.GetDouble(3);
+                DateTime entryDate = query.GetDateTime(4);
+                RecipeJournalEntry savedEntry = new RecipeJournalEntry(id);
+                savedEntry.RecipeID = recipeId;
+                savedEntry.EntryDate = entryDate;
+                savedEntry.EntryNotes = entryNotes;
+                savedEntry.Rating = rating;
+                savedjournalEntries.Add(savedEntry);
+            }
+
+            db.Close();
+            return savedjournalEntries;
+        }
+
         /// <summary>
         /// Gets the maximum ID value from the given table.
         /// </summary>
