@@ -485,26 +485,31 @@ namespace Recipe_Book.Utils
             SqliteCommand deleteIngredientCommand = new SqliteCommand();
             SqliteCommand deleteImagesCommand = new SqliteCommand();
             SqliteCommand deleteStepsCommand = new SqliteCommand();
+            SqliteCommand deleteJournalEntriesCommand = new SqliteCommand();
 
             deleteRecipeCommand.Connection = db;
             deleteIngredientCommand.Connection = db;
             deleteImagesCommand.Connection = db;
             deleteStepsCommand.Connection = db;
+            deleteJournalEntriesCommand.Connection = db;
 
             deleteRecipeCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
             deleteIngredientCommand.CommandText = "DELETE FROM INGREDIENTS WHERE RID = @ID";
             deleteImagesCommand.CommandText = "DELETE FROM IMAGES WHERE RID = @ID";
             deleteStepsCommand.CommandText = "DELETE FROM STEPS WHERE RID = @ID";
+            deleteJournalEntriesCommand.CommandText = "DELETE FROM JOURNAL_ENTRIES WHERE RID = @ID";
 
             deleteRecipeCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
             deleteIngredientCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
             deleteImagesCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
             deleteStepsCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteJournalEntriesCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
 
             deleteRecipeCommand.ExecuteNonQuery();
             deleteStepsCommand.ExecuteNonQuery();
             deleteIngredientCommand.ExecuteNonQuery();
             deleteImagesCommand.ExecuteNonQuery();
+            deleteJournalEntriesCommand.ExecuteNonQuery();
 
             db.Close();
         }
@@ -591,21 +596,25 @@ namespace Recipe_Book.Utils
             SqliteCommand truncateImagesCommand = new SqliteCommand();
             SqliteCommand truncateStepsCommand = new SqliteCommand();
             SqliteCommand truncateIngredientsCommand = new SqliteCommand();
+            SqliteCommand truncateJournalEntriesCommand = new SqliteCommand();
 
             truncateRecipesCommand.Connection = db;
             truncateImagesCommand.Connection = db;
             truncateStepsCommand.Connection = db;
             truncateIngredientsCommand.Connection = db;
+            truncateJournalEntriesCommand = db;
 
             truncateRecipesCommand.CommandText = "DELETE FROM RECIPES";
             truncateImagesCommand.CommandText = "DELETE FROM IMAGES";
             truncateStepsCommand.CommandText = "DELETE FROM STEPS";
             truncateIngredientsCommand.CommandText = "DELETE FROM INGREDIENTS";
+            truncateJournalEntriesCommand.CommandText = "DELETE FROM JOURNAL_ENTRIES";
 
             truncateRecipesCommand.ExecuteNonQuery();
             truncateImagesCommand.ExecuteNonQuery();
             truncateStepsCommand.ExecuteNonQuery();
             truncateIngredientsCommand.ExecuteNonQuery();
+            truncateJournalEntriesCommand.ExecuteNonQuery();
 
             db.Close();
         }

@@ -29,7 +29,6 @@ namespace Recipe_Book.Views
 
             recipe = (Recipe)e.Parameter;
             journalEntries = recipe.JournalEntries;
-            Debug.WriteLine(journalEntries.Count + " entries");
         }
 
 
