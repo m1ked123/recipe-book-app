@@ -13,10 +13,13 @@
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <Grid>
-        <StackPanel>
-            <CalendarDatePicker x:Name="entryDatePicker"/>
-            <RatingControl x:Name="entryRatingControl"/>
-            <TextBox x:Name="entryNotesControl" />
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <CalendarDatePicker x:Name="entryDatePicker" PlaceholderText="select a date" Header="Entry Date"/>
+        <RatingControl x:Name="entryRatingControl" Grid.Row="1"/>
+        <TextBox x:Name="entryNotesControl" Grid.Row="2" MaxLength="5000" MaxHeight="320" TextWrapping="Wrap" AcceptsReturn="True" MaxWidth="640" Header="Entry Notes" />
     </Grid>
 </ContentDialog>
