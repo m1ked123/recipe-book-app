@@ -602,7 +602,7 @@ namespace Recipe_Book.Utils
             truncateImagesCommand.Connection = db;
             truncateStepsCommand.Connection = db;
             truncateIngredientsCommand.Connection = db;
-            truncateJournalEntriesCommand = db;
+            truncateJournalEntriesCommand.Connection = db;
 
             truncateRecipesCommand.CommandText = "DELETE FROM RECIPES";
             truncateImagesCommand.CommandText = "DELETE FROM IMAGES";
