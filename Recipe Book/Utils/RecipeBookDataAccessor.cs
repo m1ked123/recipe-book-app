@@ -206,7 +206,7 @@ namespace Recipe_Book.Utils
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
             db.Open();
 
-            SqliteCommand selectCommand = new SqliteCommand("SELECT * from JOURNAL_ENTRIES WHERE RID = @RecipeID");
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from JOURNAL_ENTRIES WHERE RID = @RecipeID ORDER BY ENTRYDATE DESC");
             selectCommand.Connection = db;
             selectCommand.Parameters.AddWithValue("@RecipeID", recipeId);
             SqliteDataReader query = selectCommand.ExecuteReader();

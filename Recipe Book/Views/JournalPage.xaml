@@ -17,6 +17,12 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
+                <Grid.ContextFlyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem Text="Edit" Icon="Edit" />
+                        <MenuFlyoutItem Text="Delete" Icon="Delete" />
+                    </MenuFlyout>
+                </Grid.ContextFlyout>
                 <TextBlock Text="{x:Bind EntryDate.Date.ToShortDateString()}" TextWrapping="WrapWholeWords" Margin="0,0,12,0" VerticalAlignment="Center" />
                 <RatingControl Grid.Column="1" Value="{x:Bind Rating}" IsEnabled="False" Margin="0,0,12,0" />
                 <TextBlock Text="{x:Bind EntryNotes}" Grid.Column="2" TextWrapping="WrapWholeWords" VerticalAlignment="Center"/>

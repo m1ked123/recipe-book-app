@@ -29,6 +29,7 @@ namespace Recipe_Book.Models
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
         private ObservableCollection<RecipeJournalEntry> journalEntries;
+        // TODO: add property to get the most recent journal entry.
 
         /// <summary>
         /// Gets or sets the name of this recipe.
