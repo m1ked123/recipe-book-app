@@ -25,11 +25,24 @@ namespace Recipe_Book.Models
         private String name; // recipe name
         private long id; // recipe's id for database
         private double rating; // recipe rating
+        private DateTime lastMade;
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
         private ObservableCollection<RecipeJournalEntry> journalEntries;
         // TODO: add property to get the most recent journal entry.
+
+        public DateTime LastMade
+        {
+            get
+            {
+                return lastMade;
+            }
+            set
+            {
+                lastMade = value;
+            }
+        } 
 
         /// <summary>
         /// Gets or sets the name of this recipe.
@@ -184,12 +197,25 @@ namespace Recipe_Book.Models
             {
                 journalEntries.Add(newEntry);
                 RecipeBookDataAccessor.addJournalEntry(newEntry);
+                DateTime entryDate = newEntry.EntryDate.DateTime;
+                if (entryDate > lastMade)
+                {
+                    lastMade = entryDate;
+                }
             }
         }
 
         public void setJournalEntries(ObservableCollection<RecipeJournalEntry> entries)
         {
             this.journalEntries = entries;
+            for (int i = 0; i < entries.Count; i++)
+            {
+                DateTime entryDate = entries[i].EntryDate.DateTime;
+                if (entryDate > lastMade)
+                {
+                    lastMade = entryDate;
+                }
+            }
         }
 
         /// <summary>
