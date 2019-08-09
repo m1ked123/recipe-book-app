@@ -442,6 +442,26 @@ namespace Recipe_Book.Utils
             db.Close();
         }
 
+        public static void updateJournalEntry(RecipeJournalEntry updatedEntry)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand updateCommand = new SqliteCommand();
+            updateCommand.Connection = db;
+
+            updateCommand.CommandText = "UPDATE JOURNAL_ENTRIES SET ENTRYNOTES = @EntryNotes, RATING = @Rating, ENTRYDATE = @EntryDate WHERE ID = @ID";
+            updateCommand.Parameters.AddWithValue("@ID", updatedEntry.ID);
+            updateCommand.Parameters.AddWithValue("@EntryNotes", updatedEntry.EntryNotes);
+            updateCommand.Parameters.AddWithValue("@Rating", updatedEntry.Rating);
+            updateCommand.Parameters.AddWithValue("@EntryDate", updatedEntry.EntryDate);
+
+            updateCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
         /// <summary>
         /// Edits the given recipe in the database. This will cascade
         /// to any related data. 

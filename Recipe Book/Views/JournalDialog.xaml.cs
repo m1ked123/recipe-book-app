@@ -36,6 +36,15 @@ namespace Recipe_Book.Views
             this.InitializeComponent();
         }
 
+        public JournalDialog(RecipeJournalEntry updatingEntry)
+        {
+            this.InitializeComponent();
+            newEntry = updatingEntry;
+            entryDatePicker.Date = newEntry.EntryDate;
+            entryNotesControl.Text = newEntry.EntryNotes;
+            entryRatingControl.Value = newEntry.Rating;
+        }
+
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             long newId = RecipeList.journalEntryIdGenerator.getId();
