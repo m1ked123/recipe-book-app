@@ -60,6 +60,7 @@
                     <StackPanel Orientation="Horizontal">
                         <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>
                         <TextBlock HorizontalAlignment="Left" Text="{x:Bind recipe.LastMade}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
+                        <Button ToolTipService.ToolTip="Made this today" Click="madeToday">Made Today</Button>
                     </StackPanel>
                 </StackPanel>
                 <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind recipe.RecipeImages}" Height="480" MinWidth="320"/>

@@ -80,5 +80,15 @@ namespace Recipe_Book
                 recipes.removeRecipe(recipeToDelete);
             }
         }
+
+        private void madeToday(object sender, RoutedEventArgs e)
+        {
+            long newId = RecipeList.journalEntryIdGenerator.getId();
+            RecipeJournalEntry madeTodayEntry = new RecipeJournalEntry(newId);
+            madeTodayEntry.setEntryDate(DateTime.Now);
+            madeTodayEntry.setEntryNotes("Added as quick entry");
+            madeTodayEntry.setRecipeId(recipe.ID);
+            recipe.addJournalEntry(madeTodayEntry);
+        }
     }
 }
