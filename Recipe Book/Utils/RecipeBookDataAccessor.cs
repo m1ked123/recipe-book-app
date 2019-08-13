@@ -603,6 +603,23 @@ namespace Recipe_Book.Utils
             db.Close();
         }
 
+        public static void deleteJournalEntry(RecipeJournalEntry deletingEntry)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand deleteCommand = new SqliteCommand();
+            deleteCommand.Connection = db;
+
+            deleteCommand.CommandText = "DELETE FROM JOURNAL_ENTRIES WHERE ID = @ID";
+            deleteCommand.Parameters.AddWithValue("@ID", deletingEntry.ID);
+
+            deleteCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
         /// <summary>
         /// Empties the recipe list in the user's backend app DB.
         /// </summary>

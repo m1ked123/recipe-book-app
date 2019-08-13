@@ -20,7 +20,7 @@
                 <Grid.ContextFlyout>
                     <MenuFlyout>
                         <MenuFlyoutItem Text="Edit" Icon="Edit" Click="editEntry" />
-                        <MenuFlyoutItem Text="Delete" Icon="Delete" />
+                        <MenuFlyoutItem Text="Delete" Icon="Delete" Click="deleteEntry" />
                     </MenuFlyout>
                 </Grid.ContextFlyout>
                 <TextBlock Text="{x:Bind EntryDate.Date.ToShortDateString()}" TextWrapping="WrapWholeWords" Margin="0,0,12,0" VerticalAlignment="Center" />

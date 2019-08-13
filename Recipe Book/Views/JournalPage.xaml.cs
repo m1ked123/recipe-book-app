@@ -1,8 +1,10 @@
 ﻿using Recipe_Book.Models;
+using Recipe_Book.Utils;
 using Recipe_Book.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -50,6 +52,32 @@ namespace Recipe_Book.Views
             JournalDialog journalDialog = new JournalDialog(editingEntry);
             await journalDialog.ShowAsync();
             recipe.updateJournalEntry(journalDialog.NewEntry);
+        }
+
+        private async Task<bool> tryDeleteItem(String itemLabel)
+        {
+            ContentDialog deleteConfirmationDialog = new ContentDialog
+            {
+                Title = "Permenantly delete " + itemLabel + "?",
+                Content = "If you delete this " + itemLabel + ", you won't be" +
+                " able to recover it. Are you sure you want to delete" +
+                " it?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteConfirmationDialog.ShowAsync();
+            return result == ContentDialogResult.Primary;
+        }
+
+        private async void deleteEntry(object sender, RoutedEventArgs e)
+        {
+            RecipeJournalEntry entryToRemove = (RecipeJournalEntry)((MenuFlyoutItem)e.OriginalSource).DataContext;
+            bool result = await tryDeleteItem("entry");
+            if (result)
+            {
+                RecipeBookDataAccessor.deleteJournalEntry(entryToRemove);
+            }
         }
     }
 }
