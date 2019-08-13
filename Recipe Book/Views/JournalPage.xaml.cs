@@ -49,6 +49,7 @@ namespace Recipe_Book.Views
             RecipeJournalEntry editingEntry = (RecipeJournalEntry)((MenuFlyoutItem)e.OriginalSource).DataContext;
             JournalDialog journalDialog = new JournalDialog(editingEntry);
             await journalDialog.ShowAsync();
+            recipe.updateJournalEntry(journalDialog.NewEntry);
         }
     }
 }

@@ -205,6 +205,16 @@ namespace Recipe_Book.Models
             }
         }
 
+        public void updateJournalEntry(RecipeJournalEntry updatedEntry)
+        {
+            if (updatedEntry != null && updatedEntry.ID != -1)
+            {
+                int entryIndex = journalEntries.IndexOf(updatedEntry);
+                journalEntries[entryIndex] = updatedEntry;
+                RecipeBookDataAccessor.updateJournalEntry(updatedEntry);
+            }
+        }
+
         public void setJournalEntries(ObservableCollection<RecipeJournalEntry> entries)
         {
             this.journalEntries = entries;

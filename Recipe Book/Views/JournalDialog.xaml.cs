@@ -47,8 +47,11 @@ namespace Recipe_Book.Views
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            long newId = RecipeList.journalEntryIdGenerator.getId();
-            newEntry = new RecipeJournalEntry(newId);
+            if (newEntry == null)
+            {
+                long newId = RecipeList.journalEntryIdGenerator.getId();
+                newEntry = new RecipeJournalEntry(newId);
+            }
             newEntry.setEntryDate(entryDatePicker.Date.Value);
             newEntry.setEntryNotes(entryNotesControl.Text);
             newEntry.setRating(entryRatingControl.Value);
