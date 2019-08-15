@@ -228,6 +228,12 @@ namespace Recipe_Book.Models
             }
         }
 
+        public void removeJournalEntry(RecipeJournalEntry entryToRemove)
+        {
+            journalEntries.Remove(entryToRemove);
+            RecipeBookDataAccessor.deleteJournalEntry(entryToRemove);
+        }
+
         /// <summary>
         /// Adds the given recipe image to the recipe. The image cannot
         /// be null.

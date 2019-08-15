@@ -76,7 +76,7 @@ namespace Recipe_Book.Views
             bool result = await tryDeleteItem("entry");
             if (result)
             {
-                RecipeBookDataAccessor.deleteJournalEntry(entryToRemove);
+                recipe.removeJournalEntry(entryToRemove);
             }
         }
     }
