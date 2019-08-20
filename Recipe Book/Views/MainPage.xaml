@@ -21,7 +21,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
-                <RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>
+                <!--<RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>-->
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -56,7 +56,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <ListView Grid.Row="0" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single" ItemClick="showDetailView" IsItemClickEnabled="True" />
         <CommandBar Grid.Row="1" DefaultLabelPosition="Right">
             <AppBarButton Icon="Add" Label="New Recipe" Click="addNewRecipe"/>

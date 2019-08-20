@@ -58,7 +58,7 @@
                     <TextBlock Text="{x:Bind recipe.ID, Mode=OneWay}" />
                     <TextBlock HorizontalAlignment="Left" Text="{x:Bind recipe.Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
                     <StackPanel Orientation="Horizontal">
-                        <RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>
+                        <!--<RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>-->
                         <TextBlock HorizontalAlignment="Left" Text="{x:Bind recipe.LastMade.ToShortDateString()}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
                         <Button ToolTipService.ToolTip="Made this recipe today" Click="madeToday" Margin="24,0,0,0">Made Today</Button>
                     </StackPanel>
