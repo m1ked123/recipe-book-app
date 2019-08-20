@@ -45,6 +45,9 @@ namespace Recipe_Book
             long imageStartingId = RecipeBookDataAccessor.getMaxId(RecipeImage.TABLE_NAME) + 1;
             RecipeList.imageIdGenerator = new IdentifierGenerator(RecipeImage.TABLE_NAME, imageStartingId);
 
+            long entryStartingId = RecipeBookDataAccessor.getMaxId(RecipeJournalEntry.TABLE_NAME) + 1;
+            RecipeList.journalEntryIdGenerator = new IdentifierGenerator(RecipeJournalEntry.TABLE_NAME, entryStartingId);
+
             ObservableCollection<Recipe> savedRecipes = RecipeBookDataAccessor.getSavedRecipes();
             for (int i = 0; i < savedRecipes.Count; i++)
             {
@@ -52,9 +55,11 @@ namespace Recipe_Book
                 ObservableCollection<RecipeIngredient> savedIngredients = RecipeBookDataAccessor.getIngredients(savedRecipe.ID);
                 ObservableCollection<RecipeStep> savedSteps = RecipeBookDataAccessor.getSteps(savedRecipe.ID);
                 ObservableCollection<RecipeImage> savedImages = RecipeBookDataAccessor.getImages(savedRecipe.ID);
+                ObservableCollection<RecipeJournalEntry> savedEntries = RecipeBookDataAccessor.getJournalEntries(savedRecipe.ID);
                 savedRecipe.setIngredients(savedIngredients);
                 savedRecipe.setSteps(savedSteps);
                 savedRecipe.setImages(savedImages);
+                savedRecipe.setJournalEntries(savedEntries);
             }
             recipes.setRecipeList(savedRecipes);
         }

@@ -48,6 +48,13 @@ namespace Recipe_Book.Utils
                 SqliteCommand createStepsDb = new SqliteCommand(createStepsDbText, db);
                 createStepsDb.ExecuteNonQuery();
 
+                String createJournalEntryDbText = "CREATE TABLE IF" +
+                    " NOT EXISTS JOURNAL_ENTRIES (ID INTEGER" +
+                    " PRIMARY KEY, RID INTEGER, ENTRYNOTES VARCHAR(5000)," +
+                    " RATING DOUBLE, ENTRYDATE DATETIME)";
+                SqliteCommand createJournalDb = new SqliteCommand(createJournalEntryDbText, db);
+                createJournalDb.ExecuteNonQuery();
+
                 db.Close();
 
             }
@@ -191,6 +198,36 @@ namespace Recipe_Book.Utils
 
             db.Close();
             return savedImages;
+        }
+
+        public static ObservableCollection<RecipeJournalEntry> getJournalEntries(long recipeId)
+        {
+            ObservableCollection<RecipeJournalEntry> savedjournalEntries = new ObservableCollection<RecipeJournalEntry>();
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+            db.Open();
+
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from JOURNAL_ENTRIES WHERE RID = @RecipeID ORDER BY ENTRYDATE DESC");
+            selectCommand.Connection = db;
+            selectCommand.Parameters.AddWithValue("@RecipeID", recipeId);
+            SqliteDataReader query = selectCommand.ExecuteReader();
+
+            while (query.Read())
+            {
+                long id = query.GetInt64(0);
+                String entryNotes = query.GetString(2);
+                double rating = query.GetDouble(3);
+                DateTime entryDate = query.GetDateTime(4);
+                RecipeJournalEntry savedEntry = new RecipeJournalEntry(id);
+                savedEntry.RecipeID = recipeId;
+                savedEntry.EntryDate = entryDate;
+                savedEntry.EntryNotes = entryNotes;
+                savedEntry.Rating = rating;
+                savedjournalEntries.Add(savedEntry);
+            }
+
+            db.Close();
+            Debug.WriteLine("Saved Entries: " + savedjournalEntries.Count);
+            return savedjournalEntries;
         }
 
         /// <summary>
@@ -382,6 +419,49 @@ namespace Recipe_Book.Utils
             db.Close();
         }
 
+        public static void addJournalEntry(RecipeJournalEntry newEntry)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand insertCommand = new SqliteCommand();
+            insertCommand.Connection = db;
+
+            insertCommand.CommandText = "INSERT INTO JOURNAL_ENTRIES " +
+                "(ID, RID, ENTRYNOTES, RATING, ENTRYDATE) VALUES " +
+                "(@ID, @RecipeID, @EntryNotes, @Rating, @EntryDate)";
+            insertCommand.Parameters.AddWithValue("@ID", newEntry.ID);
+            insertCommand.Parameters.AddWithValue("@RecipeID", newEntry.RecipeID);
+            insertCommand.Parameters.AddWithValue("@EntryNotes", newEntry.EntryNotes);
+            insertCommand.Parameters.AddWithValue("@Rating", newEntry.Rating);
+            insertCommand.Parameters.AddWithValue("@EntryDate", newEntry.EntryDate);
+
+            insertCommand.ExecuteReader();
+
+            db.Close();
+        }
+
+        public static void updateJournalEntry(RecipeJournalEntry updatedEntry)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand updateCommand = new SqliteCommand();
+            updateCommand.Connection = db;
+
+            updateCommand.CommandText = "UPDATE JOURNAL_ENTRIES SET ENTRYNOTES = @EntryNotes, RATING = @Rating, ENTRYDATE = @EntryDate WHERE ID = @ID";
+            updateCommand.Parameters.AddWithValue("@ID", updatedEntry.ID);
+            updateCommand.Parameters.AddWithValue("@EntryNotes", updatedEntry.EntryNotes);
+            updateCommand.Parameters.AddWithValue("@Rating", updatedEntry.Rating);
+            updateCommand.Parameters.AddWithValue("@EntryDate", updatedEntry.EntryDate);
+
+            updateCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
         /// <summary>
         /// Edits the given recipe in the database. This will cascade
         /// to any related data. 
@@ -425,26 +505,31 @@ namespace Recipe_Book.Utils
             SqliteCommand deleteIngredientCommand = new SqliteCommand();
             SqliteCommand deleteImagesCommand = new SqliteCommand();
             SqliteCommand deleteStepsCommand = new SqliteCommand();
+            SqliteCommand deleteJournalEntriesCommand = new SqliteCommand();
 
             deleteRecipeCommand.Connection = db;
             deleteIngredientCommand.Connection = db;
             deleteImagesCommand.Connection = db;
             deleteStepsCommand.Connection = db;
+            deleteJournalEntriesCommand.Connection = db;
 
             deleteRecipeCommand.CommandText = "DELETE FROM RECIPES WHERE ID = @ID";
             deleteIngredientCommand.CommandText = "DELETE FROM INGREDIENTS WHERE RID = @ID";
             deleteImagesCommand.CommandText = "DELETE FROM IMAGES WHERE RID = @ID";
             deleteStepsCommand.CommandText = "DELETE FROM STEPS WHERE RID = @ID";
+            deleteJournalEntriesCommand.CommandText = "DELETE FROM JOURNAL_ENTRIES WHERE RID = @ID";
 
             deleteRecipeCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
             deleteIngredientCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
             deleteImagesCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
             deleteStepsCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
+            deleteJournalEntriesCommand.Parameters.AddWithValue("@ID", deletingRecipe.ID);
 
             deleteRecipeCommand.ExecuteNonQuery();
             deleteStepsCommand.ExecuteNonQuery();
             deleteIngredientCommand.ExecuteNonQuery();
             deleteImagesCommand.ExecuteNonQuery();
+            deleteJournalEntriesCommand.ExecuteNonQuery();
 
             db.Close();
         }
@@ -518,6 +603,23 @@ namespace Recipe_Book.Utils
             db.Close();
         }
 
+        public static void deleteJournalEntry(RecipeJournalEntry deletingEntry)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand deleteCommand = new SqliteCommand();
+            deleteCommand.Connection = db;
+
+            deleteCommand.CommandText = "DELETE FROM JOURNAL_ENTRIES WHERE ID = @ID";
+            deleteCommand.Parameters.AddWithValue("@ID", deletingEntry.ID);
+
+            deleteCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
+
         /// <summary>
         /// Empties the recipe list in the user's backend app DB.
         /// </summary>
@@ -531,21 +633,25 @@ namespace Recipe_Book.Utils
             SqliteCommand truncateImagesCommand = new SqliteCommand();
             SqliteCommand truncateStepsCommand = new SqliteCommand();
             SqliteCommand truncateIngredientsCommand = new SqliteCommand();
+            SqliteCommand truncateJournalEntriesCommand = new SqliteCommand();
 
             truncateRecipesCommand.Connection = db;
             truncateImagesCommand.Connection = db;
             truncateStepsCommand.Connection = db;
             truncateIngredientsCommand.Connection = db;
+            truncateJournalEntriesCommand.Connection = db;
 
             truncateRecipesCommand.CommandText = "DELETE FROM RECIPES";
             truncateImagesCommand.CommandText = "DELETE FROM IMAGES";
             truncateStepsCommand.CommandText = "DELETE FROM STEPS";
             truncateIngredientsCommand.CommandText = "DELETE FROM INGREDIENTS";
+            truncateJournalEntriesCommand.CommandText = "DELETE FROM JOURNAL_ENTRIES";
 
             truncateRecipesCommand.ExecuteNonQuery();
             truncateImagesCommand.ExecuteNonQuery();
             truncateStepsCommand.ExecuteNonQuery();
             truncateIngredientsCommand.ExecuteNonQuery();
+            truncateJournalEntriesCommand.ExecuteNonQuery();
 
             db.Close();
         }

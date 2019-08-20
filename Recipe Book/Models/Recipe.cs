@@ -25,9 +25,24 @@ namespace Recipe_Book.Models
         private String name; // recipe name
         private long id; // recipe's id for database
         private double rating; // recipe rating
+        private DateTime lastMade;
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
+        private ObservableCollection<RecipeJournalEntry> journalEntries;
+        // TODO: add property to get the most recent journal entry.
+
+        public DateTime LastMade
+        {
+            get
+            {
+                return lastMade;
+            }
+            set
+            {
+                lastMade = value;
+            }
+        } 
 
         /// <summary>
         /// Gets or sets the name of this recipe.
@@ -120,6 +135,14 @@ namespace Recipe_Book.Models
             }
         }
 
+        public ObservableCollection<RecipeJournalEntry> JournalEntries
+        {
+            get
+            {
+                return this.journalEntries;
+            }
+        }
+
         /// <summary>
         /// Creates a new recipe with a default id and name.
         /// </summary>
@@ -165,6 +188,50 @@ namespace Recipe_Book.Models
             this.recipeImages = new ObservableCollection<RecipeImage>();
             this.recipeIngredients = new ObservableCollection<RecipeIngredient>();
             this.recipeSteps = new ObservableCollection<RecipeStep>();
+            this.journalEntries = new ObservableCollection<RecipeJournalEntry>();
+        }
+
+        public void addJournalEntry(RecipeJournalEntry newEntry)
+        {
+            if (newEntry != null)
+            {
+                journalEntries.Add(newEntry);
+                RecipeBookDataAccessor.addJournalEntry(newEntry);
+                DateTime entryDate = newEntry.EntryDate.DateTime;
+                if (entryDate > lastMade)
+                {
+                    lastMade = entryDate;
+                }
+            }
+        }
+
+        public void updateJournalEntry(RecipeJournalEntry updatedEntry)
+        {
+            if (updatedEntry != null && updatedEntry.ID != -1)
+            {
+                int entryIndex = journalEntries.IndexOf(updatedEntry);
+                journalEntries[entryIndex] = updatedEntry;
+                RecipeBookDataAccessor.updateJournalEntry(updatedEntry);
+            }
+        }
+
+        public void setJournalEntries(ObservableCollection<RecipeJournalEntry> entries)
+        {
+            this.journalEntries = entries;
+            for (int i = 0; i < entries.Count; i++)
+            {
+                DateTime entryDate = entries[i].EntryDate.DateTime;
+                if (entryDate > lastMade)
+                {
+                    lastMade = entryDate;
+                }
+            }
+        }
+
+        public void removeJournalEntry(RecipeJournalEntry entryToRemove)
+        {
+            journalEntries.Remove(entryToRemove);
+            RecipeBookDataAccessor.deleteJournalEntry(entryToRemove);
         }
 
         /// <summary>

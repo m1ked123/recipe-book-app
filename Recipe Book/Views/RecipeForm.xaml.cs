@@ -93,10 +93,10 @@ namespace Recipe_Book
         private async void saveRecipe(object sender, RoutedEventArgs e)
         {
             String newRecipeName = this.recipeName.Text;
-            double newRecipeRating = this.recipeRating.Value;
+            // double newRecipeRating = this.recipeRating.Value;
 
             recipe.Name = newRecipeName;
-            recipe.Rating = newRecipeRating;
+            // recipe.Rating = newRecipeRating;
             recipe.setImages(images);
             recipe.setIngredients(ingredients);
             recipe.setSteps(steps);
@@ -137,7 +137,7 @@ namespace Recipe_Book
 
                 PageStackEntry modifiedEntry = new PageStackEntry(
                     masterPageEntry.SourcePageType,
-                    recipes.getSelectedIndex(),
+                    recipes,
                     masterPageEntry.NavigationTransitionInfo
                     );
 

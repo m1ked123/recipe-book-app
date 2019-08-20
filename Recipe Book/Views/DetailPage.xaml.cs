@@ -31,54 +31,6 @@ namespace Recipe_Book
 
             recipes = (RecipeList)e.Parameter;
             recipe = recipes.getSelected();
-
-            IList<PageStackEntry> backStack = Frame.BackStack;
-            int backStackCount = backStack.Count;
-            if (backStackCount > 0)
-            {
-                PageStackEntry masterPageEntry = backStack[backStackCount - 1];
-                backStack.RemoveAt(backStackCount - 1);
-                
-                PageStackEntry modifiedEntry = new PageStackEntry(
-                    masterPageEntry.SourcePageType,
-                    recipes.getSelectedIndex(),
-                    masterPageEntry.NavigationTransitionInfo
-                    );
-                backStack.Add(modifiedEntry);
-            }
-
-            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-            systemNavigationManager.BackRequested += onBackRequested;
-            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            Window.Current.SizeChanged += windowSizeChanged;
-        }
-
-        private void windowSizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            bool shouldGoWide = Window.Current.Bounds.Width >= 720;
-            if (shouldGoWide)
-            {
-                Window.Current.SizeChanged -= windowSizeChanged;
-                Frame.GoBack(new EntranceNavigationTransitionInfo());
-            }
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-
-            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-            systemNavigationManager.BackRequested -= onBackRequested;
-            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-            Window.Current.SizeChanged -= windowSizeChanged;
-        }
-
-        private void onBackRequested(object sender, BackRequestedEventArgs e)
-        {
-            // Page above us will be our master view.
-            // Make sure we are using the "drill out" animation in this transition.
-            e.Handled = true;
-            Frame.GoBack(new DrillInNavigationTransitionInfo());
         }
 
         private void editSelectedRecipe(object sender, RoutedEventArgs e)
@@ -126,24 +78,17 @@ namespace Recipe_Book
                     recipes.setSelected(currSelectedRecipe);
                 }
                 recipes.removeRecipe(recipeToDelete);
-
-                IList<PageStackEntry> backStack = Frame.BackStack;
-                int backStackCount = backStack.Count;
-                if (backStackCount > 0)
-                {
-                    PageStackEntry masterPageEntry = backStack[backStackCount - 1];
-                    backStack.RemoveAt(backStackCount - 1);
-
-                    PageStackEntry modifiedEntry = new PageStackEntry(
-                        masterPageEntry.SourcePageType,
-                        recipes.getSelectedIndex(),
-                        masterPageEntry.NavigationTransitionInfo
-                        );
-
-                    backStack.Add(modifiedEntry);
-                }
-                Frame.GoBack();
             }
+        }
+
+        private void madeToday(object sender, RoutedEventArgs e)
+        {
+            long newId = RecipeList.journalEntryIdGenerator.getId();
+            RecipeJournalEntry madeTodayEntry = new RecipeJournalEntry(newId);
+            madeTodayEntry.setEntryDate(DateTime.Now);
+            madeTodayEntry.setEntryNotes("Added as quick entry");
+            madeTodayEntry.setRecipeId(recipe.ID);
+            recipe.addJournalEntry(madeTodayEntry);
         }
     }
 }
