@@ -64,14 +64,18 @@
                 <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
             </CommandBar.SecondaryCommands>
         </CommandBar>
-        <NavigationView x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" IsPaneToggleButtonVisible="False" IsSettingsVisible="False" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" ItemInvoked="navigateToPage">
+        <NavigationView x:Name="detailView" Grid.RowSpan="2" Grid.Column="1" IsPaneToggleButtonVisible="False" IsSettingsVisible="False" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" ItemInvoked="navigateToPage" SelectionFollowsFocus="Enabled">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Recipe" x:Name="recipeContentView" />
                 <NavigationViewItem Content="Recipe Journal" x:Name="journalContentView" />
             </NavigationView.MenuItems>
-            <Grid>
-                <Frame x:Name="contentFrame" />
-            </Grid>
+            <Frame x:Name="contentFrame">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition  />
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
         </NavigationView>
     </Grid>
 </Page>

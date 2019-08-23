@@ -185,11 +185,18 @@ namespace Recipe_Book
             String itemName = args.InvokedItemContainer.Name;
             var preNavPageType = contentFrame.CurrentSourcePageType;
 
+            FrameNavigationOptions navOptions = new FrameNavigationOptions();
+            navOptions.TransitionInfoOverride = args.RecommendedNavigationTransitionInfo;
+            if (sender.PaneDisplayMode == NavigationViewPaneDisplayMode.Top)
+            {
+                navOptions.IsNavigationStackEnabled = false;
+            }
+
             if (itemName == "recipeContentView") {
-                contentFrame.Navigate(typeof(DetailPage), recipes);
+                contentFrame.NavigateToType(typeof(DetailPage), recipes, navOptions);
             } else
             {
-                contentFrame.Navigate(typeof(JournalPage), recipes.getSelected());
+                contentFrame.NavigateToType(typeof(JournalPage), recipes.getSelected(), navOptions);
             }
         }
     }
