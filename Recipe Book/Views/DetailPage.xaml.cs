@@ -1,5 +1,6 @@
 ﻿using Recipe_Book.Models;
 using Recipe_Book.ViewModels;
+using Recipe_Book.Views;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -40,6 +41,7 @@ namespace Recipe_Book
                 systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
 
                 // Show journal button
+                showJournalButton.Visibility = Visibility.Visible;
             }
         }
 
@@ -120,6 +122,11 @@ namespace Recipe_Book
         private bool isNarrow()
         {
             return Window.Current.Bounds.Width < 720;
+        }
+
+        private void showJournal(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(JournalPage), recipes.getSelected());
         }
     }
 }
