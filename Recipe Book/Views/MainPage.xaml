@@ -43,7 +43,6 @@
                     <VisualState.Setters>
                         <Setter Target="MasterColumn.Width" Value="*" />
                         <Setter Target="DetailColumn.Width" Value="0" />
-                        <!--<Setter Target="recipeListView.SelectionMode" Value="None"/>-->
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

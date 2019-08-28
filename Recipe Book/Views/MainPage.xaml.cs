@@ -5,8 +5,6 @@ using System;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -49,17 +47,15 @@ namespace Recipe_Book
                 Debug.WriteLine("Index set from parameter: " + index);
             }
 
-            
+
             if (index < 0)
             {
                 this.detailView.Visibility = Visibility.Collapsed;
-            } else
+            }
+            else
             {
                 this.recipeListView.SelectedIndex = index;
                 this.recipes.setSelected(index);
-                this.detailView.Visibility = Visibility.Visible;
-                detailView.SelectedItem = detailView.MenuItems[0];
-                contentFrame.Navigate(typeof(DetailPage), recipes);
             }
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
@@ -144,10 +140,23 @@ namespace Recipe_Book
                 selectedRecipe = recipes.getSelected();
             }
             bool isNarrow = newState == NarrowState;
-            if (isNarrow && oldState == DefaultState && selectedRecipe != null)
+            if (isNarrow)
             {
-                // Resize down to the detail item. Don't play a transition.
-                Frame.Navigate(typeof(DetailPage), recipes, new SuppressNavigationTransitionInfo());
+                if (oldState == DefaultState && selectedRecipe != null)
+                {
+                    // The window has resized down
+                    Debug.WriteLine("The window has been resized down");
+                    detailView.Visibility = Visibility.Collapsed;
+                    Frame.Navigate(typeof(DetailPage), recipes, new SuppressNavigationTransitionInfo());
+                }
+            }
+            else
+            {
+                // The window was loaded in full screen state
+                Debug.WriteLine("The window was loaded in a narrow state");
+                this.detailView.Visibility = Visibility.Visible;
+                detailView.SelectedItem = detailView.MenuItems[0];
+                contentFrame.Navigate(typeof(DetailPage), recipes);
             }
 
             EntranceNavigationTransitionInfo.SetIsTargetElement(recipeListView, isNarrow);
@@ -192,9 +201,11 @@ namespace Recipe_Book
                 navOptions.IsNavigationStackEnabled = false;
             }
 
-            if (itemName == "recipeContentView") {
+            if (itemName == "recipeContentView")
+            {
                 contentFrame.NavigateToType(typeof(DetailPage), recipes, navOptions);
-            } else
+            }
+            else
             {
                 contentFrame.NavigateToType(typeof(JournalPage), recipes.getSelected(), navOptions);
             }

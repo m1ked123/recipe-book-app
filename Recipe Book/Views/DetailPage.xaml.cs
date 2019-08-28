@@ -31,6 +31,32 @@ namespace Recipe_Book
 
             recipes = (RecipeList)e.Parameter;
             recipe = recipes.getSelected();
+
+            if (isNarrow())
+            {
+                // Show back button
+                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+                systemNavigationManager.BackRequested += backRequested;
+                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+
+                // Show journal button
+            }
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested -= backRequested;
+            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+        }
+
+        private void backRequested(object sender, BackRequestedEventArgs e)
+        {
+            // e.Handled = true;
+            Debug.WriteLine("Back requested");
+            Frame.GoBack();
         }
 
         private void editSelectedRecipe(object sender, RoutedEventArgs e)
@@ -89,6 +115,11 @@ namespace Recipe_Book
             madeTodayEntry.setEntryNotes("Added as quick entry");
             madeTodayEntry.setRecipeId(recipe.ID);
             recipe.addJournalEntry(madeTodayEntry);
+        }
+
+        private bool isNarrow()
+        {
+            return Window.Current.Bounds.Width < 720;
         }
     }
 }
