@@ -137,7 +137,7 @@ namespace Recipe_Book
 
                 PageStackEntry modifiedEntry = new PageStackEntry(
                     masterPageEntry.SourcePageType,
-                    recipes,
+                    recipes.getSelectedIndex(),
                     masterPageEntry.NavigationTransitionInfo
                     );
 

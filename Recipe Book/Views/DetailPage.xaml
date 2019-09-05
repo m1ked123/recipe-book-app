@@ -2,7 +2,7 @@
     x:Class="Recipe_Book.DetailPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Recipe_Book"
+    xmlns:local="using:Recipe_Book.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:Recipe_Book.Models"
@@ -61,7 +61,6 @@
                         <!--<RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>-->
                         <TextBlock HorizontalAlignment="Left" Text="{x:Bind recipe.LastMade.ToShortDateString()}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
                         <Button ToolTipService.ToolTip="Made this recipe today" Click="madeToday" Margin="24,0,0,0">Made Today</Button>
-                        <Button x:Name="showJournalButton" ToolTipService.ToolTip="Show journal" Click="showJournal" Margin="24,0,0,0" Visibility="Collapsed">See Journal</Button>
                     </StackPanel>
                 </StackPanel>
                 <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind recipe.RecipeImages}" Height="480" MinWidth="320"/>

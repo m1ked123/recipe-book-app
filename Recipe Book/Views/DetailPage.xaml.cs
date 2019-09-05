@@ -35,13 +35,27 @@ namespace Recipe_Book
 
             if (isNarrow())
             {
+                IList<PageStackEntry> backStack = Frame.BackStack;
+                int backStackCount = backStack.Count;
+                if (backStackCount > 0)
+                {
+                    PageStackEntry masterPageEntry = backStack[backStackCount - 1];
+                    backStack.RemoveAt(backStackCount - 1);
+
+                    PageStackEntry modifiedEntry = new PageStackEntry(
+                        masterPageEntry.SourcePageType,
+                        recipes.getSelectedIndex(),
+                        masterPageEntry.NavigationTransitionInfo
+                        );
+
+                    backStack.Add(modifiedEntry);
+                }
+
                 // Show back button
                 SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
                 systemNavigationManager.BackRequested += backRequested;
                 systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-
-                // Show journal button
-                showJournalButton.Visibility = Visibility.Visible;
+                Window.Current.SizeChanged += windowSizeChanged;
             }
         }
 
@@ -51,12 +65,14 @@ namespace Recipe_Book
 
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested -= backRequested;
+            Window.Current.SizeChanged -= windowSizeChanged;
             systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+            
         }
 
         private void backRequested(object sender, BackRequestedEventArgs e)
         {
-            // e.Handled = true;
+            e.Handled = true;
             Debug.WriteLine("Back requested");
             Frame.GoBack();
         }
@@ -119,14 +135,18 @@ namespace Recipe_Book
             recipe.addJournalEntry(madeTodayEntry);
         }
 
+        private void windowSizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            if (!isNarrow())
+            {
+                Window.Current.SizeChanged -= windowSizeChanged;
+                Frame.GoBack();
+            }
+        }
+
         private bool isNarrow()
         {
             return Window.Current.Bounds.Width < 720;
-        }
-
-        private void showJournal(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(JournalPage), recipes.getSelected());
         }
     }
 }

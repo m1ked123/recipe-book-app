@@ -50,7 +50,7 @@ namespace Recipe_Book
 
             if (index < 0)
             {
-                this.detailView.Visibility = Visibility.Collapsed;
+                detailFrame.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -140,29 +140,20 @@ namespace Recipe_Book
                 selectedRecipe = recipes.getSelected();
             }
             bool isNarrow = newState == NarrowState;
-            if (isNarrow)
-            {
-                if (oldState == DefaultState && selectedRecipe != null)
-                {
+            if (isNarrow && oldState == DefaultState && selectedRecipe != null) { 
+                
                     // The window has resized down
                     Debug.WriteLine("The window has been resized down");
-                    detailView.Visibility = Visibility.Collapsed;
-                    Frame.Navigate(typeof(DetailPage), recipes, new SuppressNavigationTransitionInfo());
-                }
-            }
-            else
-            {
-                // The window was loaded in full screen state
-                Debug.WriteLine("The window was loaded in a narrow state");
-                this.detailView.Visibility = Visibility.Visible;
-                detailView.SelectedItem = detailView.MenuItems[0];
-                contentFrame.Navigate(typeof(DetailPage), recipes);
+                    // detailView.Visibility = Visibility.Collapsed;
+                    //Frame.Navigate(typeof(DetailPage), recipes, new SuppressNavigationTransitionInfo());
+                
             }
 
+            
             EntranceNavigationTransitionInfo.SetIsTargetElement(recipeListView, isNarrow);
-            if (detailView != null)
+            if (detailFrame != null)
             {
-                EntranceNavigationTransitionInfo.SetIsTargetElement(detailView, !isNarrow);
+                EntranceNavigationTransitionInfo.SetIsTargetElement(detailFrame, !isNarrow);
             }
         }
 
@@ -170,45 +161,27 @@ namespace Recipe_Book
         {
             bool isNarrow = AdaptiveStates.CurrentState == NarrowState;
             int itemIndex = recipes.getRecipeList().IndexOf((Recipe)e.ClickedItem);
+            showDetailView(isNarrow, itemIndex);
+        }
+
+        private void showDetailView(bool isNarrow, int itemIndex)
+        {
             recipes.setSelected(itemIndex);
             if (isNarrow)
             {
-                Frame.Navigate(typeof(DetailPage), recipes, new DrillInNavigationTransitionInfo());
+                detailFrame.Navigate(typeof(DetailSection), recipes, new DrillInNavigationTransitionInfo());
             }
             else
             {
-                detailView.ContentTransitions.Clear();
-                detailView.ContentTransitions.Add(new EntranceThemeTransition());
-                detailView.SelectedItem = detailView.MenuItems[0];
-                contentFrame.Navigate(typeof(DetailPage), recipes);
+                detailFrame.ContentTransitions.Clear();
+                detailFrame.ContentTransitions.Add(new EntranceThemeTransition());
+                detailFrame.Navigate(typeof(DetailSection), recipes);
             }
         }
 
         private void showSettingsPage(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SettingsPage));
-        }
-
-        private void navigateToPage(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-        {
-            String itemName = args.InvokedItemContainer.Name;
-            var preNavPageType = contentFrame.CurrentSourcePageType;
-
-            FrameNavigationOptions navOptions = new FrameNavigationOptions();
-            navOptions.TransitionInfoOverride = args.RecommendedNavigationTransitionInfo;
-            if (sender.PaneDisplayMode == NavigationViewPaneDisplayMode.Top)
-            {
-                navOptions.IsNavigationStackEnabled = false;
-            }
-
-            if (itemName == "recipeContentView")
-            {
-                contentFrame.NavigateToType(typeof(DetailPage), recipes, navOptions);
-            }
-            else
-            {
-                contentFrame.NavigateToType(typeof(JournalPage), recipes.getSelected(), navOptions);
-            }
         }
     }
 }

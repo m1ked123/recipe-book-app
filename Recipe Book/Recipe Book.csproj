@@ -123,6 +123,9 @@
     <Compile Include="Views\DetailPage.xaml.cs">
       <DependentUpon>DetailPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DetailSection.xaml.cs">
+      <DependentUpon>DetailSection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\IngredientDialog.xaml.cs">
       <DependentUpon>IngredientDialog.xaml</DependentUpon>
     </Compile>
@@ -215,6 +218,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Views\DetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DetailSection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
