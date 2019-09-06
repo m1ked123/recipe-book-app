@@ -33,49 +33,12 @@ namespace Recipe_Book
             recipes = (RecipeList)e.Parameter;
             recipe = recipes.getSelected();
 
-            if (isNarrow())
-            {
-                IList<PageStackEntry> backStack = Frame.BackStack;
-                int backStackCount = backStack.Count;
-                if (backStackCount > 0)
-                {
-                    PageStackEntry masterPageEntry = backStack[backStackCount - 1];
-                    backStack.RemoveAt(backStackCount - 1);
-
-                    PageStackEntry modifiedEntry = new PageStackEntry(
-                        masterPageEntry.SourcePageType,
-                        recipes.getSelectedIndex(),
-                        masterPageEntry.NavigationTransitionInfo
-                        );
-
-                    backStack.Add(modifiedEntry);
-                }
-
-                // Show back button
-                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-                systemNavigationManager.BackRequested += backRequested;
-                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                Window.Current.SizeChanged += windowSizeChanged;
-            }
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-
-            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-            systemNavigationManager.BackRequested -= backRequested;
-            Window.Current.SizeChanged -= windowSizeChanged;
-            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
             
         }
 
-        private void backRequested(object sender, BackRequestedEventArgs e)
-        {
-            e.Handled = true;
-            Debug.WriteLine("Back requested");
-            Frame.GoBack();
-        }
+        
+
+        
 
         private void editSelectedRecipe(object sender, RoutedEventArgs e)
         {
@@ -135,18 +98,6 @@ namespace Recipe_Book
             recipe.addJournalEntry(madeTodayEntry);
         }
 
-        private void windowSizeChanged(object sender, WindowSizeChangedEventArgs e)
-        {
-            if (!isNarrow())
-            {
-                Window.Current.SizeChanged -= windowSizeChanged;
-                Frame.GoBack();
-            }
-        }
-
-        private bool isNarrow()
-        {
-            return Window.Current.Bounds.Width < 720;
-        }
+        
     }
 }

@@ -144,8 +144,7 @@ namespace Recipe_Book
                 
                     // The window has resized down
                     Debug.WriteLine("The window has been resized down");
-                    // detailView.Visibility = Visibility.Collapsed;
-                    //Frame.Navigate(typeof(DetailPage), recipes, new SuppressNavigationTransitionInfo());
+                    Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
                 
             }
 
@@ -169,7 +168,7 @@ namespace Recipe_Book
             recipes.setSelected(itemIndex);
             if (isNarrow)
             {
-                detailFrame.Navigate(typeof(DetailSection), recipes, new DrillInNavigationTransitionInfo());
+                Frame.Navigate(typeof(DetailSection), recipes, new DrillInNavigationTransitionInfo());
             }
             else
             {
