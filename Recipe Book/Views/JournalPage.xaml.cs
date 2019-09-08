@@ -32,23 +32,6 @@ namespace Recipe_Book.Views
 
             recipe = (Recipe)e.Parameter;
             journalEntries = recipe.JournalEntries;
-
-            if (isNarrow())
-            {
-                // Show back button
-                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-                systemNavigationManager.BackRequested += backRequested;
-                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            }
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-
-            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-            systemNavigationManager.BackRequested -= backRequested;
-            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
 
@@ -96,18 +79,6 @@ namespace Recipe_Book.Views
             {
                 recipe.removeJournalEntry(entryToRemove);
             }
-        }
-
-        private bool isNarrow()
-        {
-            return Window.Current.Bounds.Width < 720;
-        }
-
-        private void backRequested(object sender, BackRequestedEventArgs e)
-        {
-            // e.Handled = true;
-            Debug.WriteLine("Back requested");
-            Frame.GoBack();
         }
     }
 }

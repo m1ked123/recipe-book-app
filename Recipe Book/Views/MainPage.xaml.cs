@@ -134,12 +134,7 @@ namespace Recipe_Book
 
         private void updateLayoutFromState(VisualState newState, VisualState oldState)
         {
-            int selectedIndex = recipes.getSelectedIndex();
-            Recipe selectedRecipe = null;
-            if (selectedIndex >= 0)
-            {
-                selectedRecipe = recipes.getSelected();
-            }
+            Recipe selectedRecipe = recipes.getSelected();
             bool isNarrow = newState == NarrowState;
             if (isNarrow && oldState == DefaultState && selectedRecipe != null) { 
                 
@@ -155,14 +150,6 @@ namespace Recipe_Book
             {
                 EntranceNavigationTransitionInfo.SetIsTargetElement(detailFrame, !isNarrow);
             }
-        }
-
-        private void showDetailView(object sender, ItemClickEventArgs e)
-        {
-            // ItemClick="showDetailView"
-            bool isNarrow = AdaptiveStates.CurrentState == NarrowState;
-            int itemIndex = recipes.getRecipeList().IndexOf((Recipe)e.ClickedItem);
-            showDetailView(isNarrow, itemIndex);
         }
 
         private void showDetailView(bool isNarrow, int itemIndex)
