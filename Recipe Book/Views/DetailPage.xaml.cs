@@ -32,13 +32,7 @@ namespace Recipe_Book
 
             recipes = (RecipeList)e.Parameter;
             recipe = recipes.getSelected();
-
-            
         }
-
-        
-
-        
 
         private void editSelectedRecipe(object sender, RoutedEventArgs e)
         {
@@ -97,7 +91,5 @@ namespace Recipe_Book
             madeTodayEntry.setRecipeId(recipe.ID);
             recipe.addJournalEntry(madeTodayEntry);
         }
-
-        
     }
 }

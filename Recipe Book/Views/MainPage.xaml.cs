@@ -54,8 +54,9 @@ namespace Recipe_Book
             }
             else
             {
-                this.recipeListView.SelectedIndex = index;
                 this.recipes.setSelected(index);
+                this.recipeListView.SelectedIndex = index;
+                
             }
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
@@ -158,6 +159,7 @@ namespace Recipe_Book
 
         private void showDetailView(object sender, ItemClickEventArgs e)
         {
+            // ItemClick="showDetailView"
             bool isNarrow = AdaptiveStates.CurrentState == NarrowState;
             int itemIndex = recipes.getRecipeList().IndexOf((Recipe)e.ClickedItem);
             showDetailView(isNarrow, itemIndex);
@@ -181,6 +183,20 @@ namespace Recipe_Book
         private void showSettingsPage(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SettingsPage));
+        }
+
+        private void showDetailView(object sender, SelectionChangedEventArgs e)
+        {
+            bool isNarrow = AdaptiveStates.CurrentState == NarrowState;
+            Debug.WriteLine(e.AddedItems);
+            Recipe r = (Recipe)e.AddedItems[0];
+            int itemIndex = 0;
+            if (r != null)
+            {
+                itemIndex = recipes.getRecipeList().IndexOf(r);
+            }
+            
+            showDetailView(isNarrow, itemIndex);
         }
     }
 }
