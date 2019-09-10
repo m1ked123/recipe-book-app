@@ -34,7 +34,6 @@ namespace Recipe_Book.Views
             journalEntries = recipe.JournalEntries;
         }
 
-
         private async void showJournalDialog(object sender, RoutedEventArgs e)
         {
             JournalDialog journalDialog = new JournalDialog();

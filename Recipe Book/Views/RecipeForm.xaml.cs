@@ -128,21 +128,6 @@ namespace Recipe_Book
                 RecipeBookDataAccessor.deleteImage(imageToRemove);
             }
 
-            IList<PageStackEntry> backStack = Frame.BackStack;
-            int backStackCount = backStack.Count;
-            if (backStackCount > 0)
-            {
-                PageStackEntry masterPageEntry = backStack[backStackCount - 1];
-                backStack.RemoveAt(backStackCount - 1);
-
-                PageStackEntry modifiedEntry = new PageStackEntry(
-                    masterPageEntry.SourcePageType,
-                    recipes.getSelectedIndex(),
-                    masterPageEntry.NavigationTransitionInfo
-                    );
-
-                backStack.Add(modifiedEntry);
-            }
             Frame.GoBack();
         }
 

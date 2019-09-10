@@ -136,19 +136,13 @@ namespace Recipe_Book
         {
             Recipe selectedRecipe = recipes.getSelected();
             bool isNarrow = newState == NarrowState;
-            if (isNarrow && oldState == DefaultState && selectedRecipe != null) { 
-                
-                    // The window has resized down
-                    Debug.WriteLine("The window has been resized down");
-                    Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
-                
-            }
-
-            
-            EntranceNavigationTransitionInfo.SetIsTargetElement(recipeListView, isNarrow);
-            if (detailFrame != null)
+            if (isNarrow && oldState == DefaultState && selectedRecipe != null)
             {
-                EntranceNavigationTransitionInfo.SetIsTargetElement(detailFrame, !isNarrow);
+
+                // The window has resized down
+                Debug.WriteLine("The window has been resized down");
+                Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
+
             }
         }
 
