@@ -55,10 +55,10 @@ namespace Recipe_Book
             {
                 this.recipes.setSelected(index);
                 this.recipeListView.SelectedIndex = index;
-                
             }
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
+            showDetailView(index);
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
@@ -133,22 +133,23 @@ namespace Recipe_Book
 
         private void updateLayoutFromState(VisualState newState, VisualState oldState)
         {
-            Recipe selectedRecipe = recipes.getSelected();
             bool isNarrow = newState == NarrowState;
-            if (isNarrow && oldState == DefaultState && selectedRecipe != null)
+            if (isNarrow && oldState == DefaultState)
             {
-
-                // The window has resized down
                 Debug.WriteLine("The window has been resized down");
                 Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
-
+            } else if (oldState == NarrowState && newState == DefaultState)
+            {
+                Debug.WriteLine("The window has been resized up");
+                int index = recipes.getSelectedIndex();
+                showDetailView(index);
             }
         }
 
-        private void showDetailView(bool isNarrow, int itemIndex)
+        private void showDetailView(int itemIndex)
         {
             recipes.setSelected(itemIndex);
-            if (isNarrow)
+            if (isNarrow())
             {
                 Frame.Navigate(typeof(DetailSection), recipes, new DrillInNavigationTransitionInfo());
             }
@@ -156,8 +157,14 @@ namespace Recipe_Book
             {
                 detailFrame.ContentTransitions.Clear();
                 detailFrame.ContentTransitions.Add(new EntranceThemeTransition());
+                recipeListView.SelectedIndex = itemIndex;
                 detailFrame.Navigate(typeof(DetailSection), recipes);
             }
+        }
+
+        private bool isNarrow()
+        {
+            return Window.Current.Bounds.Width < 720;
         }
 
         private void showSettingsPage(object sender, RoutedEventArgs e)
@@ -165,18 +172,16 @@ namespace Recipe_Book
             Frame.Navigate(typeof(SettingsPage));
         }
 
-        private void showDetailView(object sender, SelectionChangedEventArgs e)
+        private void showDetailView(object sender, ItemClickEventArgs e)
         {
-            bool isNarrow = AdaptiveStates.CurrentState == NarrowState;
-            Debug.WriteLine(e.AddedItems);
-            Recipe r = (Recipe)e.AddedItems[0];
+            Recipe r = (Recipe)e.ClickedItem;
             int itemIndex = 0;
             if (r != null)
             {
                 itemIndex = recipes.getRecipeList().IndexOf(r);
             }
             
-            showDetailView(isNarrow, itemIndex);
+            showDetailView(itemIndex);
         }
     }
 }
