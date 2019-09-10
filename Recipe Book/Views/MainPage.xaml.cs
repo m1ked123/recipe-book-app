@@ -24,7 +24,6 @@ namespace Recipe_Book
             this.InitializeComponent();
             recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.Recipes;
-            Debug.WriteLine("Create the main page");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -64,7 +63,7 @@ namespace Recipe_Book
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate((typeof(RecipeForm)), recipes);
+            detailFrame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void deleteRecipe(object sender, RoutedEventArgs e)
@@ -115,7 +114,7 @@ namespace Recipe_Book
         {
             recipes.setSelected(this.recipeListView.SelectedIndex);
             recipes.setEditing(true);
-            Frame.Navigate((typeof(RecipeForm)), recipes);
+            detailFrame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
