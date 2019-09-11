@@ -5,6 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -32,7 +33,6 @@ namespace Recipe_Book.Views
             recipe = (Recipe)e.Parameter;
             journalEntries = recipe.JournalEntries;
         }
-
 
         private async void showJournalDialog(object sender, RoutedEventArgs e)
         {

@@ -5,8 +5,6 @@ using System;
 using System.Diagnostics;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -26,7 +24,6 @@ namespace Recipe_Book
             this.InitializeComponent();
             recipes = App.recipes;
             this.recipeListView.ItemsSource = recipes.Recipes;
-            Debug.WriteLine("Create the main page");
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -49,24 +46,27 @@ namespace Recipe_Book
                 Debug.WriteLine("Index set from parameter: " + index);
             }
 
-            
+
             if (index < 0)
             {
-                this.detailView.Visibility = Visibility.Collapsed;
-            } else
+                detailFrame.Visibility = Visibility.Collapsed;
+            }
+            else
             {
-                this.recipeListView.SelectedIndex = index;
                 this.recipes.setSelected(index);
-                this.detailView.Visibility = Visibility.Visible;
-                detailView.SelectedItem = detailView.MenuItems[0];
-                contentFrame.Navigate(typeof(DetailPage), recipes);
+                this.recipeListView.SelectedIndex = index;
             }
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
+            showDetailView(index);
         }
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
+            if (detailFrame.Visibility == Visibility.Collapsed)
+            {
+                detailFrame.Visibility = Visibility.Visible;
+            }
             Frame.Navigate((typeof(RecipeForm)), recipes);
         }
 
@@ -118,7 +118,7 @@ namespace Recipe_Book
         {
             recipes.setSelected(this.recipeListView.SelectedIndex);
             recipes.setEditing(true);
-            Frame.Navigate((typeof(RecipeForm)), recipes);
+            detailFrame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
@@ -137,42 +137,42 @@ namespace Recipe_Book
 
         private void updateLayoutFromState(VisualState newState, VisualState oldState)
         {
-            int selectedIndex = recipes.getSelectedIndex();
-            Recipe selectedRecipe = null;
-            if (selectedIndex >= 0)
-            {
-                selectedRecipe = recipes.getSelected();
-            }
             bool isNarrow = newState == NarrowState;
-            if (isNarrow && oldState == DefaultState && selectedRecipe != null)
+            if (isNarrow && oldState == DefaultState)
             {
-                // Resize down to the detail item. Don't play a transition.
-                Frame.Navigate(typeof(DetailPage), recipes, new SuppressNavigationTransitionInfo());
-            }
-
-            EntranceNavigationTransitionInfo.SetIsTargetElement(recipeListView, isNarrow);
-            if (detailView != null)
+                Debug.WriteLine("The window has been resized down");
+                Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
+            } else if (oldState == NarrowState && newState == DefaultState)
             {
-                EntranceNavigationTransitionInfo.SetIsTargetElement(detailView, !isNarrow);
+                Debug.WriteLine("The window has been resized up");
+                int index = recipes.getSelectedIndex();
+                showDetailView(index);
             }
         }
 
-        private void showDetailView(object sender, ItemClickEventArgs e)
+        private void showDetailView(int itemIndex)
         {
-            bool isNarrow = AdaptiveStates.CurrentState == NarrowState;
-            int itemIndex = recipes.getRecipeList().IndexOf((Recipe)e.ClickedItem);
-            recipes.setSelected(itemIndex);
-            if (isNarrow)
+            if (itemIndex >= 0)
             {
-                Frame.Navigate(typeof(DetailPage), recipes, new DrillInNavigationTransitionInfo());
+                recipes.setSelected(itemIndex);
+                if (isNarrow())
+                {
+                    Frame.Navigate(typeof(DetailSection), recipes, new DrillInNavigationTransitionInfo());
+                }
+                else
+                {
+                    detailFrame.ContentTransitions.Clear();
+                    detailFrame.ContentTransitions.Add(new EntranceThemeTransition());
+                    recipeListView.SelectedIndex = itemIndex;
+                    detailFrame.Navigate(typeof(DetailSection), recipes);
+                }
             }
-            else
-            {
-                detailView.ContentTransitions.Clear();
-                detailView.ContentTransitions.Add(new EntranceThemeTransition());
-                detailView.SelectedItem = detailView.MenuItems[0];
-                contentFrame.Navigate(typeof(DetailPage), recipes);
-            }
+            
+        }
+
+        private bool isNarrow()
+        {
+            return Window.Current.Bounds.Width < 720;
         }
 
         private void showSettingsPage(object sender, RoutedEventArgs e)
@@ -180,17 +180,16 @@ namespace Recipe_Book
             Frame.Navigate(typeof(SettingsPage));
         }
 
-        private void navigateToPage(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private void showDetailView(object sender, ItemClickEventArgs e)
         {
-            String itemName = args.InvokedItemContainer.Name;
-            var preNavPageType = contentFrame.CurrentSourcePageType;
-
-            if (itemName == "recipeContentView") {
-                contentFrame.Navigate(typeof(DetailPage), recipes);
-            } else
+            Recipe r = (Recipe)e.ClickedItem;
+            int itemIndex = 0;
+            if (r != null)
             {
-                contentFrame.Navigate(typeof(JournalPage), recipes.getSelected());
+                itemIndex = recipes.getRecipeList().IndexOf(r);
             }
+            
+            showDetailView(itemIndex);
         }
     }
 }
