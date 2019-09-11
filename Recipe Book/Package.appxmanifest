@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="c029c597-582b-4738-804b-d52a6fc3f4e3" Publisher="CN=Michael" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="c029c597-582b-4738-804b-d52a6fc3f4e3" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="10203m1ked123.RecipeJournal" Publisher="CN=71E44345-C886-4D6D-903F-1602E2CEB5DE" Version="1.0.3.0" />
+  <mp:PhoneIdentity PhoneProductId="a5ff81a4-2e32-479d-a21f-a4218b0bf8ad" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>Recipe Book</DisplayName>
-    <PublisherDisplayName>Michael</PublisherDisplayName>
+    <DisplayName>Recipe Journal</DisplayName>
+    <PublisherDisplayName>m1ked123</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>

@@ -63,7 +63,11 @@ namespace Recipe_Book
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
-            detailFrame.Navigate((typeof(RecipeForm)), recipes);
+            if (detailFrame.Visibility == Visibility.Collapsed)
+            {
+                detailFrame.Visibility = Visibility.Visible;
+            }
+            Frame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void deleteRecipe(object sender, RoutedEventArgs e)
@@ -148,18 +152,22 @@ namespace Recipe_Book
 
         private void showDetailView(int itemIndex)
         {
-            recipes.setSelected(itemIndex);
-            if (isNarrow())
+            if (itemIndex >= 0)
             {
-                Frame.Navigate(typeof(DetailSection), recipes, new DrillInNavigationTransitionInfo());
+                recipes.setSelected(itemIndex);
+                if (isNarrow())
+                {
+                    Frame.Navigate(typeof(DetailSection), recipes, new DrillInNavigationTransitionInfo());
+                }
+                else
+                {
+                    detailFrame.ContentTransitions.Clear();
+                    detailFrame.ContentTransitions.Add(new EntranceThemeTransition());
+                    recipeListView.SelectedIndex = itemIndex;
+                    detailFrame.Navigate(typeof(DetailSection), recipes);
+                }
             }
-            else
-            {
-                detailFrame.ContentTransitions.Clear();
-                detailFrame.ContentTransitions.Add(new EntranceThemeTransition());
-                recipeListView.SelectedIndex = itemIndex;
-                detailFrame.Navigate(typeof(DetailSection), recipes);
-            }
+            
         }
 
         private bool isNarrow()
