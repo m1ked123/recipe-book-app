@@ -71,8 +71,7 @@ namespace Recipe_Book.Views
 
         private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
         {
-            Recipe recipeToDelete = recipes.getSelected();
-            tryDeleteRecipe(recipeToDelete);
+            tryDeleteRecipe(selectedRecipe);
         }
 
         private async void tryDeleteRecipe(Recipe recipeToDelete)
@@ -91,23 +90,37 @@ namespace Recipe_Book.Views
 
             if (result == ContentDialogResult.Primary)
             {
-                int oldIndex = recipes.getRecipeList().IndexOf(recipeToDelete);
+                int deleteIndex = recipes.getRecipeList().IndexOf(recipeToDelete);
 
-                int currSelectedRecipe = recipes.getSelectedIndex(); ;
-
-                if (currSelectedRecipe == oldIndex && currSelectedRecipe > 0)
+                if (deleteIndex > 0)
                 {
-                    recipes.setSelected(currSelectedRecipe - 1);
+                    // deleting recipe somewhere other than beginning
+                    // select the recipe before it
+                    recipes.setSelected(deleteIndex - 1);
                 }
-                else if (currSelectedRecipe == oldIndex && currSelectedRecipe == 0)
+                else if (deleteIndex == 0)
                 {
+                    // deleting recipe at the beginning
+                    // select the same index
                     recipes.setSelected(0);
+                }
+
+                recipes.removeRecipe(recipeToDelete);
+                if (isNarrow())
+                {
+                    Frame.GoBack();
                 }
                 else
                 {
-                    recipes.setSelected(currSelectedRecipe);
+                    if (recipes.Recipes.Count == 0)
+                    {
+                        // hide this column
+                        detailSectionGrid.Visibility = Visibility.Collapsed;
+                    }
+                    selectedRecipe = recipes.getSelected();
+                    detailSection.SelectedItem = detailSection.MenuItems[0];
+                    contentFrame.Navigate(typeof(DetailPage), selectedRecipe);
                 }
-                recipes.removeRecipe(recipeToDelete);
             }
         }
 
