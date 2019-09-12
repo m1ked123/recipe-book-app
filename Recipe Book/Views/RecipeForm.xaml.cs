@@ -84,6 +84,22 @@ namespace Recipe_Book
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
             this.recipeSteps.ItemsSource = steps;
+
+            IList<PageStackEntry> backStack = Frame.BackStack;
+            int backStackCount = backStack.Count;
+            if (backStackCount > 0)
+            {
+                PageStackEntry masterPageEntry = backStack[backStackCount - 1];
+                backStack.RemoveAt(backStackCount - 1);
+
+                PageStackEntry modifiedEntry = new PageStackEntry(
+                    masterPageEntry.SourcePageType,
+                    recipes,
+                    masterPageEntry.NavigationTransitionInfo
+                    );
+
+                backStack.Add(modifiedEntry);
+            }
         }
 
         /*

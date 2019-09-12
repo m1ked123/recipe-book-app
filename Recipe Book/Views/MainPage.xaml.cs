@@ -67,7 +67,7 @@ namespace Recipe_Book
             {
                 detailFrame.Visibility = Visibility.Visible;
             }
-            Frame.Navigate((typeof(RecipeForm)), recipes);
+            detailFrame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void deleteRecipe(object sender, RoutedEventArgs e)
@@ -118,7 +118,7 @@ namespace Recipe_Book
         {
             recipes.setSelected(this.recipeListView.SelectedIndex);
             recipes.setEditing(true);
-            detailFrame.Navigate((typeof(RecipeForm)), recipes);
+            Frame.Navigate((typeof(RecipeForm)), recipes);
         }
 
         private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
