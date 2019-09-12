@@ -8,17 +8,27 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <NavigationView x:Name="detailSection" IsPaneToggleButtonVisible="False" IsSettingsVisible="False" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" ItemInvoked="navigateToPage">
-        <NavigationView.MenuItems>
-            <NavigationViewItem Content="Recipe" x:Name="recipeContentView" />
-            <NavigationViewItem Content="Recipe Journal" x:Name="journalContentView" />
-        </NavigationView.MenuItems>
-        <Frame x:Name="contentFrame">
-            <Frame.ContentTransitions>
-                <TransitionCollection>
-                    <NavigationThemeTransition  />
-                </TransitionCollection>
-            </Frame.ContentTransitions>
-        </Frame>
-    </NavigationView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <CommandBar Grid.Row="0">
+            <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
+            <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
+        </CommandBar>
+        <NavigationView x:Name="detailSection" Grid.Row="1" IsPaneToggleButtonVisible="False" IsSettingsVisible="False" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" ItemInvoked="navigateToPage">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="Recipe" x:Name="recipeContentView" />
+                <NavigationViewItem Content="Recipe Journal" x:Name="journalContentView" />
+            </NavigationView.MenuItems>
+            <Frame x:Name="contentFrame">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition  />
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
+        </NavigationView>
+    </Grid>
 </Page>

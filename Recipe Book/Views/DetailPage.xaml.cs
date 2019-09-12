@@ -20,7 +20,7 @@ namespace Recipe_Book
     public sealed partial class DetailPage : Page
     {
         private Recipe recipe;
-        private RecipeList recipes;
+
         public DetailPage()
         {
             this.InitializeComponent();
@@ -30,56 +30,7 @@ namespace Recipe_Book
         {
             base.OnNavigatedTo(e);
 
-            recipes = (RecipeList)e.Parameter;
-            recipe = recipes.getSelected();
-        }
-
-        private void editSelectedRecipe(object sender, RoutedEventArgs e)
-        {
-            recipes.setEditing(true);
-            Frame.Navigate((typeof(RecipeForm)), recipes);
-        }
-
-        private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
-        {
-            Recipe recipeToDelete = recipes.getSelected();
-            tryDeleteRecipe(recipeToDelete);
-        }
-
-        private async void tryDeleteRecipe(Recipe recipeToDelete)
-        {
-            ContentDialog deleteConfirmationDialog = new ContentDialog
-            {
-                Title = "Permenantly delete recipe?",
-                Content = "If you delete this recipe, you won't be" +
-                " able to recover it. Are you Sure you want to delete" +
-                " it?",
-                PrimaryButtonText = "Delete",
-                CloseButtonText = "Cancel"
-            };
-
-            ContentDialogResult result = await deleteConfirmationDialog.ShowAsync();
-
-            if (result == ContentDialogResult.Primary)
-            {
-                int oldIndex = recipes.getRecipeList().IndexOf(recipeToDelete);
-
-                int currSelectedRecipe = recipes.getSelectedIndex(); ;
-
-                if (currSelectedRecipe == oldIndex && currSelectedRecipe > 0)
-                {
-                    recipes.setSelected(currSelectedRecipe - 1);
-                }
-                else if (currSelectedRecipe == oldIndex && currSelectedRecipe == 0)
-                {
-                    recipes.setSelected(0);
-                }
-                else
-                {
-                    recipes.setSelected(currSelectedRecipe);
-                }
-                recipes.removeRecipe(recipeToDelete);
-            }
+            recipe = (Recipe)e.Parameter;
         }
 
         private void madeToday(object sender, RoutedEventArgs e)

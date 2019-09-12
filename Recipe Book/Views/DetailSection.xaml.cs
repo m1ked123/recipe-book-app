@@ -1,4 +1,5 @@
-﻿using Recipe_Book.ViewModels;
+﻿using Recipe_Book.Models;
+using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,6 +19,7 @@ namespace Recipe_Book.Views
     public sealed partial class DetailSection : Page
     {
         private RecipeList recipes;
+        private Recipe selectedRecipe;
 
         public DetailSection()
         {
@@ -30,9 +32,10 @@ namespace Recipe_Book.Views
             base.OnNavigatedTo(e);
 
             recipes = (RecipeList)e.Parameter;
+            selectedRecipe = recipes.getSelected();
 
             detailSection.SelectedItem = detailSection.MenuItems[0];
-            contentFrame.Navigate(typeof(DetailPage), recipes);
+            contentFrame.Navigate(typeof(DetailPage), selectedRecipe);
 
             if (isNarrow())
             {
@@ -60,6 +63,54 @@ namespace Recipe_Book.Views
             }
         }
 
+        private void editSelectedRecipe(object sender, RoutedEventArgs e)
+        {
+            recipes.setEditing(true);
+            Frame.Navigate((typeof(RecipeForm)), recipes);
+        }
+
+        private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
+        {
+            Recipe recipeToDelete = recipes.getSelected();
+            tryDeleteRecipe(recipeToDelete);
+        }
+
+        private async void tryDeleteRecipe(Recipe recipeToDelete)
+        {
+            ContentDialog deleteConfirmationDialog = new ContentDialog
+            {
+                Title = "Permenantly delete recipe?",
+                Content = "If you delete this recipe, you won't be" +
+                " able to recover it. Are you Sure you want to delete" +
+                " it?",
+                PrimaryButtonText = "Delete",
+                CloseButtonText = "Cancel"
+            };
+
+            ContentDialogResult result = await deleteConfirmationDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                int oldIndex = recipes.getRecipeList().IndexOf(recipeToDelete);
+
+                int currSelectedRecipe = recipes.getSelectedIndex(); ;
+
+                if (currSelectedRecipe == oldIndex && currSelectedRecipe > 0)
+                {
+                    recipes.setSelected(currSelectedRecipe - 1);
+                }
+                else if (currSelectedRecipe == oldIndex && currSelectedRecipe == 0)
+                {
+                    recipes.setSelected(0);
+                }
+                else
+                {
+                    recipes.setSelected(currSelectedRecipe);
+                }
+                recipes.removeRecipe(recipeToDelete);
+            }
+        }
+
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
@@ -82,7 +133,6 @@ namespace Recipe_Book.Views
         {
             if (!isNarrow())
             {
-                Window.Current.SizeChanged -= windowSizeChanged;
                 Frame.GoBack(new SuppressNavigationTransitionInfo());
             }
         }
@@ -106,11 +156,11 @@ namespace Recipe_Book.Views
 
             if (itemName == "recipeContentView")
             {
-                contentFrame.NavigateToType(typeof(DetailPage), recipes, navOptions);
+                contentFrame.NavigateToType(typeof(DetailPage), selectedRecipe, navOptions);
             }
             else
             {
-                contentFrame.NavigateToType(typeof(JournalPage), recipes.getSelected(), navOptions);
+                contentFrame.NavigateToType(typeof(JournalPage), selectedRecipe, navOptions);
             }
         }
     }

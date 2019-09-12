@@ -38,15 +38,7 @@
         </DataTemplate>
     </Page.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <CommandBar Grid.Row="0">
-            <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
-            <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
-        </CommandBar>
-        <ScrollViewer Grid.Row="1" Margin="12">
+        <ScrollViewer Margin="12">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
