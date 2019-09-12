@@ -48,7 +48,7 @@ namespace Recipe_Book.Views
 
                     PageStackEntry modifiedEntry = new PageStackEntry(
                         masterPageEntry.SourcePageType,
-                        recipes.getSelectedIndex(),
+                        recipes,
                         masterPageEntry.NavigationTransitionInfo
                         );
 
