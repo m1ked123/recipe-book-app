@@ -96,13 +96,13 @@ namespace Recipe_Book.Views
                 {
                     // deleting recipe somewhere other than beginning
                     // select the recipe before it
-                    recipes.setSelected(deleteIndex - 1);
+                    recipes.SelectedIndex = deleteIndex - 1;
                 }
                 else if (deleteIndex == 0)
                 {
                     // deleting recipe at the beginning
                     // select the same index
-                    recipes.setSelected(0);
+                    recipes.SelectedIndex = 0;
                 }
 
                 recipes.removeRecipe(recipeToDelete);
@@ -138,7 +138,6 @@ namespace Recipe_Book.Views
         private void backRequested(object sender, BackRequestedEventArgs e)
         {
             e.Handled = true;
-            Debug.WriteLine("Back requested");
             Frame.GoBack();
         }
 

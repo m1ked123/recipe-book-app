@@ -3,6 +3,8 @@ using Recipe_Book.Utils;
 using System.Collections.ObjectModel;
 using Windows.Storage;
 using System;
+using System.ComponentModel;
+using System.Diagnostics;
 
 namespace Recipe_Book.ViewModels
 {
@@ -10,7 +12,7 @@ namespace Recipe_Book.ViewModels
     /// The main application view model that controls the interactions
     /// between the UI and models behind the scenes.
     /// </summary>
-    public class RecipeList
+    public class RecipeList : INotifyPropertyChanged
     {
         public static IdentifierGenerator recipeIdGenerator;
         public static IdentifierGenerator imageIdGenerator;
@@ -38,6 +40,22 @@ namespace Recipe_Book.ViewModels
             set
             {
                 setRecipeList(value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the selected index for the recipe list.
+        /// </summary>
+        public int SelectedIndex
+        {
+            get
+            {
+                return getSelectedIndex();
+            }
+            set
+            {
+                setSelected(value);
+                RaisePropertyChanged("SelectedIndex");
             }
         }
 
@@ -203,6 +221,16 @@ namespace Recipe_Book.ViewModels
             ingredientIdGenerator.reset();
             stepIdGenerator.reset();
             await imageFolder.DeleteAsync();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void RaisePropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+                Debug.WriteLine("Property changed!");
+            }
         }
     }
 }
