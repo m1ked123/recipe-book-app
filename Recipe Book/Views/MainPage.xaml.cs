@@ -33,29 +33,24 @@ namespace Recipe_Book
             int index = -1;
             if (e.Parameter == null)
             {
+                recipes = App.recipes;
                 int numRecipes = recipes.getRecipeList().Count;
                 if (numRecipes > 0)
                 {
                     index = 0;
-                    Debug.WriteLine("Index set to 0 because of recipe number: " + numRecipes);
                 }
             }
             else
             {
-                index = (int)e.Parameter;
-                Debug.WriteLine("Index set from parameter: " + index);
+                recipes = (RecipeList)e.Parameter;
+                index = recipes.getSelectedIndex();
             }
-
-
+            
             if (index < 0)
             {
                 detailFrame.Visibility = Visibility.Collapsed;
             }
-            else
-            {
-                this.recipes.setSelected(index);
-                this.recipeListView.SelectedIndex = index;
-            }
+            recipeListView.SelectedIndex = index;
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
             showDetailView(index);
@@ -63,13 +58,23 @@ namespace Recipe_Book
 
         private void addNewRecipe(object sender, RoutedEventArgs e)
         {
-            if (detailFrame.Visibility == Visibility.Collapsed)
+            if (isNarrow())
             {
-                detailFrame.Visibility = Visibility.Visible;
+                Frame.Navigate(typeof(RecipeForm), recipes, new DrillInNavigationTransitionInfo());
             }
-            Frame.Navigate((typeof(RecipeForm)), recipes);
+            else
+            {
+                if (detailFrame.Visibility == Visibility.Collapsed)
+                {
+                    detailFrame.Visibility = Visibility.Visible;
+                }
+                detailFrame.ContentTransitions.Clear();
+                detailFrame.ContentTransitions.Add(new EntranceThemeTransition());
+                detailFrame.Navigate(typeof(RecipeForm), recipes);
+            }
         }
 
+        /*
         private void deleteRecipe(object sender, RoutedEventArgs e)
         {
             Recipe recipeToDelete =
@@ -118,14 +123,16 @@ namespace Recipe_Book
         {
             recipes.setSelected(this.recipeListView.SelectedIndex);
             recipes.setEditing(true);
-            detailFrame.Navigate((typeof(RecipeForm)), recipes);
+            Frame.Navigate((typeof(RecipeForm)), recipes);
         }
+        
 
         private void deleteSelectedRecipe(object sender, RoutedEventArgs e)
         {
             Recipe recipeToDelete = (Recipe)this.recipeListView.SelectedItem;
             tryDeleteRecipe(recipeToDelete);
         }
+        */
 
         private void updateLayout(object sender, VisualStateChangedEventArgs e)
         {
@@ -140,11 +147,11 @@ namespace Recipe_Book
             bool isNarrow = newState == NarrowState;
             if (isNarrow && oldState == DefaultState)
             {
-                Debug.WriteLine("The window has been resized down");
+                // window resized down
                 Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
             } else if (oldState == NarrowState && newState == DefaultState)
             {
-                Debug.WriteLine("The window has been resized up");
+                // window expanded
                 int index = recipes.getSelectedIndex();
                 showDetailView(index);
             }
@@ -154,7 +161,7 @@ namespace Recipe_Book
         {
             if (itemIndex >= 0)
             {
-                recipes.setSelected(itemIndex);
+                recipes.SelectedIndex = itemIndex;
                 if (isNarrow())
                 {
                     Frame.Navigate(typeof(DetailSection), recipes, new DrillInNavigationTransitionInfo());
@@ -163,7 +170,10 @@ namespace Recipe_Book
                 {
                     detailFrame.ContentTransitions.Clear();
                     detailFrame.ContentTransitions.Add(new EntranceThemeTransition());
-                    recipeListView.SelectedIndex = itemIndex;
+                    if (recipeListView.SelectionMode == ListViewSelectionMode.None)
+                    {
+                        recipeListView.SelectionMode = ListViewSelectionMode.Single;
+                    }
                     detailFrame.Navigate(typeof(DetailSection), recipes);
                 }
             }

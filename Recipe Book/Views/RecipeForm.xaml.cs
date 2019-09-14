@@ -1,6 +1,7 @@
 ﻿using Recipe_Book.Models;
 using Recipe_Book.Utils;
 using Recipe_Book.ViewModels;
+using Recipe_Book.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -84,6 +85,22 @@ namespace Recipe_Book
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
             this.recipeSteps.ItemsSource = steps;
+
+            IList<PageStackEntry> backStack = Frame.BackStack;
+            int backStackCount = backStack.Count;
+            if (backStackCount > 0)
+            {
+                PageStackEntry masterPageEntry = backStack[backStackCount - 1];
+                backStack.RemoveAt(backStackCount - 1);
+
+                PageStackEntry modifiedEntry = new PageStackEntry(
+                    typeof(DetailSection),
+                    recipes,
+                    masterPageEntry.NavigationTransitionInfo
+                    );
+
+                backStack.Add(modifiedEntry);
+            }
         }
 
         /*
@@ -104,7 +121,7 @@ namespace Recipe_Book
             if (!recipes.isEditing())
             {
                 recipes.addRecipe(recipe);
-                recipes.setSelected(recipes.getRecipeList().Count - 1);
+                recipes.SelectedIndex = recipes.getRecipeList().Count - 1;
             }
             else
             {
@@ -127,7 +144,6 @@ namespace Recipe_Book
                 await imageFile.DeleteAsync();
                 RecipeBookDataAccessor.deleteImage(imageToRemove);
             }
-
             Frame.GoBack();
         }
 
