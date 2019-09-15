@@ -141,12 +141,12 @@ namespace Recipe_Book
                 recipes.setEditing(false);
             }
             await tempImageFolder.DeleteAsync(); // delete all temp files added
-            if (Frame.CanGoBack)
+            if (recipes.Recipes.Count > 0)
             {
-                Frame.GoBack();
+                Frame.Navigate(typeof(DetailSection), recipes);
             } else
             {
-                Debug.WriteLine("Can't navigate back.");
+                Frame.Content = null;
             }
         }
 
