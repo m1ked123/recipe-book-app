@@ -85,22 +85,6 @@ namespace Recipe_Book
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
             this.recipeSteps.ItemsSource = steps;
-
-            IList<PageStackEntry> backStack = Frame.BackStack;
-            int backStackCount = backStack.Count;
-            if (backStackCount > 0)
-            {
-                PageStackEntry masterPageEntry = backStack[backStackCount - 1];
-                backStack.RemoveAt(backStackCount - 1);
-
-                PageStackEntry modifiedEntry = new PageStackEntry(
-                    typeof(DetailSection),
-                    recipes,
-                    masterPageEntry.NavigationTransitionInfo
-                    );
-
-                backStack.Add(modifiedEntry);
-            }
         }
 
         /*
@@ -144,7 +128,7 @@ namespace Recipe_Book
                 await imageFile.DeleteAsync();
                 RecipeBookDataAccessor.deleteImage(imageToRemove);
             }
-            Frame.GoBack();
+            Frame.Navigate(typeof(DetailSection), recipes);
         }
 
         /*
@@ -157,7 +141,13 @@ namespace Recipe_Book
                 recipes.setEditing(false);
             }
             await tempImageFolder.DeleteAsync(); // delete all temp files added
-            Frame.GoBack();
+            if (Frame.CanGoBack)
+            {
+                Frame.GoBack();
+            } else
+            {
+                Debug.WriteLine("Can't navigate back.");
+            }
         }
 
         /*
