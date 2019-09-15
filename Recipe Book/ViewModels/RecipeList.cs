@@ -5,6 +5,7 @@ using Windows.Storage;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Recipe_Book.ViewModels
 {
@@ -208,10 +209,21 @@ namespace Recipe_Book.ViewModels
         }
 
         /// <summary>
+        /// Gets if this recipe list is empty or not.
+        /// </summary>
+        /// <returns>
+        /// True if there are recipes in this list. False otherwise.
+        /// </returns>
+        public bool isEmpty()
+        {
+            return recipes.Count == 0;
+        }
+
+        /// <summary>
         /// Empties this recipe list and deletes all related 
         /// information
         /// </summary>
-        public async void empty()
+        public void empty()
         {
             recipes.Clear();
             RecipeBookDataAccessor.emptyRecipteList();
@@ -220,7 +232,20 @@ namespace Recipe_Book.ViewModels
             imageIdGenerator.reset();
             ingredientIdGenerator.reset();
             stepIdGenerator.reset();
-            await imageFolder.DeleteAsync();
+            verifyImageFolder();
+        }
+
+        public async void verifyImageFolder()
+        {
+            StorageFolder tempFolder = ApplicationData.Current.TemporaryFolder;
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            String desiredName = "images";
+            StorageFolder imageFolder =
+                await localFolder.CreateFolderAsync(desiredName, CreationCollisionOption.OpenIfExists);
+            StorageFolder tempImageFolder =
+                await tempFolder.CreateFolderAsync(desiredName, CreationCollisionOption.OpenIfExists);
+            RecipeList.imageFolder = imageFolder;
+            RecipeList.tempFolder = tempImageFolder;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
