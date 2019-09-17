@@ -29,7 +29,7 @@ namespace Recipe_Book
             this.Suspending += OnSuspending;
             recipes = new RecipeList();
 
-            verifyImageFolder();
+            recipes.verifyImageFolder();
 
             RecipeBookDataAccessor.InitializeDatabase();
 
@@ -127,19 +127,6 @@ namespace Recipe_Book
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
-        }
-
-        private async void verifyImageFolder()
-        {
-            StorageFolder tempFolder = ApplicationData.Current.TemporaryFolder;
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-            String desiredName = "images";
-            StorageFolder imageFolder =
-                await localFolder.CreateFolderAsync(desiredName, CreationCollisionOption.OpenIfExists);
-            StorageFolder tempImageFolder =
-                await tempFolder.CreateFolderAsync(desiredName, CreationCollisionOption.OpenIfExists);
-            RecipeList.imageFolder = imageFolder;
-            RecipeList.tempFolder = tempImageFolder;
         }
     }
 }
