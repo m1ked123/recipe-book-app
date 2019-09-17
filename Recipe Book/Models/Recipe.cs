@@ -15,7 +15,7 @@ namespace Recipe_Book.Models
     /// a name, a collection of images, a collection of ingredients,
     /// and a collection of steps that describe how to make it.
     /// </summary>
-    public class Recipe
+    public class Recipe : INotifyPropertyChanged
     {
         /// <summary>
         /// The name of the SQLite table used to store recipes
@@ -31,6 +31,8 @@ namespace Recipe_Book.Models
         private ObservableCollection<RecipeStep> recipeSteps;
         private ObservableCollection<RecipeJournalEntry> journalEntries;
         // TODO: add property to get the most recent journal entry.
+
+        
 
         public DateTime LastMade
         {
@@ -56,6 +58,7 @@ namespace Recipe_Book.Models
             set
             {
                 this.name = value;
+                RaisePropertyChanged("Name");
             }
         }
 
@@ -385,6 +388,15 @@ namespace Recipe_Book.Models
                 }
                 this.recipeSteps = newRecipeSteps;
             } 
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void RaisePropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
     }
 }

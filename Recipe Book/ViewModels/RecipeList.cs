@@ -254,7 +254,6 @@ namespace Recipe_Book.ViewModels
             if (PropertyChanged != null)
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
-                Debug.WriteLine("Property changed!");
             }
         }
     }
