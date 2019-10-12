@@ -222,7 +222,7 @@ namespace Recipe_Book.Utils
                 savedEntry.EntryDate = entryDate;
                 savedEntry.EntryNotes = entryNotes;
                 savedEntry.Rating = rating;
-                savedjournalEntries.add(savedEntry);
+                savedjournalEntries.Add(savedEntry);
             }
 
             db.Close();

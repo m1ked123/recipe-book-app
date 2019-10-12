@@ -19,7 +19,7 @@ namespace Recipe_Book.Views
     /// </summary>
     public sealed partial class JournalPage : Page
     {
-        private ObservableCollection<RecipeJournalEntry> journalEntries;
+        private RecipeJournal journalEntries;
         private Recipe recipe;
         public JournalPage()
         {

@@ -138,11 +138,11 @@ namespace Recipe_Book.Models
             }
         }
 
-        public ObservableCollection<RecipeJournalEntry> JournalEntries
+        public RecipeJournal JournalEntries
         {
             get
             {
-                return this.journalEntries.Entries;
+                return this.journalEntries;
             }
         }
 
@@ -152,7 +152,7 @@ namespace Recipe_Book.Models
         public Recipe() : this(-1) { }
 
         /// <summary>
-        /// Creates a new recipe witht he given id and a default name.
+        /// Creates a new recipe with the given id and a default name.
         /// </summary>
         /// <param name="id">
         /// the ID for this recipe
@@ -198,7 +198,7 @@ namespace Recipe_Book.Models
         {
             if (newEntry != null)
             {
-                journalEntries.add(newEntry);
+                journalEntries.Add(newEntry);
                 RecipeBookDataAccessor.addJournalEntry(newEntry);
                 DateTime entryDate = newEntry.EntryDate.DateTime;
                 if (entryDate > lastMade)

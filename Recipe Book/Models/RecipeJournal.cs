@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Recipe_Book.Models
 {
@@ -14,27 +11,41 @@ namespace Recipe_Book.Models
     /// <code>RecipeJournalEntry</code> objects. Entries can be added,
     /// retrieved, and removed from this collection.
     /// </summary>
-    public class RecipeJournal : INotifyPropertyChanged, INotifyCollectionChanged
+    public class RecipeJournal : INotifyPropertyChanged, INotifyCollectionChanged, IList
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
 
         private const int DEFAULT_SIZE = 10;
 
         private int size; // number of items
         private RecipeJournalEntry[] entries; // internal list of entries
 
-        // TODO: move this up to the model?
-        public ObservableCollection<RecipeJournalEntry> Entries
+        public bool IsFixedSize => throw new NotImplementedException();
+
+        public bool IsReadOnly => throw new NotImplementedException();
+
+        public int Count
         {
             get
             {
-                ObservableCollection<RecipeJournalEntry> result = new ObservableCollection<RecipeJournalEntry>();
-                for (int i = 0; i < size; i++)
-                {
-                    result.Add(entries[i]);
-                }
-                return result;
+                return getSize();
+            }
+        }
+
+        public bool IsSynchronized => throw new NotImplementedException();
+
+        public object SyncRoot => throw new NotImplementedException();
+
+        public object this[int index]
+        {
+            get
+            {
+                return get(index);
+            }
+            set
+            {
+                set(index, (RecipeJournalEntry)value);
             }
         }
 
@@ -45,22 +56,6 @@ namespace Recipe_Book.Models
         {
             size = 0;
             entries = new RecipeJournalEntry[DEFAULT_SIZE];
-        }
-
-        /// <summary>
-        /// Adds the given recipe journal entry to the recipe journal.
-        /// </summary>
-        /// <param name="newEntry">
-        /// The entry to add to the recipe journal.
-        /// </param>
-        public void add(RecipeJournalEntry newEntry)
-        {
-            if (newEntry != null)
-            {
-                ensureSize();
-                entries[size] = newEntry;
-                size++;
-            }
         }
 
         // Ensures the sizxe of the internal array
@@ -225,6 +220,75 @@ namespace Recipe_Book.Models
         public RecipeJournalEntry getRecentEntry()
         {
             return null;
+        }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        /// <summary>
+        /// Adds the given recipe journal entry to the recipe journal.
+        /// </summary>
+        /// <param name="newEntry">
+        /// The entry to add to the recipe journal.
+        /// </param>
+        public int Add(object value)
+        {
+            RecipeJournalEntry newEntry = (RecipeJournalEntry)value;
+            if (newEntry != null)
+            {
+                ensureSize();
+                entries[size] = newEntry;
+                size++;
+                int index = size - 1;
+                if (CollectionChanged != null)
+                {
+                    NotifyCollectionChangedAction action = NotifyCollectionChangedAction.Add;
+                    NotifyCollectionChangedEventArgs args = 
+                        new NotifyCollectionChangedEventArgs(action, newEntry, index);
+                    CollectionChanged(this, args);
+                }
+                return index;
+            }
+            return -1;
+        }
+
+        public void Clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int IndexOf(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Insert(int index, object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(object value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveAt(int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }
