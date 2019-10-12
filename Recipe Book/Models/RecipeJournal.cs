@@ -40,7 +40,11 @@ namespace Recipe_Book.Models
         /// </param>
         public void add(RecipeJournalEntry newEntry)
         {
-
+            if (newEntry != null)
+            {
+                entries[size] = newEntry;
+                size++;
+            }
         }
 
         /// <summary>
@@ -48,7 +52,7 @@ namespace Recipe_Book.Models
         /// </summary>
         public void empty()
         {
-
+            size = 0;
         }
 
         /// <summary>
