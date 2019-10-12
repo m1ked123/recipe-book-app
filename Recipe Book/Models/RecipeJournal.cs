@@ -95,7 +95,16 @@ namespace Recipe_Book.Models
         /// </param>
         public void removeAt(int index)
         {
-
+            if (index < 0 || index > size)
+            {
+                throw new IndexOutOfRangeException("Index must be " +
+                    "between 0 and the current journal size: " + index);
+            }
+            size--;
+            for (int i = index; i < size; i++)
+            {
+                entries[index] = entries[index + 1];
+            }
         }
 
         /// <summary>
