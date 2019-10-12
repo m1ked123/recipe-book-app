@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -23,6 +24,20 @@ namespace Recipe_Book.Models
         private int size; // number of items
         private RecipeJournalEntry[] entries; // internal list of entries
 
+        // TODO: move this up to the model?
+        public ObservableCollection<RecipeJournalEntry> Entries
+        {
+            get
+            {
+                ObservableCollection<RecipeJournalEntry> result = new ObservableCollection<RecipeJournalEntry>();
+                for (int i = 0; i < size; i++)
+                {
+                    result.Add(entries[i]);
+                }
+                return result;
+            }
+        }
+
         /// <summary>
         /// The default constructor, creates an empty recipe journal.
         /// </summary>
@@ -42,8 +57,23 @@ namespace Recipe_Book.Models
         {
             if (newEntry != null)
             {
+                ensureSize();
                 entries[size] = newEntry;
                 size++;
+            }
+        }
+
+        // Ensures the sizxe of the internal array
+        private void ensureSize()
+        {
+            if (size >= entries.Length)
+            {
+                RecipeJournalEntry[] temp = new RecipeJournalEntry[size * 2];
+                for (int i = 0; i < entries.Length; i++)
+                {
+                    temp[i] = entries[i];
+                }
+                entries = temp;
             }
         }
 
@@ -122,7 +152,12 @@ namespace Recipe_Book.Models
         /// </returns>
         public RecipeJournalEntry get(int index)
         {
-            return null;
+            if (index < 0 || index > size)
+            {
+                throw new IndexOutOfRangeException("Index must be " +
+                    "between 0 and the current journal size: " + index);
+            }
+            return entries[index];
         }
 
         /// <summary>
