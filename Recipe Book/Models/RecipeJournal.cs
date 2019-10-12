@@ -130,6 +130,13 @@ namespace Recipe_Book.Models
         /// </returns>
         public int indexOf(RecipeJournalEntry toFind)
         {
+            for (int i = 0; i < size; i++)
+            {
+                if (entries[i] == toFind)
+                {
+                    return i;
+                }
+            }
             return -1;
         }
 
@@ -145,7 +152,7 @@ namespace Recipe_Book.Models
         /// </returns>
         public bool contains(RecipeJournalEntry toFind)
         {
-            return false;
+            return indexOf(toFind) >= 0;
         }
 
         /// <summary>
