@@ -107,6 +107,10 @@ namespace Recipe_Book.Models
             }
         }
 
+        /// <summary>
+        /// Removes the given entry from the journal if it exists.
+        /// </summary>
+        /// <param name="toRemove"></param>
         public void remove(RecipeJournalEntry toRemove)
         {
             if (toRemove == null)
@@ -116,6 +120,21 @@ namespace Recipe_Book.Models
             }
             int index = indexOf(toRemove);
             removeAt(index);
+        }
+
+        /// <summary>
+        /// Sets the entry at the given index to the given new entry.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="newEntry"></param>
+        public void set(int index, RecipeJournalEntry newEntry)
+        {
+            if (index < 0 || index > size)
+            {
+                throw new IndexOutOfRangeException("Index must be " +
+                    "between 0 and the current journal size: " + index);
+            }
+            entries[index] = newEntry;
         }
 
         /// <summary>

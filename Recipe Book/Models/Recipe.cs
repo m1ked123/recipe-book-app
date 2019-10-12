@@ -29,7 +29,7 @@ namespace Recipe_Book.Models
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
-        private ObservableCollection<RecipeJournalEntry> journalEntries;
+        private RecipeJournal journalEntries;
         // TODO: add property to get the most recent journal entry.
 
         
@@ -142,7 +142,7 @@ namespace Recipe_Book.Models
         {
             get
             {
-                return this.journalEntries;
+                return this.journalEntries.Entries;
             }
         }
 
@@ -191,14 +191,14 @@ namespace Recipe_Book.Models
             this.recipeImages = new ObservableCollection<RecipeImage>();
             this.recipeIngredients = new ObservableCollection<RecipeIngredient>();
             this.recipeSteps = new ObservableCollection<RecipeStep>();
-            this.journalEntries = new ObservableCollection<RecipeJournalEntry>();
+            this.journalEntries = new RecipeJournal();
         }
 
         public void addJournalEntry(RecipeJournalEntry newEntry)
         {
             if (newEntry != null)
             {
-                journalEntries.Add(newEntry);
+                journalEntries.add(newEntry);
                 RecipeBookDataAccessor.addJournalEntry(newEntry);
                 DateTime entryDate = newEntry.EntryDate.DateTime;
                 if (entryDate > lastMade)
@@ -212,18 +212,18 @@ namespace Recipe_Book.Models
         {
             if (updatedEntry != null && updatedEntry.ID != -1)
             {
-                int entryIndex = journalEntries.IndexOf(updatedEntry);
-                journalEntries[entryIndex] = updatedEntry;
+                int entryIndex = journalEntries.indexOf(updatedEntry);
+                journalEntries.set(entryIndex, updatedEntry);
                 RecipeBookDataAccessor.updateJournalEntry(updatedEntry);
             }
         }
 
-        public void setJournalEntries(ObservableCollection<RecipeJournalEntry> entries)
+        public void setJournalEntries(RecipeJournal entries)
         {
             this.journalEntries = entries;
-            for (int i = 0; i < entries.Count; i++)
+            for (int i = 0; i < entries.getSize(); i++)
             {
-                DateTime entryDate = entries[i].EntryDate.DateTime;
+                DateTime entryDate = entries.get(i).EntryDate.DateTime;
                 if (entryDate > lastMade)
                 {
                     lastMade = entryDate;
@@ -233,7 +233,7 @@ namespace Recipe_Book.Models
 
         public void removeJournalEntry(RecipeJournalEntry entryToRemove)
         {
-            journalEntries.Remove(entryToRemove);
+            journalEntries.remove(entryToRemove);
             RecipeBookDataAccessor.deleteJournalEntry(entryToRemove);
         }
 

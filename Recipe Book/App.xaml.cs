@@ -59,7 +59,7 @@ namespace Recipe_Book
                 savedRecipe.setIngredients(savedIngredients);
                 savedRecipe.setSteps(savedSteps);
                 savedRecipe.setImages(savedImages);
-                savedRecipe.setJournalEntries(savedEntries.Entries);
+                savedRecipe.setJournalEntries(savedEntries);
             }
             recipes.setRecipeList(savedRecipes);
         }
