@@ -107,6 +107,17 @@ namespace Recipe_Book.Models
             }
         }
 
+        public void remove(RecipeJournalEntry toRemove)
+        {
+            if (toRemove == null)
+            {
+                throw new ArgumentNullException("The entry to remove " +
+                    "must not be null.");
+            }
+            int index = indexOf(toRemove);
+            removeAt(index);
+        }
+
         /// <summary>
         /// Gets whether the journal has entries in it or not.
         /// </summary>
