@@ -88,33 +88,41 @@ namespace Recipe_Book.Models
         /// <param name="index">
         /// The index of the entry to remove.
         /// </param>
-        public void removeAt(int index)
+        public void RemoveAt(int index)
         {
             if (index < 0 || index > size)
             {
                 throw new IndexOutOfRangeException("Index must be " +
                     "between 0 and the current journal size: " + index);
             }
+            RecipeJournalEntry toRemove = entries[index];
             size--;
             for (int i = index; i < size; i++)
             {
                 entries[index] = entries[index + 1];
+            }
+            if (CollectionChanged != null)
+            {
+                NotifyCollectionChangedAction action = NotifyCollectionChangedAction.Remove;
+                NotifyCollectionChangedEventArgs args =
+                    new NotifyCollectionChangedEventArgs(action, toRemove, index);
+                CollectionChanged(this, args);
             }
         }
 
         /// <summary>
         /// Removes the given entry from the journal if it exists.
         /// </summary>
-        /// <param name="toRemove"></param>
-        public void remove(RecipeJournalEntry toRemove)
+        public void Remove(object value)
         {
+            RecipeJournalEntry toRemove = (RecipeJournalEntry)value;
             if (toRemove == null)
             {
                 throw new ArgumentNullException("The entry to remove " +
                     "must not be null.");
             }
             int index = indexOf(toRemove);
-            removeAt(index);
+            RemoveAt(index);
         }
 
         /// <summary>
@@ -267,16 +275,6 @@ namespace Recipe_Book.Models
         }
 
         public void Insert(int index, object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Remove(object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveAt(int index)
         {
             throw new NotImplementedException();
         }

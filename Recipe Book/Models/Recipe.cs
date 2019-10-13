@@ -233,7 +233,7 @@ namespace Recipe_Book.Models
 
         public void removeJournalEntry(RecipeJournalEntry entryToRemove)
         {
-            journalEntries.remove(entryToRemove);
+            journalEntries.Remove(entryToRemove);
             RecipeBookDataAccessor.deleteJournalEntry(entryToRemove);
         }
 
