@@ -202,5 +202,11 @@ namespace Recipe_Book.Models
         {
             return id;
         }
+
+        public override bool Equals(object obj)
+        {
+            RecipeJournalEntry other = (RecipeJournalEntry)obj;
+            return base.Equals(other) && other.getId() == this.id;
+        }
     }
 }
