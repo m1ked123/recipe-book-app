@@ -11,19 +11,17 @@ namespace Recipe_Book.Models
     /// <code>RecipeJournalEntry</code> objects. Entries can be added,
     /// retrieved, and removed from this collection.
     /// </summary>
-    public class RecipeJournal : INotifyPropertyChanged, INotifyCollectionChanged, IList
+    public class RecipeJournal : INotifyCollectionChanged, IList
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
 
         private const int DEFAULT_SIZE = 10;
 
         private int size; // number of items
         private RecipeJournalEntry[] entries; // internal list of entries
 
-        public bool IsFixedSize => throw new NotImplementedException();
+        public bool IsFixedSize => false;
 
-        public bool IsReadOnly => throw new NotImplementedException();
+        public bool IsReadOnly => false;
 
         public int Count
         {
@@ -33,7 +31,7 @@ namespace Recipe_Book.Models
             }
         }
 
-        public bool IsSynchronized => throw new NotImplementedException();
+        public bool IsSynchronized => false;
 
         public object SyncRoot => throw new NotImplementedException();
 
@@ -75,7 +73,7 @@ namespace Recipe_Book.Models
         /// <summary>
         /// Removes all journal entries from the journal.
         /// </summary>
-        public void empty()
+        public void Clear()
         {
             size = 0;
         }
@@ -121,7 +119,7 @@ namespace Recipe_Book.Models
                 throw new ArgumentNullException("The entry to remove " +
                     "must not be null.");
             }
-            int index = indexOf(toRemove);
+            int index = IndexOf(toRemove);
             RemoveAt(index);
         }
 
@@ -161,8 +159,9 @@ namespace Recipe_Book.Models
         /// The index of the journal entry in the journal. -1 if the
         /// entry is not in the journal.
         /// </returns>
-        public int indexOf(RecipeJournalEntry toFind)
+        public int IndexOf(object value)
         {
+            RecipeJournalEntry toFind = (RecipeJournalEntry)value;
             for (int i = 0; i < size; i++)
             {
                 if (entries[i] == toFind)
@@ -183,9 +182,10 @@ namespace Recipe_Book.Models
         /// True if the journal entry is in the journal. False 
         /// otherwise.
         /// </returns>
-        public bool contains(RecipeJournalEntry toFind)
+        public bool Contains(object value)
         {
-            return indexOf(toFind) >= 0;
+            RecipeJournalEntry toFind = (RecipeJournalEntry)value;
+            return IndexOf(toFind) >= 0;
         }
 
         /// <summary>
@@ -257,21 +257,6 @@ namespace Recipe_Book.Models
                 return index;
             }
             return -1;
-        }
-
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Contains(object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int IndexOf(object value)
-        {
-            throw new NotImplementedException();
         }
 
         public void Insert(int index, object value)
