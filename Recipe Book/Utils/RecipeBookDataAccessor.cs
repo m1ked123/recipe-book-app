@@ -200,13 +200,13 @@ namespace Recipe_Book.Utils
             return savedImages;
         }
 
-        public static ObservableCollection<RecipeJournalEntry> getJournalEntries(long recipeId)
+        public static RecipeJournal getJournalEntries(long recipeId)
         {
-            ObservableCollection<RecipeJournalEntry> savedjournalEntries = new ObservableCollection<RecipeJournalEntry>();
+            RecipeJournal savedjournalEntries = new RecipeJournal();
             SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
             db.Open();
 
-            SqliteCommand selectCommand = new SqliteCommand("SELECT * from JOURNAL_ENTRIES WHERE RID = @RecipeID ORDER BY ENTRYDATE DESC");
+            SqliteCommand selectCommand = new SqliteCommand("SELECT * from JOURNAL_ENTRIES WHERE RID = @RecipeID");
             selectCommand.Connection = db;
             selectCommand.Parameters.AddWithValue("@RecipeID", recipeId);
             SqliteDataReader query = selectCommand.ExecuteReader();
@@ -226,7 +226,7 @@ namespace Recipe_Book.Utils
             }
 
             db.Close();
-            Debug.WriteLine("Saved Entries: " + savedjournalEntries.Count);
+            Debug.WriteLine("Saved Entries: " + savedjournalEntries.getSize());
             return savedjournalEntries;
         }
 

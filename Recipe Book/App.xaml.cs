@@ -55,7 +55,7 @@ namespace Recipe_Book
                 ObservableCollection<RecipeIngredient> savedIngredients = RecipeBookDataAccessor.getIngredients(savedRecipe.ID);
                 ObservableCollection<RecipeStep> savedSteps = RecipeBookDataAccessor.getSteps(savedRecipe.ID);
                 ObservableCollection<RecipeImage> savedImages = RecipeBookDataAccessor.getImages(savedRecipe.ID);
-                ObservableCollection<RecipeJournalEntry> savedEntries = RecipeBookDataAccessor.getJournalEntries(savedRecipe.ID);
+                RecipeJournal savedEntries = RecipeBookDataAccessor.getJournalEntries(savedRecipe.ID);
                 savedRecipe.setIngredients(savedIngredients);
                 savedRecipe.setSteps(savedSteps);
                 savedRecipe.setImages(savedImages);

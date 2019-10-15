@@ -38,6 +38,6 @@
         <CommandBar>
             <AppBarButton Icon="Add" Label="Add Entry" Click="showJournalDialog"/>
         </CommandBar>
-        <ListView Grid.Row="1" ItemTemplate="{StaticResource JournalEntryItemTemplate}" ItemsSource="{x:Bind journalEntries}"/>
+        <ListView Grid.Row="1" ItemTemplate="{StaticResource JournalEntryItemTemplate}" ItemsSource="{x:Bind journalEntries}" />
     </Grid>
 </Page>
