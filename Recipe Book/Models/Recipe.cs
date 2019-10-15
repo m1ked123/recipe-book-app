@@ -212,7 +212,7 @@ namespace Recipe_Book.Models
         {
             if (updatedEntry != null && updatedEntry.ID != -1)
             {
-                int entryIndex = journalEntries.indexOf(updatedEntry);
+                int entryIndex = journalEntries.IndexOf(updatedEntry);
                 journalEntries.set(entryIndex, updatedEntry);
                 RecipeBookDataAccessor.updateJournalEntry(updatedEntry);
             }
