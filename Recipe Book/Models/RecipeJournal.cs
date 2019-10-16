@@ -259,6 +259,63 @@ namespace Recipe_Book.Models
             return -1;
         }
 
+        public static void sort(RecipeJournal data)
+        {
+            if (data.getSize() > 1)
+            {
+                int midPoint = data.getSize() / 2;
+                RecipeJournal half1 = new RecipeJournal();
+                RecipeJournal half2 = new RecipeJournal();
+                for (int i = 0; i < midPoint; i++)
+                {
+                    half1.Add(data.get(i));
+                }
+                for (int i = midPoint; i < data.getSize(); i++)
+                {
+                    half2.Add(data.get(i));
+                }
+                sort(half1);
+                sort(half2);
+                putTogether(data, half1, half2);
+            }
+        }
+
+        private static void putTogether(RecipeJournal result,
+            RecipeJournal half1, RecipeJournal half2)
+        {
+            result.Clear();
+            int index1 = 0;
+            int index2 = 0;
+            while (index1 < half1.getSize() &&
+                index2 < half2.getSize())
+            {
+                RecipeJournalEntry item1 = half1.get(index1);
+                RecipeJournalEntry item2 = half2.get(index2);
+                if (item1.EntryDate <= item2.EntryDate)
+                {
+                    result.Add(item1);
+                    index1++;
+                }
+                else
+                {
+                    result.Add(item2);
+                    index2++;
+                }
+            }
+            while (index1 < half1.getSize())
+            {
+                RecipeJournalEntry item1 = half1.get(index1);
+                result.Add(item1);
+                index1++;
+            }
+            while (index2 < half2.getSize())
+            {
+                RecipeJournalEntry item2 = half2.get(index2);
+                result.Add(item2);
+                index2++;
+            }
+        }
+
         public void Insert(int index, object value)
         {
             throw new NotImplementedException();
