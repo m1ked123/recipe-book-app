@@ -259,61 +259,101 @@ namespace Recipe_Book.Models
             return -1;
         }
 
-        public static void sort(RecipeJournal data)
+        public void sortJournal()
         {
-            if (data.getSize() > 1)
+            RecipeJournalEntry[] temp = new RecipeJournalEntry[this.size];
+            for (int i = 0; i < this.size; i++)
             {
-                int midPoint = data.getSize() / 2;
-                RecipeJournal half1 = new RecipeJournal();
-                RecipeJournal half2 = new RecipeJournal();
-                for (int i = 0; i < midPoint; i++)
+                temp[i] = entries[i];
+            }
+
+            temp = sort(temp);
+            for (int i = 0; i < this.getSize(); i++)
+            {
+                RecipeJournalEntry entry = temp[i];
+                if (entry != null)
                 {
-                    half1.Add(data.get(i));
+                    int indexOld = this.IndexOf(entry);
+                    if (i != indexOld)
+                    {
+                        this[indexOld] = this[i];
+                        this[i] = entry;
+                        if (CollectionChanged != null)
+                        {
+                            NotifyCollectionChangedAction action = NotifyCollectionChangedAction.Move;
+                            NotifyCollectionChangedEventArgs args =
+                                new NotifyCollectionChangedEventArgs(action, entry, indexOld, i);
+                            CollectionChanged(this, args);
+                        }
+                    }
                 }
-                for (int i = midPoint; i < data.getSize(); i++)
-                {
-                    half2.Add(data.get(i));
-                }
-                sort(half1);
-                sort(half2);
-                putTogether(data, half1, half2);
+                
             }
         }
 
-        private static void putTogether(RecipeJournal result,
-            RecipeJournal half1, RecipeJournal half2)
+        private RecipeJournalEntry[] sort(RecipeJournalEntry[] data)
         {
-            result.Clear();
+            int length = data.Length;
+            if (length > 1)
+            {
+                int midPoint = length / 2;
+                RecipeJournalEntry[] half1 = new RecipeJournalEntry[midPoint];
+                RecipeJournalEntry[] half2 = new RecipeJournalEntry[length - midPoint];
+                for (int i = 0; i < midPoint; i++)
+                {
+                    half1[i] = data[i];
+                }
+                int j = 0;
+                for (int i = midPoint; i < length; i++)
+                {
+                    half2[j] = data[i];
+                    j++;
+                }
+                return merge(sort(half1), sort(half2));
+            }
+            return data;
+        }
+
+        private RecipeJournalEntry[] merge(RecipeJournalEntry[] half1,
+            RecipeJournalEntry[] half2)
+        {
+            int newLength = half1.Length + half2.Length;
+            RecipeJournalEntry[] result = new RecipeJournalEntry[newLength];
             int index1 = 0;
             int index2 = 0;
-            while (index1 < half1.getSize() &&
-                index2 < half2.getSize())
+            int i = 0;
+            while (index1 < half1.Length &&
+                index2 < half2.Length)
             {
-                RecipeJournalEntry item1 = half1.get(index1);
-                RecipeJournalEntry item2 = half2.get(index2);
+                RecipeJournalEntry item1 = half1[index1];
+                RecipeJournalEntry item2 = half2[index2];
                 if (item1.EntryDate <= item2.EntryDate)
                 {
-                    result.Add(item1);
+                    result[i] = item1;
                     index1++;
                 }
                 else
                 {
-                    result.Add(item2);
+                    result[i] = item2;
                     index2++;
                 }
+                i++;
             }
-            while (index1 < half1.getSize())
+            while (index1 < half1.Length)
             {
-                RecipeJournalEntry item1 = half1.get(index1);
-                result.Add(item1);
+                RecipeJournalEntry item1 = half1[index1];
+                result[i] = item1;
                 index1++;
+                i++;
             }
-            while (index2 < half2.getSize())
+            while (index2 < half2.Length)
             {
-                RecipeJournalEntry item2 = half2.get(index2);
-                result.Add(item2);
+                RecipeJournalEntry item2 = half2[index2];
+                result[i] = item2;
                 index2++;
+                i++;
             }
+            return result;
         }
 
         public void Insert(int index, object value)
