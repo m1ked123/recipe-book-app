@@ -21,40 +21,41 @@ namespace Recipe_Book.Views
 {
     public sealed partial class JournalDialog : ContentDialog
     {
-        private RecipeJournalEntry newEntry;
+        private RecipeJournalEntry entry;
 
         public RecipeJournalEntry NewEntry
         {
             get
             {
-                return newEntry;
+                return entry;
             }
         }
 
-        public JournalDialog()
-        {
-            this.InitializeComponent();
-        }
+        public JournalDialog() : this(null) { }
 
-        public JournalDialog(RecipeJournalEntry updatingEntry)
+        public JournalDialog(RecipeJournalEntry targetEntry)
         {
             this.InitializeComponent();
-            newEntry = updatingEntry;
-            entryDatePicker.Date = newEntry.EntryDate;
-            entryNotesControl.Text = newEntry.EntryNotes;
-            entryRatingControl.Value = newEntry.Rating;
+            entry = targetEntry;
+            if (entry != null)
+            {
+                entryDatePicker.Date = entry.EntryDate;
+                entryNotesControl.Text = entry.EntryNotes;
+                entryRatingControl.Value = entry.Rating;
+            }
+            entryDatePicker.MaxDate = DateTimeOffset.Now.Date;
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            if (newEntry == null)
+            if (entry == null)
             {
                 long newId = RecipeList.journalEntryIdGenerator.getId();
-                newEntry = new RecipeJournalEntry(newId);
+                entry = new RecipeJournalEntry(newId);
             }
-            newEntry.setEntryDate(entryDatePicker.Date.Value);
-            newEntry.setEntryNotes(entryNotesControl.Text);
-            newEntry.setRating(entryRatingControl.Value);
+            entry.setEntryDate(entryDatePicker.Date.Value);
+            entry.setEntryNotes(entryNotesControl.Text);
+            entry.setRating(entryRatingControl.Value);
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
