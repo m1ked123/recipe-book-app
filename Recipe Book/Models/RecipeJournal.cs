@@ -259,6 +259,103 @@ namespace Recipe_Book.Models
             return -1;
         }
 
+        public void sortJournal()
+        {
+            RecipeJournalEntry[] temp = new RecipeJournalEntry[this.size];
+            for (int i = 0; i < this.size; i++)
+            {
+                temp[i] = entries[i];
+            }
+
+            temp = sort(temp);
+            for (int i = 0; i < this.getSize(); i++)
+            {
+                RecipeJournalEntry entry = temp[i];
+                if (entry != null)
+                {
+                    int indexOld = this.IndexOf(entry);
+                    if (i != indexOld)
+                    {
+                        this[indexOld] = this[i];
+                        this[i] = entry;
+                        if (CollectionChanged != null)
+                        {
+                            NotifyCollectionChangedAction action = NotifyCollectionChangedAction.Move;
+                            NotifyCollectionChangedEventArgs args =
+                                new NotifyCollectionChangedEventArgs(action, entry, indexOld, i);
+                            CollectionChanged(this, args);
+                        }
+                    }
+                }
+                
+            }
+        }
+
+        private RecipeJournalEntry[] sort(RecipeJournalEntry[] data)
+        {
+            int length = data.Length;
+            if (length > 1)
+            {
+                int midPoint = length / 2;
+                RecipeJournalEntry[] half1 = new RecipeJournalEntry[midPoint];
+                RecipeJournalEntry[] half2 = new RecipeJournalEntry[length - midPoint];
+                for (int i = 0; i < midPoint; i++)
+                {
+                    half1[i] = data[i];
+                }
+                int j = 0;
+                for (int i = midPoint; i < length; i++)
+                {
+                    half2[j] = data[i];
+                    j++;
+                }
+                return merge(sort(half1), sort(half2));
+            }
+            return data;
+        }
+
+        private RecipeJournalEntry[] merge(RecipeJournalEntry[] half1,
+            RecipeJournalEntry[] half2)
+        {
+            int newLength = half1.Length + half2.Length;
+            RecipeJournalEntry[] result = new RecipeJournalEntry[newLength];
+            int index1 = 0;
+            int index2 = 0;
+            int i = 0;
+            while (index1 < half1.Length &&
+                index2 < half2.Length)
+            {
+                RecipeJournalEntry item1 = half1[index1];
+                RecipeJournalEntry item2 = half2[index2];
+                if (item1.EntryDate <= item2.EntryDate)
+                {
+                    result[i] = item1;
+                    index1++;
+                }
+                else
+                {
+                    result[i] = item2;
+                    index2++;
+                }
+                i++;
+            }
+            while (index1 < half1.Length)
+            {
+                RecipeJournalEntry item1 = half1[index1];
+                result[i] = item1;
+                index1++;
+                i++;
+            }
+            while (index2 < half2.Length)
+            {
+                RecipeJournalEntry item2 = half2[index2];
+                result[i] = item2;
+                index2++;
+                i++;
+            }
+            return result;
+        }
+
         public void Insert(int index, object value)
         {
             throw new NotImplementedException();

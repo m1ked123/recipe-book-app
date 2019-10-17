@@ -205,6 +205,8 @@ namespace Recipe_Book.Models
                 {
                     lastMade = entryDate;
                 }
+                journalEntries.sortJournal();
+
             }
         }
 
@@ -212,9 +214,10 @@ namespace Recipe_Book.Models
         {
             if (updatedEntry != null && updatedEntry.ID != -1)
             {
-                int entryIndex = journalEntries.indexOf(updatedEntry);
+                int entryIndex = journalEntries.IndexOf(updatedEntry);
                 journalEntries.set(entryIndex, updatedEntry);
                 RecipeBookDataAccessor.updateJournalEntry(updatedEntry);
+                journalEntries.sortJournal();
             }
         }
 
@@ -229,6 +232,7 @@ namespace Recipe_Book.Models
                     lastMade = entryDate;
                 }
             }
+            journalEntries.sortJournal();
         }
 
         public void removeJournalEntry(RecipeJournalEntry entryToRemove)
