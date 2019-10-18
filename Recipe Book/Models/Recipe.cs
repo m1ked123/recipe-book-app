@@ -32,17 +32,29 @@ namespace Recipe_Book.Models
         private RecipeJournal journalEntries;
         // TODO: add property to get the most recent journal entry.
 
-        
-
-        public DateTime LastMade
+        public bool MadeToday
         {
             get
             {
-                return lastMade;
+                RecipeJournalEntry recentEntry =
+                    journalEntries.getRecentEntry();
+                return recentEntry != null && 
+                    recentEntry.EntryDate.Date != DateTime.Today;
             }
-            set
+        }
+
+        public String LastMadeString
+        {
+            get
             {
-                lastMade = value;
+                RecipeJournalEntry recentEntry = 
+                    journalEntries.getRecentEntry();
+                if (recentEntry != null) {
+                    return recentEntry.EntryDate.Date.ToShortDateString();
+                } else
+                {
+                    return "Recipe Not Made Yet";
+                }
             }
         } 
 

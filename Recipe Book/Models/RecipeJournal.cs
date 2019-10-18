@@ -18,6 +18,7 @@ namespace Recipe_Book.Models
 
         private int size; // number of items
         private RecipeJournalEntry[] entries; // internal list of entries
+        private RecipeJournalEntry recentEntry;
 
         public bool IsFixedSize => false;
 
@@ -227,7 +228,7 @@ namespace Recipe_Book.Models
         /// </returns>
         public RecipeJournalEntry getRecentEntry()
         {
-            return null;
+            return recentEntry;
         }
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
@@ -287,8 +288,8 @@ namespace Recipe_Book.Models
                         }
                     }
                 }
-                
             }
+            recentEntry = entries[0];
         }
 
         private RecipeJournalEntry[] sort(RecipeJournalEntry[] data)
@@ -327,7 +328,7 @@ namespace Recipe_Book.Models
             {
                 RecipeJournalEntry item1 = half1[index1];
                 RecipeJournalEntry item2 = half2[index2];
-                if (item1.EntryDate <= item2.EntryDate)
+                if (item1.EntryDate >= item2.EntryDate)
                 {
                     result[i] = item1;
                     index1++;
