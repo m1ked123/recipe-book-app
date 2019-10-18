@@ -100,6 +100,10 @@ namespace Recipe_Book.Models
             {
                 entries[index] = entries[index + 1];
             }
+            if (index == 0)
+            {
+                recentEntry = entries[0];
+            }
             if (CollectionChanged != null)
             {
                 NotifyCollectionChangedAction action = NotifyCollectionChangedAction.Remove;
