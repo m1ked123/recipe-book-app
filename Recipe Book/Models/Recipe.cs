@@ -25,26 +25,40 @@ namespace Recipe_Book.Models
         private String name; // recipe name
         private long id; // recipe's id for database
         private double rating; // recipe rating
-        private DateTime lastMade;
         private ObservableCollection<RecipeImage> recipeImages;
         private ObservableCollection<RecipeIngredient> recipeIngredients;
         private ObservableCollection<RecipeStep> recipeSteps;
         private RecipeJournal journalEntries;
         // TODO: add property to get the most recent journal entry.
 
-        
-
-        public DateTime LastMade
+        public bool MadeToday
         {
             get
             {
-                return lastMade;
+                RecipeJournalEntry recentEntry =
+                    journalEntries.getRecentEntry();
+                if (recentEntry == null)
+                {
+                    return true;
+                }
+                return recentEntry.EntryDate.Date != DateTime.Today;
             }
-            set
+        }
+
+        public String LastMadeString
+        {
+            get
             {
-                lastMade = value;
+                RecipeJournalEntry recentEntry =
+                    journalEntries.getRecentEntry();
+                if (recentEntry != null) {
+                    return recentEntry.EntryDate.Date.ToShortDateString();
+                } else
+                {
+                    return "Recipe Not Made Yet";
+                }
             }
-        } 
+        }
 
         /// <summary>
         /// Gets or sets the name of this recipe.
@@ -200,13 +214,9 @@ namespace Recipe_Book.Models
             {
                 journalEntries.Add(newEntry);
                 RecipeBookDataAccessor.addJournalEntry(newEntry);
-                DateTime entryDate = newEntry.EntryDate.DateTime;
-                if (entryDate > lastMade)
-                {
-                    lastMade = entryDate;
-                }
                 journalEntries.sortJournal();
-
+                RaisePropertyChanged("LastMadeString");
+                RaisePropertyChanged("MadeToday");
             }
         }
 
@@ -224,14 +234,6 @@ namespace Recipe_Book.Models
         public void setJournalEntries(RecipeJournal entries)
         {
             this.journalEntries = entries;
-            for (int i = 0; i < entries.getSize(); i++)
-            {
-                DateTime entryDate = entries.get(i).EntryDate.DateTime;
-                if (entryDate > lastMade)
-                {
-                    lastMade = entryDate;
-                }
-            }
             journalEntries.sortJournal();
         }
 
