@@ -100,7 +100,10 @@ namespace Recipe_Book.Models
             {
                 entries[index] = entries[index + 1];
             }
-            if (index == 0)
+            if (size == 0)
+            {
+                recentEntry = null;
+            } else if (index == 0)
             {
                 recentEntry = entries[0];
             }
