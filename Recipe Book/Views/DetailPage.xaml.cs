@@ -7,6 +7,7 @@ using System.Diagnostics;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -41,6 +42,8 @@ namespace Recipe_Book
             madeTodayEntry.setEntryNotes("Added as quick entry");
             madeTodayEntry.setRecipeId(recipe.ID);
             recipe.addJournalEntry(madeTodayEntry);
+            
+            FlyoutBase.ShowAttachedFlyout(this.mainContent);
         }
     }
 }
