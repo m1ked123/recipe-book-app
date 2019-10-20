@@ -36,9 +36,13 @@
         <DataTemplate x:Name="ImagesTemplate" x:DataType="models:RecipeImage">
             <Image Source="{x:Bind InternalImage}" Stretch="Uniform" />
         </DataTemplate>
+
+        <Flyout x:Key="madeTodayFlyout" Placement="Bottom">
+            <TextBlock Text="Journal entry added."/>
+        </Flyout>
     </Page.Resources>
     <Grid>
-        <ScrollViewer Margin="12">
+        <ScrollViewer x:Name="mainContent" Margin="12" FlyoutBase.AttachedFlyout="{StaticResource madeTodayFlyout}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
