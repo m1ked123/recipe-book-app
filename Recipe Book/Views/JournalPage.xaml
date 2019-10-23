@@ -36,14 +36,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <CommandBar DefaultLabelPosition="Right">
-            <AppBarButton Icon="Add" Label="Add" Click="showJournalDialog"/>
-            <AppBarButton Icon="Delete" Label="Empty" Click="emptyJournal"/>
-            <AppBarButton  Label="Select" >
-                <AppBarButton.Icon>
+            <AppBarButton x:Name="addButton" Icon="Add" Label="Add" Click="showJournalDialog"/>
+            <AppBarButton x:Name="removeButton" Icon="Remove" Label="Remove" Visibility="Collapsed" Click="removeEntries" />
+            <AppBarToggleButton x:Name="selectionButton" Label="Select" Click="enableMultiSelection" >
+                <AppBarToggleButton.Icon>
                     <FontIcon Glyph="&#xE762;"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
+                </AppBarToggleButton.Icon>
+            </AppBarToggleButton>
+            <CommandBar.SecondaryCommands>
+                <AppBarButton x:Name="emptyButton" Icon="Delete" Label="Empty" Click="emptyJournal"/>
+            </CommandBar.SecondaryCommands>
         </CommandBar>
-        <ListView Grid.Row="1" ItemTemplate="{StaticResource JournalEntryItemTemplate}" ItemsSource="{x:Bind journalEntries}" />
+        
+        <ListView x:Name="entryList" Grid.Row="1" ItemTemplate="{StaticResource JournalEntryItemTemplate}" ItemsSource="{x:Bind journalEntries}" />
     </Grid>
 </Page>

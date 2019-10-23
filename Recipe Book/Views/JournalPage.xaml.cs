@@ -103,5 +103,43 @@ namespace Recipe_Book.Views
             dialog.CloseButtonText = "Cancel";
             return dialog;
         }
+
+        private void enableMultiSelection(object sender, RoutedEventArgs e)
+        {
+            if (selectionButton.IsChecked == true)
+            {
+                entryList.SelectionMode = ListViewSelectionMode.Multiple;
+                entryList.IsItemClickEnabled = false;
+                addButton.Visibility = Visibility.Collapsed;
+                removeButton.Visibility = Visibility.Visible;
+                emptyButton.Visibility = Visibility.Collapsed;
+            } else
+            {
+                entryList.SelectionMode = ListViewSelectionMode.None;
+                entryList.IsItemClickEnabled = true;
+                addButton.Visibility = Visibility.Visible;
+                removeButton.Visibility = Visibility.Collapsed;
+                emptyButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void removeEntries(object sender, RoutedEventArgs e)
+        {
+            int numSelected = entryList.SelectedItems.Count;
+            if (numSelected > 0)
+            {
+                Debug.WriteLine("Items selected: " + numSelected);
+                RecipeJournalEntry[] entriesToDelete = new RecipeJournalEntry[numSelected];
+                for (int i = 0; i < numSelected; i++)
+                {
+                    entriesToDelete[i] = (RecipeJournalEntry)entryList.SelectedItems[i];
+                }
+                for (int i = 0; i < numSelected; i++) {
+                    RecipeJournalEntry toDelete = entriesToDelete[i];
+                    Debug.WriteLine("ID to delete: " + toDelete.getId());
+                    recipe.removeJournalEntry(entriesToDelete[i]);
+                }
+            }
+        }
     }
 }
