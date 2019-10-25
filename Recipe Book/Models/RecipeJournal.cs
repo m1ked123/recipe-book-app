@@ -77,6 +77,13 @@ namespace Recipe_Book.Models
         public void Clear()
         {
             size = 0;
+            if (CollectionChanged != null)
+            {
+                NotifyCollectionChangedAction action = NotifyCollectionChangedAction.Reset;
+                NotifyCollectionChangedEventArgs args =
+                    new NotifyCollectionChangedEventArgs(action);
+                CollectionChanged(this, args);
+            }
         }
 
         /// <summary>

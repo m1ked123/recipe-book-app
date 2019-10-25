@@ -655,5 +655,20 @@ namespace Recipe_Book.Utils
 
             db.Close();
         }
+
+        public static void emptyJournal(long recipeId)
+        {
+            SqliteConnection db = new SqliteConnection("Filename=RecipeBook.db");
+
+            db.Open();
+
+            SqliteCommand deleteJournalEntriesCommand = new SqliteCommand();
+            deleteJournalEntriesCommand.Connection = db;
+            deleteJournalEntriesCommand.CommandText = "DELETE FROM JOURNAL_ENTRIES WHERE RID = @RID";
+            deleteJournalEntriesCommand.Parameters.AddWithValue("@RID", recipeId);
+            deleteJournalEntriesCommand.ExecuteNonQuery();
+
+            db.Close();
+        }
     }
 }

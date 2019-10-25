@@ -241,6 +241,13 @@ namespace Recipe_Book.Models
         {
             journalEntries.Remove(entryToRemove);
             RecipeBookDataAccessor.deleteJournalEntry(entryToRemove);
+            journalEntries.sortJournal();
+        }
+
+        public void emptyJournalEntries()
+        {
+            journalEntries.Clear();
+            RecipeBookDataAccessor.emptyJournal(this.id);
         }
 
         /// <summary>
