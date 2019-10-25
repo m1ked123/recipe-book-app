@@ -98,7 +98,7 @@ namespace Recipe_Book.Models
             size--;
             for (int i = index; i < size; i++)
             {
-                entries[index] = entries[index + 1];
+                entries[i] = entries[i + 1];
             }
             if (size == 0)
             {
