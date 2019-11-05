@@ -154,6 +154,9 @@
     <Compile Include="Views\RecipeForm.xaml.cs">
       <DependentUpon>RecipeForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RecipeMasterDetailPage.xaml.cs">
+      <DependentUpon>RecipeMasterDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -252,6 +255,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\RecipeForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecipeMasterDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
