@@ -21,8 +21,6 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    
-    
 
     <Grid>
         <VisualStateManager.VisualStateGroups>
@@ -55,15 +53,22 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListView Grid.Row="0" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" />
+        <Grid Grid.Column="0" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="3*" />
+            </Grid.RowDefinitions>
+            <!--<Rectangle Grid.Row="0" Fill="#FF00796B"/>-->
+            <ListView Grid.Row="1" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" />
+        </Grid>
 
-        <CommandBar Grid.Row="1" DefaultLabelPosition="Right">
+        <!--<CommandBar Grid.Row="1" DefaultLabelPosition="Right">
             <AppBarButton Icon="Add" Label="New Recipe" Click="addNewRecipe"/>
             <CommandBar.SecondaryCommands>
                 <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
             </CommandBar.SecondaryCommands>
-        </CommandBar>
-
+        </CommandBar>-->
+        
         <Frame x:Name="detailFrame" Grid.Column="1" Grid.RowSpan="2" />
     </Grid>
 </Page>

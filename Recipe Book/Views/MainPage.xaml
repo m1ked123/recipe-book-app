@@ -5,23 +5,20 @@
     xmlns:local="using:Recipe_Book.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" AutomationProperties.LiveSetting="Polite">
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
     
-
     <Grid>
-        
-        <NavigationView x:Name="appNav" IsSettingsVisible="True" PaneTitle="Recipe Journal" IsPaneOpen="False" PaneDisplayMode="LeftCompact" >
+        <NavigationView x:Name="appNav" IsSettingsVisible="True" IsPaneOpen="False" Windows10version1809:PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" >
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Add" />
+                <NavigationViewItem Icon="Add" Content="Add Recipe" />
             </NavigationView.MenuItems>
-
             <Frame x:Name="mainContent" />
         </NavigationView>
     </Grid>

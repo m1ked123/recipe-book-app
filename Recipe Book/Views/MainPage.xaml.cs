@@ -28,9 +28,5 @@ namespace Recipe_Book
             base.OnNavigatedTo(e);
             mainContent.Navigate(typeof(RecipeMasterDetailPage));
         }
-
-        
-
-        
     }
 }
