@@ -53,13 +53,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Column="0" Grid.Row="0">
+        <Grid Grid.Column="0" Grid.Row="0" Background="#FF00796B">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="3*" />
             </Grid.RowDefinitions>
-            <!--<Rectangle Grid.Row="0" Fill="#FF00796B"/>-->
-            <ListView Grid.Row="1" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" />
+            <TextBlock Margin="8" Style="{ThemeResource HeaderTextBlockStyle}" VerticalAlignment="Bottom" Foreground="White" TextWrapping="WrapWholeWords">Recipe Book</TextBlock>
+            <ListView Grid.Row="1" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" Foreground="White" Background="White" />
         </Grid>
 
         <!--<CommandBar Grid.Row="1" DefaultLabelPosition="Right">
