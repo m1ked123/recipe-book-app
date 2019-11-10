@@ -6,9 +6,13 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="SystemAccentColor">#3949ab</Color>
-            <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
-              BackgroundSource="Backdrop" TintColor="Blue" TintOpacity=".6"/>
+            <Color x:Key="PrimaryColorDefault">#3949ab</Color>
+            <Color x:Key="PrimaryColorLight">#48a999</Color>
+            <Color x:Key="PrimaryColorDark">#004c40</Color>
+
+            <Color x:Key="SecondaryColorDefault">#3949ab</Color>
+            <Color x:Key="SecondaryColorLight">#6f74dd</Color>
+            <Color x:Key="SecondaryColorDark">#00227b</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

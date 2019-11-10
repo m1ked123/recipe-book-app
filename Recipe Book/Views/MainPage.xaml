@@ -17,10 +17,14 @@
 
 
     <Grid>
-        
-        <NavigationView x:Name="appNav" IsSettingsVisible="True" IsPaneOpen="False" Windows10version1809:PaneDisplayMode="Left" IsBackButtonVisible="Collapsed" >
+        <Grid.Resources>
+            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{StaticResource PrimaryColorDark}" />
+            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="{StaticResource PrimaryColorDark}" />
+            <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
+        </Grid.Resources>
+        <NavigationView x:Name="appNav" IsSettingsVisible="True" IsPaneOpen="False" Windows10version1809:PaneDisplayMode="Left" IsBackButtonVisible="Collapsed" Foreground="White" >
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Add" Content="Add Recipe" />
+                <NavigationViewItem Icon="Add" Foreground="White" Content="Add Recipe" />
             </NavigationView.MenuItems>
             <Frame x:Name="mainContent" />
         </NavigationView>
