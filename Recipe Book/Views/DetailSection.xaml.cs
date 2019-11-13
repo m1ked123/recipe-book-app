@@ -33,7 +33,6 @@ namespace Recipe_Book.Views
 
             recipes = (RecipeList)e.Parameter;
             selectedRecipe = recipes.getSelected();
-
             detailSection.SelectedItem = detailSection.MenuItems[0];
             contentFrame.Navigate(typeof(DetailPage), selectedRecipe);
 
