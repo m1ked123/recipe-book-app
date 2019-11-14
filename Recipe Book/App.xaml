@@ -6,7 +6,7 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="PrimaryColorDefault">#3949ab</Color>
+            <Color x:Key="PrimaryColorDefault">#00796b</Color>
             <Color x:Key="PrimaryColorLight">#48a999</Color>
             <Color x:Key="PrimaryColorDark">#004c40</Color>
 

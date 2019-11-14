@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:models="using:Recipe_Book.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -49,26 +50,24 @@
             <ColumnDefinition x:Name="MasterColumn" Width="320" />
             <ColumnDefinition x:Name="DetailColumn" Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Column="0" Grid.Row="0" Background="#FF00796B">
+
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="3*" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock Margin="8" Style="{ThemeResource HeaderTextBlockStyle}" VerticalAlignment="Bottom" Foreground="White" TextWrapping="WrapWholeWords">Recipe Book</TextBlock>
-            <ListView Grid.Row="1" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" Foreground="White" Background="White" />
+            
+            <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" Foreground="White" Background="White" />
+
+            <Button Grid.Row="1" Background="#3949ab" Foreground="White" Click="addNewRecipe" Windows10version1809:CornerRadius="30,30,30,30" Margin="8" HorizontalAlignment="Stretch" Height="56" >
+                <StackPanel Orientation="Horizontal">
+                    <SymbolIcon Symbol="Add" Margin="12,0,0,0" Height="24" Width="24"/>
+                    <TextBlock Margin="12,0,0,0" FontSize="24" >ADD RECIPE</TextBlock>
+                </StackPanel>
+            </Button>
         </Grid>
 
-        <!--<CommandBar Grid.Row="1" DefaultLabelPosition="Right">
-            <AppBarButton Icon="Add" Label="New Recipe" Click="addNewRecipe"/>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
-            </CommandBar.SecondaryCommands>
-        </CommandBar>-->
 
-        <Frame x:Name="detailFrame" Grid.Column="1" Grid.RowSpan="2" Margin="0,32,0,0"/>
+        <Frame x:Name="detailFrame" Grid.Column="1" Margin="0,32,0,0"/>
     </Grid>
 </Page>

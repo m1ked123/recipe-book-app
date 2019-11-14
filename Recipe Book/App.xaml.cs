@@ -5,8 +5,6 @@ using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Core;
-using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -107,25 +105,16 @@ namespace Recipe_Book
                 Window.Current.Activate();
             }
 
-            //var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
-
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
 
-            titleBar.ButtonForegroundColor = Colors.Black;
-            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ForegroundColor = Colors.White;
+            titleBar.BackgroundColor = Color.FromArgb(255, 0, 76, 64);
+            titleBar.ButtonForegroundColor = Colors.White;
+            titleBar.ButtonBackgroundColor = Color.FromArgb(255, 0, 76, 64);
             titleBar.ButtonHoverForegroundColor = Colors.Black;
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(255, 72, 169, 153);
             titleBar.ButtonPressedForegroundColor = Colors.White;
             titleBar.ButtonPressedBackgroundColor = Color.FromArgb(255, 0, 76, 64);
-
-            // Set active window colors
-            /*
-            titleBar.ForegroundColor = Colors.White;
-            titleBar.BackgroundColor = Color.FromArgb(255, 0, 121, 107);
-            
-            */
         }
 
         /// <summary>
