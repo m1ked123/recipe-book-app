@@ -59,10 +59,10 @@
             
             <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" Foreground="White" Background="White" />
 
-            <Button Grid.Row="1" Background="#3949ab" Foreground="White" Click="addNewRecipe" Windows10version1809:CornerRadius="30,30,30,30" Margin="8" HorizontalAlignment="Stretch" Height="56" >
+            <Button Grid.Row="1" Background="#3949ab" Foreground="White" Click="addNewRecipe" Windows10version1809:CornerRadius="2" Margin="8" HorizontalAlignment="Stretch" Height="40" >
                 <StackPanel Orientation="Horizontal">
-                    <SymbolIcon Symbol="Add" Margin="12,0,0,0" Height="24" Width="24"/>
-                    <TextBlock Margin="12,0,0,0" FontSize="24" >ADD RECIPE</TextBlock>
+                    <SymbolIcon Symbol="Add" Margin="12,0,0,0"/>
+                    <TextBlock Margin="12,0,0,0" FontSize="12" VerticalAlignment="Center" >Add Recipe</TextBlock>
                 </StackPanel>
             </Button>
         </Grid>

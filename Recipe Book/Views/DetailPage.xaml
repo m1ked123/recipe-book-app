@@ -46,20 +46,25 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
-                <StackPanel x:Name="headerInformation">
-                    <StackPanel Orientation="Horizontal">
-                        <!--<RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>-->
-                        <TextBlock Foreground="Black" HorizontalAlignment="Left" Text="{x:Bind recipe.LastMadeString, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
-                        <Button ToolTipService.ToolTip="Made this recipe today" Click="madeToday" Margin="24,0,0,0" IsEnabled="{x:Bind recipe.MadeToday, Mode=OneWay}">Made Today</Button>
-                    </StackPanel>
+                <StackPanel x:Name="headerInformation" Orientation="Horizontal">
+                    <!--<RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>-->
+                    <TextBlock Foreground="Black" HorizontalAlignment="Left" Text="{x:Bind recipe.LastMadeString, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
+                    <Button ToolTipService.ToolTip="Made this recipe today" Click="madeToday" Margin="24,0,0,0" IsEnabled="{x:Bind recipe.MadeToday, Mode=OneWay}">Made Today</Button>
                 </StackPanel>
-                <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind recipe.RecipeImages}" Height="480" MinWidth="320"/>
-                <ListView x:Name="ingredientList" Grid.Row="2" ItemsSource="{x:Bind recipe.RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
-                <ListView x:Name="recipeSteps" Grid.Row="3" HorizontalAlignment="Center" ItemsSource="{x:Bind recipe.RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
+                <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind recipe.RecipeImages}" MaxHeight="320" MinWidth="320"/>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <ListView x:Name="ingredientList" ItemsSource="{x:Bind recipe.RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
+                    <ListView x:Name="recipeSteps" Grid.Column="1" HorizontalAlignment="Center" ItemsSource="{x:Bind recipe.RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
+                </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>
