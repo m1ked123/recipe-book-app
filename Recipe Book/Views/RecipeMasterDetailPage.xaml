@@ -56,18 +56,16 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
+
             <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" Foreground="White" Background="White" />
 
-            <Button Grid.Row="1" Background="#3949ab" Foreground="White" Click="addNewRecipe" Windows10version1809:CornerRadius="2" Margin="8" HorizontalAlignment="Stretch" Height="40" >
+            <Button Grid.Row="1" Style="{StaticResource CustomButtonStyle}" Click="addNewRecipe" Margin="8" HorizontalAlignment="Stretch" Height="40" >
                 <StackPanel Orientation="Horizontal">
                     <SymbolIcon Symbol="Add" Margin="12,0,0,0"/>
                     <TextBlock Margin="12,0,0,0" FontSize="12" VerticalAlignment="Center" >Add Recipe</TextBlock>
                 </StackPanel>
             </Button>
         </Grid>
-
-
         <Frame x:Name="detailFrame" Grid.Column="1" Margin="0,32,0,0"/>
     </Grid>
 </Page>
