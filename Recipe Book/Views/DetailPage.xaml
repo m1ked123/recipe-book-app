@@ -42,6 +42,31 @@
         </Flyout>
     </Page.Resources>
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveStates">
+                <VisualState x:Name="DefaultState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="ingredientList.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="ingredientList.(Grid.Row)" Value="0"/>
+                        <Setter Target="ingredientList.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="recipeSteps.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="recipeSteps.(Grid.Row)" Value="1" />
+                        <Setter Target="recipeSteps.(Grid.Column)" Value="0" />
+                        <Setter Target="recipeSteps.(Grid.ColumnSpan)" Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <ScrollViewer x:Name="mainContent" Margin="12" FlyoutBase.AttachedFlyout="{StaticResource madeTodayFlyout}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -61,13 +86,17 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
 
-                    <ListView x:Name="ingredientList" ItemsSource="{x:Bind recipe.RecipeIngredients}" Margin="12" ItemTemplate="{StaticResource IngredientItemTemplate}" Foreground="Black">
+                    <ListView x:Name="ingredientList" Grid.RowSpan="2" ItemsSource="{x:Bind recipe.RecipeIngredients}" Margin="6" ItemTemplate="{StaticResource IngredientItemTemplate}" Foreground="Black" SelectionMode="None" IsItemClickEnabled="False">
                         <ListView.Header>
                             <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,8">Ingredients</TextBlock>
                         </ListView.Header>
                     </ListView>
-                    <ListView x:Name="recipeSteps" Grid.Column="1" ItemsSource="{x:Bind recipe.RecipeSteps}" Margin="12" ItemTemplate="{StaticResource RecipeStepTemplate}" Foreground="Black">
+                    <ListView x:Name="recipeSteps" Grid.Column="1" Grid.RowSpan="2" ItemsSource="{x:Bind recipe.RecipeSteps}" Margin="6" ItemTemplate="{StaticResource RecipeStepTemplate}" Foreground="Black" SelectionMode="None" IsItemClickEnabled="False">
                         <ListView.Header>
                             <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,8">Directions</TextBlock>
                         </ListView.Header>
