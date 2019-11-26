@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Vertical">
             <TextBlock x:Name="recipeTitleTextBlock" Foreground="Black" Style="{ThemeResource HeaderTextBlockStyle}" VerticalAlignment="Bottom" Margin="8" Text="{x:Bind selectedRecipe.Name}" TextWrapping="WrapWholeWords"/>
-            <CommandBar Grid.Row="1">
+            <CommandBar DefaultLabelPosition="Right">
                 <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
                 <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
             </CommandBar>

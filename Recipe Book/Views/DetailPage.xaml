@@ -28,8 +28,8 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}" Margin="24,0,0,0"/>
-                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}" Margin="24,0,0,0"/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}" Margin="24,0,0,0" TextWrapping="WrapWholeWords"/>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}" Margin="24,0,0,0" TextWrapping="WrapWholeWords"/>
             </Grid>
         </DataTemplate>
 
