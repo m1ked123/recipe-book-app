@@ -13,10 +13,14 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <CommandBar Grid.Row="0">
-            <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
-            <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
-        </CommandBar>
+        <StackPanel Orientation="Vertical">
+            <TextBlock x:Name="recipeTitleTextBlock" Foreground="Black" Style="{ThemeResource HeaderTextBlockStyle}" VerticalAlignment="Bottom" Margin="8" Text="{x:Bind selectedRecipe.Name}" TextWrapping="WrapWholeWords"/>
+            <CommandBar DefaultLabelPosition="Right">
+                <AppBarButton Icon="Edit" Label="Edit" Click="editSelectedRecipe"  />
+                <AppBarButton Icon="Delete" Label="Delete" Click="deleteSelectedRecipe" />
+            </CommandBar>
+        </StackPanel>
+        
         <NavigationView x:Name="detailSection" Grid.Row="1" IsPaneToggleButtonVisible="False" IsSettingsVisible="False" PaneDisplayMode="Top" IsBackButtonVisible="Collapsed" SelectionFollowsFocus="Enabled" ItemInvoked="navigateToPage">
             <NavigationView.MenuItems>
                 <NavigationViewItem Content="Recipe" x:Name="recipeContentView" />

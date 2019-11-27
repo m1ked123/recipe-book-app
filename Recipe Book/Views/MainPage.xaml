@@ -5,65 +5,25 @@
     xmlns:local="using:Recipe_Book.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:Recipe_Book.Models"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" AutomationProperties.LiveSetting="Polite">
+
     <Page.Transitions>
         <TransitionCollection>
             <NavigationThemeTransition />
         </TransitionCollection>
     </Page.Transitions>
-    <Page.Resources>
-        <DataTemplate x:Key="RecipeItemTemplate" x:DataType="models:Recipe" >
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <TextBlock Text="{x:Bind Name, Mode=OneWay}" Style="{ThemeResource BaseTextBlockStyle}" Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"/>
-                <!--<RatingControl Value="{x:Bind Rating, Mode=OneWay}" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="1"/>-->
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
+
 
     <Grid>
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates" CurrentStateChanged="updateLayout">
-                <VisualState x:Name="DefaultState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="720" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="MasterColumn.Width" Value="*" />
-                        <Setter Target="DetailColumn.Width" Value="0" />
-                        <Setter Target="recipeListView.SelectionMode" Value="None" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition x:Name="MasterColumn" Width="320"/>
-            <ColumnDefinition x:Name="DetailColumn" Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <ListView Grid.Row="0" Grid.Column="0" ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" />
-        <CommandBar Grid.Row="1" DefaultLabelPosition="Right">
-            <AppBarButton Icon="Add" Label="New Recipe" Click="addNewRecipe"/>
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Icon="Setting" Label="Settings" Click="showSettingsPage" />
-            </CommandBar.SecondaryCommands>
-        </CommandBar>
-        <Frame x:Name="detailFrame" Grid.Column="1" Grid.RowSpan="2"/>
+        <Grid.Resources>
+            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{StaticResource PrimaryColorDefault}" />
+            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="{StaticResource PrimaryColorDefault}" />
+            <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
+        </Grid.Resources>
+        <NavigationView x:Name="appNav" IsSettingsVisible="True" IsPaneOpen="False" Windows10version1809:PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" Foreground="White" >
+            <Frame x:Name="mainContent" />
+        </NavigationView>
     </Grid>
 </Page>

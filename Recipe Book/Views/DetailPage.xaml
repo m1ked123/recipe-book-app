@@ -23,13 +23,13 @@
         <DataTemplate x:Name="IngredientItemTemplate" x:DataType="models:RecipeIngredient">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="180"/>
-                    <ColumnDefinition Width="180"/>
-                    <ColumnDefinition Width="360"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" VerticalAlignment="Center" Style="{ThemeResource BaseTextBlockStyle}" Text="{x:Bind Quantity}" />
-                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}"/>
-                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}"/>
+                <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind UnitOfMeasure}" Margin="24,0,0,0" TextWrapping="WrapWholeWords"/>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind IngredientName}" Margin="24,0,0,0" TextWrapping="WrapWholeWords"/>
             </Grid>
         </DataTemplate>
 
@@ -42,26 +42,66 @@
         </Flyout>
     </Page.Resources>
     <Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveStates">
+                <VisualState x:Name="DefaultState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        <Setter Target="ingredientList.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="ingredientList.(Grid.Row)" Value="0"/>
+                        <Setter Target="ingredientList.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="recipeSteps.(Grid.RowSpan)" Value="1" />
+                        <Setter Target="recipeSteps.(Grid.Row)" Value="1" />
+                        <Setter Target="recipeSteps.(Grid.Column)" Value="0" />
+                        <Setter Target="recipeSteps.(Grid.ColumnSpan)" Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <ScrollViewer x:Name="mainContent" Margin="12" FlyoutBase.AttachedFlyout="{StaticResource madeTodayFlyout}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
-                <StackPanel x:Name="headerInformation">
-                    <TextBlock Text="{x:Bind recipe.ID, Mode=OneWay}" />
-                    <TextBlock HorizontalAlignment="Left" Text="{x:Bind recipe.Name, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Top" Style="{ThemeResource HeaderTextBlockStyle}"/>
-                    <StackPanel Orientation="Horizontal">
-                        <!--<RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>-->
-                        <TextBlock HorizontalAlignment="Left" Text="{x:Bind recipe.LastMadeString, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
-                        <Button ToolTipService.ToolTip="Made this recipe today" Click="madeToday" Margin="24,0,0,0" IsEnabled="{x:Bind recipe.MadeToday, Mode=OneWay}">Made Today</Button>
-                    </StackPanel>
+                <StackPanel x:Name="headerInformation" Orientation="Horizontal">
+                    <!--<RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>-->
+                    <TextBlock Foreground="Black" HorizontalAlignment="Left" Text="{x:Bind recipe.LastMadeString, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
+                    <Button Style="{StaticResource CustomButtonStyle}" ToolTipService.ToolTip="Made this recipe today" Click="madeToday" Margin="24,0,0,0" IsEnabled="{x:Bind recipe.MadeToday, Mode=OneWay}" Foreground="White">Made Today</Button>
                 </StackPanel>
-                <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind recipe.RecipeImages}" Height="480" MinWidth="320"/>
-                <ListView x:Name="ingredientList" Grid.Row="2" ItemsSource="{x:Bind recipe.RecipeIngredients}" ItemTemplate="{StaticResource IngredientItemTemplate}"/>
-                <ListView x:Name="recipeSteps" Grid.Row="3" HorizontalAlignment="Center" ItemsSource="{x:Bind recipe.RecipeSteps}" ItemTemplate="{StaticResource RecipeStepTemplate}" />
+                <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind recipe.RecipeImages}" MaxHeight="320" MinWidth="320"/>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <ListView x:Name="ingredientList" Grid.RowSpan="2" ItemsSource="{x:Bind recipe.RecipeIngredients}" Margin="6" ItemTemplate="{StaticResource IngredientItemTemplate}" Foreground="Black" SelectionMode="None" IsItemClickEnabled="False">
+                        <ListView.Header>
+                            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,8">Ingredients</TextBlock>
+                        </ListView.Header>
+                    </ListView>
+                    <ListView x:Name="recipeSteps" Grid.Column="1" Grid.RowSpan="2" ItemsSource="{x:Bind recipe.RecipeSteps}" Margin="6" ItemTemplate="{StaticResource RecipeStepTemplate}" Foreground="Black" SelectionMode="None" IsItemClickEnabled="False">
+                        <ListView.Header>
+                            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Margin="0,0,0,8">Directions</TextBlock>
+                        </ListView.Header>
+                    </ListView>
+                </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>
