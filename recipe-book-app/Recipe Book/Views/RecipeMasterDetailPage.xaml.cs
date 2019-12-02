@@ -97,8 +97,11 @@ namespace Recipe_Book.Views
             bool isNarrow = newState == NarrowState;
             if (isNarrow && oldState == DefaultState)
             {
-                // window resized down
-                Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
+                if (!recipes.isEmpty())
+                {
+                    // window resized down
+                    Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
+                }
             }
             else if (oldState == NarrowState && newState == DefaultState)
             {
@@ -128,7 +131,6 @@ namespace Recipe_Book.Views
                     detailFrame.Navigate(typeof(DetailSection), recipes);
                 }
             }
-
         }
 
         private bool isNarrow()

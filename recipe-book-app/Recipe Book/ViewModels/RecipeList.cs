@@ -67,7 +67,7 @@ namespace Recipe_Book.ViewModels
         public RecipeList()
         {
             recipes = new ObservableCollection<Recipe>();
-            selectedRecipeIndex = 0;
+            selectedRecipeIndex = -1;
             editing = false;
         }
 
@@ -81,7 +81,7 @@ namespace Recipe_Book.ViewModels
         public RecipeList(ObservableCollection<Recipe> recipes)
         {
             this.recipes = recipes;
-            selectedRecipeIndex = 0;
+            selectedRecipeIndex = -1;
             editing = false;
         }
 
