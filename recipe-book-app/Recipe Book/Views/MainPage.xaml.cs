@@ -28,5 +28,16 @@ namespace Recipe_Book
             base.OnNavigatedTo(e);
             mainContent.Navigate(typeof(RecipeMasterDetailPage));
         }
+
+        private void navigateView(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        {
+            if (args.IsSettingsInvoked)
+            {
+                mainContent.Navigate(typeof(SettingsPage));
+            } else
+            {
+                mainContent.Navigate(typeof(RecipeMasterDetailPage));
+            }
+        }
     }
 }
