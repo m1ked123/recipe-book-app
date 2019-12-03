@@ -22,7 +22,10 @@
             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="{StaticResource PrimaryColorDefault}" />
             <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
         </Grid.Resources>
-        <NavigationView x:Name="appNav" IsSettingsVisible="True" IsPaneOpen="False" Windows10version1809:PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" Foreground="White" >
+        <NavigationView x:Name="appNav" IsSettingsVisible="True" IsPaneOpen="False" Windows10version1809:PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" ItemInvoked="navigateView" >
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home" Content="Recipe Book"/>
+            </NavigationView.MenuItems>
             <Frame x:Name="mainContent" />
         </NavigationView>
     </Grid>
