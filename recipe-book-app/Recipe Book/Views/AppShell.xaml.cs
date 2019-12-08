@@ -16,17 +16,19 @@ namespace Recipe_Book
     /// This is the main page of the Recipe Book app. It represents
     /// the main page that opens when the app is opened.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class AppShell : Page
     {
-        public MainPage()
+        private RecipeList currentList;
+        public AppShell()
         {
             this.InitializeComponent();
+            currentList = App.recipes;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            mainContent.Navigate(typeof(RecipeMasterDetailPage));
+            mainContent.Navigate(typeof(RecipeMasterDetailPage), currentList);
         }
 
         private void navigateView(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -34,9 +36,12 @@ namespace Recipe_Book
             if (args.IsSettingsInvoked)
             {
                 mainContent.Navigate(typeof(SettingsPage));
-            } else
+            } else if (args.InvokedItemContainer == MainRecipeBook)
             {
-                mainContent.Navigate(typeof(RecipeMasterDetailPage));
+                mainContent.Navigate(typeof(RecipeMasterDetailPage), currentList);
+            } else if (args.InvokedItemContainer == NewRecipeButton)
+            {
+                mainContent.Navigate(typeof(RecipeForm), currentList);
             }
         }
     }

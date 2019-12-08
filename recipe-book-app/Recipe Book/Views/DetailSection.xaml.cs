@@ -142,10 +142,11 @@ namespace Recipe_Book.Views
 
         private void windowSizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            if (!isNarrow())
-            {
-                Frame.GoBack(new SuppressNavigationTransitionInfo());
-            }
+
+            //if (!isNarrow())
+            //{
+            //    Frame.GoBack(new SuppressNavigationTransitionInfo());
+            //}
         }
 
         private bool isNarrow()

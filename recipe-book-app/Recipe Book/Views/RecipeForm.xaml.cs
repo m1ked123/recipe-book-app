@@ -128,7 +128,7 @@ namespace Recipe_Book
                 await imageFile.DeleteAsync();
                 RecipeBookDataAccessor.deleteImage(imageToRemove);
             }
-            Frame.Navigate(typeof(DetailSection), recipes);
+            Frame.GoBack();
         }
 
         /*
@@ -141,13 +141,8 @@ namespace Recipe_Book
                 recipes.setEditing(false);
             }
             await tempImageFolder.DeleteAsync(); // delete all temp files added
-            if (recipes.Recipes.Count > 0)
-            {
-                Frame.Navigate(typeof(DetailSection), recipes);
-            } else
-            {
-                Frame.Content = null;
-            }
+
+            Frame.GoBack();
         }
 
         /*
