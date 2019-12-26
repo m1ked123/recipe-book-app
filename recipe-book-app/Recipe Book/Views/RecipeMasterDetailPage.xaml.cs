@@ -82,6 +82,7 @@ namespace Recipe_Book.Views
                 {
                     if (recipes.isEditing())
                     {
+                        // TODO: will overwrite changes that are not saved
                         Frame.Navigate(typeof(RecipeForm), recipes, new SuppressNavigationTransitionInfo());
                     } else
                     {

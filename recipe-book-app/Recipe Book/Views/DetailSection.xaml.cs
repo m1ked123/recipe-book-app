@@ -35,6 +35,30 @@ namespace Recipe_Book.Views
             selectedRecipe = recipes.getSelected();
             detailSection.SelectedItem = detailSection.MenuItems[0];
             contentFrame.Navigate(typeof(DetailPage), selectedRecipe);
+            if (isNarrow())
+            {
+                IList<PageStackEntry> backStack = Frame.BackStack;
+                int backStackCount = backStack.Count;
+                if (backStackCount > 0)
+                {
+                    PageStackEntry masterPageEntry = backStack[backStackCount - 1];
+                    backStack.RemoveAt(backStackCount - 1);
+
+                    PageStackEntry modifiedEntry = new PageStackEntry(
+                        masterPageEntry.SourcePageType,
+                        recipes,
+                        masterPageEntry.NavigationTransitionInfo
+                        );
+
+                    backStack.Add(modifiedEntry);
+                }
+
+                // Show back button
+                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+                systemNavigationManager.BackRequested += backRequested;
+                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                Window.Current.SizeChanged += windowSizeChanged;
+            }
         }
 
         private void editSelectedRecipe(object sender, RoutedEventArgs e)
