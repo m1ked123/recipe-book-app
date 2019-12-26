@@ -19,10 +19,12 @@ namespace Recipe_Book
     public sealed partial class AppShell : Page
     {
         private RecipeList currentList;
+        public static NavigationView currentShell;
         public AppShell()
         {
             this.InitializeComponent();
             currentList = App.recipes;
+            currentShell = appShell;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -42,6 +44,15 @@ namespace Recipe_Book
             } else if (args.InvokedItemContainer == NewRecipeButton)
             {
                 mainContent.Navigate(typeof(RecipeForm), currentList);
+            }
+        }
+
+        private void backRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
+        {
+            if(mainContent.CanGoBack)
+            {
+                mainContent.GoBack();
+                appShell.IsBackButtonVisible = NavigationViewBackButtonVisible.Collapsed;
             }
         }
     }

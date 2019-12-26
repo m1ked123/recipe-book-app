@@ -98,11 +98,6 @@ namespace Recipe_Book
 
                     backStack.Add(modifiedEntry);
                 }
-
-                // Show back button
-                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-                systemNavigationManager.BackRequested += backRequested;
-                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             }
 
             tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.ReplaceExisting);
@@ -154,15 +149,6 @@ namespace Recipe_Book
                 RecipeBookDataAccessor.deleteImage(imageToRemove);
             }
             Frame.GoBack();
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-
-            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-            systemNavigationManager.BackRequested -= backRequested;
-            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
         /*
