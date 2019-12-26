@@ -91,7 +91,7 @@ namespace Recipe_Book
                     backStack.RemoveAt(backStackCount - 1);
 
                     PageStackEntry modifiedEntry = new PageStackEntry(
-                        masterPageEntry.SourcePageType,
+                        typeof(RecipeMasterDetailPage),
                         recipes,
                         masterPageEntry.NavigationTransitionInfo
                         );
