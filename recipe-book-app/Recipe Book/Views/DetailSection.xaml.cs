@@ -35,31 +35,6 @@ namespace Recipe_Book.Views
             selectedRecipe = recipes.getSelected();
             detailSection.SelectedItem = detailSection.MenuItems[0];
             contentFrame.Navigate(typeof(DetailPage), selectedRecipe);
-
-            if (isNarrow())
-            {
-                IList<PageStackEntry> backStack = Frame.BackStack;
-                int backStackCount = backStack.Count;
-                if (backStackCount > 0)
-                {
-                    PageStackEntry masterPageEntry = backStack[backStackCount - 1];
-                    backStack.RemoveAt(backStackCount - 1);
-
-                    PageStackEntry modifiedEntry = new PageStackEntry(
-                        masterPageEntry.SourcePageType,
-                        recipes,
-                        masterPageEntry.NavigationTransitionInfo
-                        );
-
-                    backStack.Add(modifiedEntry);
-                }
-
-                // Show back button
-                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-                systemNavigationManager.BackRequested += backRequested;
-                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                Window.Current.SizeChanged += windowSizeChanged;
-            }
         }
 
         private void editSelectedRecipe(object sender, RoutedEventArgs e)
@@ -131,7 +106,6 @@ namespace Recipe_Book.Views
             systemNavigationManager.BackRequested -= backRequested;
             Window.Current.SizeChanged -= windowSizeChanged;
             systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-
         }
 
         private void backRequested(object sender, BackRequestedEventArgs e)
@@ -143,10 +117,13 @@ namespace Recipe_Book.Views
         private void windowSizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
 
-            //if (!isNarrow())
-            //{
-            //    Frame.GoBack(new SuppressNavigationTransitionInfo());
-            //}
+            if (!isNarrow())
+            {
+                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+                Window.Current.SizeChanged -= windowSizeChanged;
+                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+                Frame.GoBack(new SuppressNavigationTransitionInfo());
+            }
         }
 
         private bool isNarrow()

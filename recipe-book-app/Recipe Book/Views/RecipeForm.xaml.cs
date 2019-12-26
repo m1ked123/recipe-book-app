@@ -80,7 +80,26 @@ namespace Recipe_Book
                 recipe.ID = RecipeList.recipeIdGenerator.getId();
             }
 
-            tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.ReplaceExisting);
+            if (isNarrow())
+            {
+                IList<PageStackEntry> backStack = Frame.BackStack;
+                int backStackCount = backStack.Count;
+                if (backStackCount > 0)
+                {
+                    PageStackEntry masterPageEntry = backStack[backStackCount - 1];
+                    backStack.RemoveAt(backStackCount - 1);
+
+                    PageStackEntry modifiedEntry = new PageStackEntry(
+                        masterPageEntry.SourcePageType,
+                        recipes,
+                        masterPageEntry.NavigationTransitionInfo
+                        );
+
+                    backStack.Add(modifiedEntry);
+                }
+            }
+
+                tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.ReplaceExisting);
 
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
@@ -304,6 +323,11 @@ namespace Recipe_Book
             {
                 this.ingredients[ingredientIndex] = updatedIngredient;
             }
+        }
+
+        private bool isNarrow()
+        {
+            return Window.Current.Bounds.Width < 720;
         }
     }
 }

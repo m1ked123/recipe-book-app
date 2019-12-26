@@ -53,5 +53,5 @@
         <ListView ItemTemplate="{StaticResource RecipeItemTemplate}" x:Name="recipeListView" SelectionMode="Single"  ItemClick="showDetailView" IsItemClickEnabled="True" SelectedIndex="{x:Bind recipes.SelectedIndex, Mode=OneWay}" Foreground="White" Background="White" />
 
         <Frame x:Name="detailFrame" Grid.Column="1" Margin="0,32,0,0"/>
-        </Grid>
+    </Grid>
 </Page>

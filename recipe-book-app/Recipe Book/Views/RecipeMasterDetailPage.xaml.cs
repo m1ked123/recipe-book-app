@@ -80,14 +80,14 @@ namespace Recipe_Book.Views
                 // window resized down
                 if (!recipes.isEmpty())
                 {
-                    Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
+                    if (recipes.isEditing())
+                    {
+                        Frame.Navigate(typeof(RecipeForm), recipes, new SuppressNavigationTransitionInfo());
+                    } else
+                    {
+                        Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
+                    }
                 }
-            }
-            else if (oldState == NarrowState && newState == DefaultState)
-            {
-                // window expanded
-                int index = recipes.getSelectedIndex();
-                showDetailView(index);
             }
         }
 
