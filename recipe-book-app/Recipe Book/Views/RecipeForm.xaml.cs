@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -97,9 +98,14 @@ namespace Recipe_Book
 
                     backStack.Add(modifiedEntry);
                 }
+
+                // Show back button
+                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+                systemNavigationManager.BackRequested += backRequested;
+                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             }
 
-                tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.ReplaceExisting);
+            tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.ReplaceExisting);
 
             this.imageFlipView.ItemsSource = images;
             this.ingredientList.ItemsSource = ingredients;
@@ -150,6 +156,15 @@ namespace Recipe_Book
             Frame.GoBack();
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+            systemNavigationManager.BackRequested -= backRequested;
+            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
+        }
+
         /*
          * Do not save any changes and exit the edit session.
          */
@@ -161,6 +176,12 @@ namespace Recipe_Book
             }
             await tempImageFolder.DeleteAsync(); // delete all temp files added
 
+            Frame.GoBack();
+        }
+
+        private void backRequested(object sender, BackRequestedEventArgs e)
+        {
+            e.Handled = true;
             Frame.GoBack();
         }
 

@@ -128,7 +128,7 @@ namespace Recipe_Book.Views
 
             SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
             systemNavigationManager.BackRequested -= backRequested;
-            Window.Current.SizeChanged -= windowSizeChanged;
+            // Window.Current.SizeChanged -= windowSizeChanged;
             systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
         }
 
