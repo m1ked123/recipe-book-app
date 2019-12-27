@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.Storage.Streams;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -80,6 +81,25 @@ namespace Recipe_Book
                 recipe.ID = RecipeList.recipeIdGenerator.getId();
             }
 
+            if (isNarrow())
+            {
+                IList<PageStackEntry> backStack = Frame.BackStack;
+                int backStackCount = backStack.Count;
+                if (backStackCount > 0)
+                {
+                    PageStackEntry masterPageEntry = backStack[backStackCount - 1];
+                    backStack.RemoveAt(backStackCount - 1);
+
+                    PageStackEntry modifiedEntry = new PageStackEntry(
+                        typeof(RecipeMasterDetailPage),
+                        recipes,
+                        masterPageEntry.NavigationTransitionInfo
+                        );
+
+                    backStack.Add(modifiedEntry);
+                }
+            }
+
             tempImageFolder = await RecipeList.tempFolder.CreateFolderAsync("" + recipe.ID, CreationCollisionOption.ReplaceExisting);
 
             this.imageFlipView.ItemsSource = images;
@@ -128,7 +148,7 @@ namespace Recipe_Book
                 await imageFile.DeleteAsync();
                 RecipeBookDataAccessor.deleteImage(imageToRemove);
             }
-            Frame.Navigate(typeof(DetailSection), recipes);
+            Frame.GoBack();
         }
 
         /*
@@ -141,13 +161,14 @@ namespace Recipe_Book
                 recipes.setEditing(false);
             }
             await tempImageFolder.DeleteAsync(); // delete all temp files added
-            if (recipes.Recipes.Count > 0)
-            {
-                Frame.Navigate(typeof(DetailSection), recipes);
-            } else
-            {
-                Frame.Content = null;
-            }
+
+            Frame.GoBack();
+        }
+
+        private void backRequested(object sender, BackRequestedEventArgs e)
+        {
+            e.Handled = true;
+            Frame.GoBack();
         }
 
         /*
@@ -309,6 +330,11 @@ namespace Recipe_Book
             {
                 this.ingredients[ingredientIndex] = updatedIngredient;
             }
+        }
+
+        private bool isNarrow()
+        {
+            return Window.Current.Bounds.Width < 720;
         }
     }
 }

@@ -37,9 +37,6 @@ namespace Recipe_Book.Views
         {
             base.OnNavigatedTo(e);
 
-            recipes = App.recipes;
-            this.recipeListView.ItemsSource = recipes.Recipes;
-
             int index = -1;
             if (e.Parameter == null)
             {
@@ -55,6 +52,7 @@ namespace Recipe_Book.Views
                 recipes = (RecipeList)e.Parameter;
                 index = recipes.getSelectedIndex();
             }
+            this.recipeListView.ItemsSource = recipes.Recipes;
 
             if (index < 0)
             {
@@ -64,24 +62,6 @@ namespace Recipe_Book.Views
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
             showDetailView(index);
-        }
-
-        private void addNewRecipe(object sender, RoutedEventArgs e)
-        {
-            if (isNarrow())
-            {
-                Frame.Navigate(typeof(RecipeForm), recipes, new DrillInNavigationTransitionInfo());
-            }
-            else
-            {
-                if (detailFrame.Visibility == Visibility.Collapsed)
-                {
-                    detailFrame.Visibility = Visibility.Visible;
-                }
-                detailFrame.ContentTransitions.Clear();
-                detailFrame.ContentTransitions.Add(new EntranceThemeTransition());
-                detailFrame.Navigate(typeof(RecipeForm), recipes);
-            }
         }
 
         private void updateLayout(object sender, VisualStateChangedEventArgs e)
@@ -97,17 +77,18 @@ namespace Recipe_Book.Views
             bool isNarrow = newState == NarrowState;
             if (isNarrow && oldState == DefaultState)
             {
+                // window resized down
                 if (!recipes.isEmpty())
                 {
-                    // window resized down
-                    Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
+                    if (recipes.isEditing())
+                    {
+                        // TODO: will overwrite changes that are not saved
+                        Frame.Navigate(typeof(RecipeForm), recipes, new SuppressNavigationTransitionInfo());
+                    } else
+                    {
+                        Frame.Navigate(typeof(DetailSection), recipes, new SuppressNavigationTransitionInfo());
+                    }
                 }
-            }
-            else if (oldState == NarrowState && newState == DefaultState)
-            {
-                // window expanded
-                int index = recipes.getSelectedIndex();
-                showDetailView(index);
             }
         }
 

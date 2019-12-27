@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Recipe_Book.MainPage"
+    x:Class="Recipe_Book.AppShell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Recipe_Book.Views"
@@ -22,9 +22,10 @@
             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="{StaticResource PrimaryColorDefault}" />
             <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
         </Grid.Resources>
-        <NavigationView x:Name="appNav" IsSettingsVisible="True" IsPaneOpen="False" Windows10version1809:PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" ItemInvoked="navigateView" >
+        <NavigationView x:Name="appShell" IsSettingsVisible="True" IsPaneOpen="False" Windows10version1809:PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" ItemInvoked="navigateView" BackRequested="backRequested" >
             <NavigationView.MenuItems>
-                <NavigationViewItem Icon="Home" Content="Recipe Book"/>
+                <NavigationViewItem x:Name="NewRecipeButton" Icon="Add" Content="New Recipe" />
+                <NavigationViewItem x:Name="MainRecipeBook" Icon="Home" Content="Recipe Book"/>
             </NavigationView.MenuItems>
             <Frame x:Name="mainContent" />
         </NavigationView>

@@ -35,7 +35,6 @@ namespace Recipe_Book.Views
             selectedRecipe = recipes.getSelected();
             detailSection.SelectedItem = detailSection.MenuItems[0];
             contentFrame.Navigate(typeof(DetailPage), selectedRecipe);
-
             if (isNarrow())
             {
                 IList<PageStackEntry> backStack = Frame.BackStack;
@@ -55,10 +54,9 @@ namespace Recipe_Book.Views
                 }
 
                 // Show back button
-                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-                systemNavigationManager.BackRequested += backRequested;
-                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                Window.Current.SizeChanged += windowSizeChanged;
+                NavigationView currShell = AppShell.currentShell;
+                currShell.IsBackButtonVisible = NavigationViewBackButtonVisible.Visible;
+                currShell.IsBackEnabled = true;
             }
         }
 
@@ -123,27 +121,14 @@ namespace Recipe_Book.Views
             }
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-
-            SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
-            systemNavigationManager.BackRequested -= backRequested;
-            Window.Current.SizeChanged -= windowSizeChanged;
-            systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
-
-        }
-
-        private void backRequested(object sender, BackRequestedEventArgs e)
-        {
-            e.Handled = true;
-            Frame.GoBack();
-        }
-
         private void windowSizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
+
             if (!isNarrow())
             {
+                SystemNavigationManager systemNavigationManager = SystemNavigationManager.GetForCurrentView();
+                Window.Current.SizeChanged -= windowSizeChanged;
+                systemNavigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
                 Frame.GoBack(new SuppressNavigationTransitionInfo());
             }
         }
