@@ -24,16 +24,18 @@
                     <!--#region NavigationPane Style-->
                     <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="{ThemeResource PrimaryColorDefault}" />
                     <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="{ThemeResource PrimaryColorDefault}" />
+                    <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="{ThemeResource SecondaryColorDefault}" />
                     <SolidColorBrush x:Key="NavigationViewItemForeground" Color="White"/>
                     <SolidColorBrush x:Key="NavigationViewItemForegroundPointerOver" Color="White"/>
                     <SolidColorBrush x:Key="NavigationViewItemForegroundPressed" Color="White"/>
+                    <SolidColorBrush x:Key="NavigationViewItemForegroundSelected" Color="White"/>
+                    <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPointerOver" Color="White"/>
+                    <SolidColorBrush x:Key="NavigationViewItemForegroundSelectedPressed" Color="White"/>
                     
                     <SolidColorBrush x:Key="TopNavigationViewItemForeground" Color="White"/>
                     <SolidColorBrush x:Key="TopNavigationViewItemForegroundPointerOver" Color="White"/>
                     <SolidColorBrush x:Key="TopNavigationViewItemForegroundPressed" Color="White"/>
                     <SolidColorBrush x:Key="TopNavigationViewItemForegroundSelected" Color="White"/>
-                    
-                    
                     <!--#endregion-->
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">

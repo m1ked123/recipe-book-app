@@ -16,7 +16,6 @@
 
     <Grid>
         <NavigationView x:Name="appShell" IsSettingsVisible="True" PaneDisplayMode="LeftCompact" IsBackButtonVisible="Collapsed" ItemInvoked="navigateView" BackRequested="backRequested" IsPaneOpen="False">
-            
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Name="NewRecipeButton" Icon="Add" Content="New Recipe" />
                 <NavigationViewItem x:Name="MainRecipeBook" Icon="Home" Content="Recipe Book"/>

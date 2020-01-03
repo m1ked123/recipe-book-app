@@ -31,6 +31,7 @@ namespace Recipe_Book
         {
             base.OnNavigatedTo(e);
             mainContent.Navigate(typeof(RecipeMasterDetailPage), currentList);
+            appShell.SelectedItem = appShell.MenuItems[1];
         }
 
         private void navigateView(NavigationView sender, NavigationViewItemInvokedEventArgs args)
