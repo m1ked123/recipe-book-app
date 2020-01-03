@@ -2,6 +2,7 @@
 using Recipe_Book.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -61,6 +62,7 @@ namespace Recipe_Book.Views
             recipeListView.SelectedIndex = index;
 
             updateLayoutFromState(AdaptiveStates.CurrentState, null);
+            Debug.WriteLine(index);
             showDetailView(index);
         }
 

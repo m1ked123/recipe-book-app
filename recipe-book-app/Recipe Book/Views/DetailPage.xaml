@@ -77,7 +77,7 @@
                 <StackPanel x:Name="headerInformation" Orientation="Horizontal">
                     <!--<RatingControl HorizontalAlignment="Left" VerticalAlignment="Center" IsEnabled="False" Value="{x:Bind recipe.Rating, Mode=Oneway}"/>-->
                     <TextBlock Foreground="Black" HorizontalAlignment="Left" Text="{x:Bind recipe.LastMadeString, Mode=OneWay}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{ThemeResource CaptionTextBlockStyle}" Margin="24,0,0,0"/>
-                    <Button Style="{StaticResource CustomButtonStyle}" ToolTipService.ToolTip="Made this recipe today" Click="madeToday" Margin="24,0,0,0" IsEnabled="{x:Bind recipe.MadeToday, Mode=OneWay}" Foreground="White">Made Today</Button>
+                    <Button ToolTipService.ToolTip="Made this recipe today" Click="madeToday" Margin="24,0,0,0" IsEnabled="{x:Bind recipe.MadeToday, Mode=OneWay}" Foreground="White">Made Today</Button>
                 </StackPanel>
                 <FlipView x:Name="imagesSection" Grid.Row="1" Margin="12" VerticalAlignment="Center" HorizontalAlignment="Stretch"  ItemTemplate="{StaticResource ImagesTemplate}" ItemsSource="{x:Bind recipe.RecipeImages}" MaxHeight="320" MinWidth="320"/>
 
