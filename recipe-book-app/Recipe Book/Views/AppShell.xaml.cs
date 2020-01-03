@@ -24,12 +24,20 @@ namespace Recipe_Book
         {
             this.InitializeComponent();
             currentList = App.recipes;
+            
             currentShell = appShell;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            int numRecipes = currentList.getRecipeList().Count;
+            if (numRecipes > 0)
+            {
+                currentList.setSelected(0);
+            }
+
             mainContent.Navigate(typeof(RecipeMasterDetailPage), currentList);
             appShell.SelectedItem = appShell.MenuItems[1];
         }
