@@ -17,11 +17,9 @@ namespace Recipe_Book
     public sealed partial class SettingsPage : Page
     {
         private ObservableCollection<String> units;
-        private static int n;
         public SettingsPage()
         {
             this.InitializeComponent();
-            n = 0;
             units = new ObservableCollection<String>(RecipeUtils.getUnitsOfMeasure());
         }
 
@@ -46,32 +44,9 @@ namespace Recipe_Book
 
             if (result == ContentDialogResult.Primary)
             {
-
-                // Delete recipes in database
-                // Empty recipe list object
-                // Delete all recipe images
-                // Set the empty button to be disabled
                 App.recipes.empty();
                 Debug.WriteLine("Recipe book emptied");
             }
-        }
-
-        private void goBack(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            IList<PageStackEntry> backStack = Frame.BackStack;
-            int backStackCount = backStack.Count;
-            if (backStackCount > 0)
-            {
-                PageStackEntry masterPageEntry = backStack[backStackCount - 1];
-                backStack.RemoveAt(backStackCount - 1);
-
-                PageStackEntry modifiedEntry = new PageStackEntry(
-                    masterPageEntry.SourcePageType,
-                    null, null);
-
-                backStack.Add(modifiedEntry);
-            }
-            Frame.GoBack();
         }
     }
 }
