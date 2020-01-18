@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 
 namespace Recipe_Book.ViewModels
 {
@@ -23,6 +24,8 @@ namespace Recipe_Book.ViewModels
 
         public static StorageFolder imageFolder;
         public static StorageFolder tempFolder;
+
+        private const String RECIPE_LIST_KEY = "recipes";
 
         private ObservableCollection<Recipe> recipes;
         private int selectedRecipeIndex;
@@ -255,6 +258,28 @@ namespace Recipe_Book.ViewModels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        /// <summary>
+        /// Converts this recipe list into a JSON object.
+        /// </summary>
+        /// <returns>
+        /// A JsonObject that represents this recipe list.
+        /// </returns>
+        public JsonObject toJsonObject()
+        {
+            JsonObject listObject = new JsonObject();
+
+            JsonArray recipesArray = new JsonArray();
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                Recipe recipe = recipes[i];
+                recipesArray.Add(recipe.toJsonObject());
+            }
+
+            listObject.SetNamedValue(RECIPE_LIST_KEY, recipesArray);
+
+            return listObject;
         }
     }
 }
