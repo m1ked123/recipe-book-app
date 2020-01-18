@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using Windows.Data.Json;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
@@ -21,6 +22,13 @@ namespace Recipe_Book.Models
         /// The name of the SQLite table used to store recipes
         /// </summary>
         public const String TABLE_NAME = "RECIPES";
+
+        private const String ID_KEY = "id";
+        private const String RECIPE_NAME_KEY = "name";
+        private const String RECIPE_IMAGES_KEY = "images";
+        private const String RECIPE_STEPS_KEY = "steps";
+        private const String RECIPE_INGREDIENTS_KEY = "ingredients";
+        private const String RECIPE_JOURNAL_KEY = "journal";
 
         private String name; // recipe name
         private long id; // recipe's id for database
@@ -410,6 +418,30 @@ namespace Recipe_Book.Models
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        /// <summary>
+        /// Converts this recipe into a JSON object.
+        /// </summary>
+        /// <returns>
+        /// A JsonObject that represents this recipe.
+        /// </returns>
+        public JsonObject toJsonObject()
+        {
+            JsonObject recipeObject = new JsonObject();
+            recipeObject.SetNamedValue(ID_KEY, JsonValue.CreateNumberValue(id));
+            recipeObject.SetNamedValue(RECIPE_NAME_KEY, JsonValue.CreateStringValue(name));
+
+            JsonArray ingredientArray = new JsonArray();
+            for (int i = 0; i < recipeIngredients.Count; i++)
+            {
+                RecipeIngredient ingredient = recipeIngredients[i]; 
+                ingredientArray.Add(ingredient.toJsonObject());
+            }
+
+            recipeObject.SetNamedValue(RECIPE_INGREDIENTS_KEY, ingredientArray);
+
+            return recipeObject;
         }
     }
 }
