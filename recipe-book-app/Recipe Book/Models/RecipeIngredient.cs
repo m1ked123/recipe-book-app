@@ -230,13 +230,12 @@ namespace Recipe_Book.Models
         }
 
         /// <summary>
-        /// Serializes this ingredient to JSON object.
+        /// Converts this ingredient into a JSON object.
         /// </summary>
         /// <returns>
-        /// The string representation of hte JSON object equivalent of
-        /// this ingredient.
+        /// A JsonObject that represents this ingredient.
         /// </returns>
-        public String serialize()
+        public JsonObject toJsonObject()
         {
             JsonObject ingredientObject = new JsonObject();
             ingredientObject.SetNamedValue(ID_KEY, JsonValue.CreateNumberValue(id));
@@ -245,7 +244,7 @@ namespace Recipe_Book.Models
             ingredientObject.SetNamedValue(UOM_KEY, JsonValue.CreateStringValue(unitOfMeasure));
             ingredientObject.SetNamedValue(RECIPE_ID_KEY, JsonValue.CreateNumberValue(recipeId));
 
-            return ingredientObject.Stringify();
+            return ingredientObject;
         }
     }
 }

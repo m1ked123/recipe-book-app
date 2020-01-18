@@ -3,12 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 
 namespace Recipe_Book.Models
 {
     public class RecipeJournalEntry
     {
         public const String TABLE_NAME = "JOURNAL_ENTRIES";
+
+        private const String ID_KEY = "id";
+        private const String RECIPE_RATING_KEY = "rating";
+        private const String ENTRY_NOTES = "notes";
+        private const String ENTRY_DATE_KEY = "entryDate";
+        private const String RECIPE_ID_KEY = "recieId";
+
         private DateTimeOffset entryDate;
         private double recipeRating;
         private String entryNotes;
@@ -207,6 +215,24 @@ namespace Recipe_Book.Models
         {
             RecipeJournalEntry other = (RecipeJournalEntry)obj;
             return base.Equals(other) && other.getId() == this.id;
+        }
+
+        /// <summary>
+        /// Converts this journal entry into a JSON object.
+        /// </summary>
+        /// <returns>
+        /// A JsonObject that represents this journal entry.
+        /// </returns>
+        public JsonObject toJsonObject()
+        {
+            JsonObject entryObject = new JsonObject();
+            entryObject.SetNamedValue(ID_KEY, JsonValue.CreateNumberValue(id));
+            entryObject.SetNamedValue(RECIPE_RATING_KEY, JsonValue.CreateNumberValue(recipeRating));
+            entryObject.SetNamedValue(ENTRY_NOTES, JsonValue.CreateStringValue(entryNotes));
+            entryObject.SetNamedValue(ENTRY_DATE_KEY, JsonValue.CreateStringValue(entryDate.ToString()));
+            entryObject.SetNamedValue(RECIPE_ID_KEY, JsonValue.CreateNumberValue(recipeId));
+
+            return entryObject;
         }
     }
 }
