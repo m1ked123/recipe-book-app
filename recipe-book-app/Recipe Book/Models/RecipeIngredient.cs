@@ -4,12 +4,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 
 namespace Recipe_Book.Models
 {
     public class RecipeIngredient : INotifyPropertyChanged
     {
         public const String TABLE_NAME = "INGREDIENTS";
+
+        private const String ID_KEY = "id";
+        private const String INGREDIENT_NAME_KEY = "name";
+        private const String QUANTITY_KEY = "quantity";
+        private const String UOM_KEY = "uom";
+        private const String RECIPE_ID_KEY = "recieId";
+        
 
         private long id;
         private String quantity;
@@ -219,6 +227,25 @@ namespace Recipe_Book.Models
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
             }
+        }
+
+        /// <summary>
+        /// Serializes this ingredient to JSON object.
+        /// </summary>
+        /// <returns>
+        /// The string representation of hte JSON object equivalent of
+        /// this ingredient.
+        /// </returns>
+        public String serialize()
+        {
+            JsonObject ingredientObject = new JsonObject();
+            ingredientObject.SetNamedValue(ID_KEY, JsonValue.CreateNumberValue(id));
+            ingredientObject.SetNamedValue(INGREDIENT_NAME_KEY, JsonValue.CreateStringValue(ingredientName));
+            ingredientObject.SetNamedValue(QUANTITY_KEY, JsonValue.CreateStringValue(quantity));
+            ingredientObject.SetNamedValue(UOM_KEY, JsonValue.CreateStringValue(unitOfMeasure));
+            ingredientObject.SetNamedValue(RECIPE_ID_KEY, JsonValue.CreateNumberValue(recipeId));
+
+            return ingredientObject.Stringify();
         }
     }
 }

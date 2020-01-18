@@ -1,9 +1,7 @@
 ﻿using Recipe_Book.Utils;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -47,6 +45,11 @@ namespace Recipe_Book
                 App.recipes.empty();
                 Debug.WriteLine("Recipe book emptied");
             }
+        }
+
+        private void exportRecipeBook(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            
         }
     }
 }
